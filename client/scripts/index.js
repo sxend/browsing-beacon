@@ -185,11 +185,20 @@
     };
 
     function sendNow(task) {
+        var parser = document.createElement('a');
+        parser.href = location.href;
         var envelope = {
             ext: {
                 task: task
             },
-            url: location.href
+            url: {
+                protocol: parser.protocol,
+                hostname: parser.hostname,
+                port: parser.port,
+                pathname: parser.pathname,
+                search: parser.search,
+                hash: parser.hash
+            }
         };
         document.createElement('img').src = internal.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getMilliseconds()
     }
@@ -198,24 +207,29 @@
         internal.tasks.push(task);
     };
     function handleEvent(e) {
-
+        var dom = this.getBoundingClientRect();
+        var place = {
+            top: dom.top,
+            left: dom.left,
+            bottom: dom.bottom,
+            right: dom.right,
+            width: dom.width,
+            height: dom.height
+        };
+        console.log(place);
         Beacon.send({
-            innerText: this.innerText,
-            place: {
-                top: this.clientTop,
-                left: this.clientLeft,
-                width: this.clientWidth,
-                height: this.clientHeight
-            },
+            classList: this.classList,
+            id: this.id,
+            place: place,
             type: e.type
         });
     }
 
     internal.events.forEach(function (event) {
-        document.body.addEventListener(event, handleEvent.bind(document.body));
-        [].slice.call(document.body.children).forEach(function (child) {
+        var dom = document.body.querySelectorAll('*');
+        [].slice.call(dom).forEach(function (child) {
             child.addEventListener(event, handleEvent.bind(child));
-        })
+        });
     });
     Beacon.batchStart = function () {
         setInterval(function () {
