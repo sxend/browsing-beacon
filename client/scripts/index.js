@@ -240,6 +240,30 @@
     };
     Beacon.batchStart();
 
+    function wrapViewPort(){
+      var width = window.screen.width;
+      var height = window.screen.height;
+      var wrapper = document.createElement('div');
+      wrapper.style.position = "absolute";
+      wrapper.style.top = 0;
+      setInterval(function(){
+        wrapper.style.bottom = document.body.getBoundingClientRect().top + "px";
+      }, 1);
+      wrapper.style.left = 0;
+      wrapper.style.width = width + "px";
+      wrapper.style.height = height + "px";
+      wrapper.style.zIndex = 100;
+      internal.events.forEach(function (event) {
+        wrapper.addEventListener(event, function(e){
+          console.log("wrapper event: ", e);
+        });
+      });
+      document.body.appendChild(wrapper);
+      console.log(wrapper);
+      window.wrapper = wrapper;
+    }
+    wrapViewPort();
+
     window.Beacon = Beacon;
 })(window.Beacon || {});
 Beacon.send({ext: "beacon tracking start"});
