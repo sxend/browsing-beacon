@@ -3,9 +3,10 @@
     config: {
       endpoint: null,
       batchInterval: 1000
-    },
-    tasks: []
+    }
   }
+
+  var emitter = require('./emitter.js')(internal.config.batchInterval);
 
   Beacon.Events = {};
   Beacon.Event = {};
@@ -22,29 +23,10 @@
     return F;
   }
 
-  function emitNow(task) {
-    var parser = document.createElement('a');
-    parser.href = location.href;
-    var envelope = {
-      ext: {
-        task: task
-      },
-      url: {
-        protocol: parser.protocol,
-        hostname: parser.hostname,
-        port: parser.port,
-        pathname: parser.pathname,
-        search: parser.search,
-        hash: parser.hash
-      }
-    };
-    document.createElement('img').src = internal.config.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime()
-  }
-
-  function generateBindObject() {
+  function createCallbackCaller() {
     return {
       emit: function(task) {
-        internal.tasks.push(task);
+        emitter.emit(internal.config.endpoint, task);
       }
     };
   }
@@ -57,27 +39,12 @@
     [].slice.call(elements).forEach(function(element) {
       var context = {};
       target.handler(element, context, function() {
-        callback.bind(generateBindObject())(element, context);
+        callback.bind(createCallbackCaller())(element, context);
       });
     });
   }
-  Beacon.Event.register({
-    name: 'InView',
-    handler: function(element, context, callback) {
-      element.addEventListener('click', function(event) {
-        callback();
-      })
-    }
-  });
 
-  function emitBatchStart() {
-    setInterval(function() {
-      while (internal.tasks.length > 0) {
-        emitNow(internal.tasks.shift());
-      }
-    }, internal.config.batchInterval);
-  };
-  emitBatchStart();
+  Beacon.Event.register(require('./events/inview.js'));
 
   window.Beacon = Beacon;
 })(window.Beacon || {});
