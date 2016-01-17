@@ -7,19 +7,11 @@
 
   // inview event
   var inviewEvent = new Beacon.Events.InView({
-    querySelector: '.example-class'
+    querySelector: 'body'
   });
   Beacon.Event.watch(inviewEvent, function(context) {
-    this.emit(this.element.innerHTML + " is inview!!!");
+    this.emit(inviewEvent.querySelector + " is inview!!!");
   });
-  // Beacon.Event.watch('.example-class', function(context) {
-  //   switch (this.event.type) {
-  //     case 'click':
-  //       this.emit("click event!!!");
-  //       break;
-  //     default:
-  //   }
-  // });
 
   // original events
   Beacon.Event.register({
@@ -36,7 +28,7 @@
     }
   });
   var exampleEvent = new Beacon.Events.Example({
-    querySelector: '.input-form'
+    querySelector: 'body'
   });
   Beacon.Event.watch(exampleEvent, function(context) {
     this.emit("text changed.");
