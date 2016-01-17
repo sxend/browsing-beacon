@@ -38,7 +38,7 @@
         hash: parser.hash
       }
     };
-    document.createElement('img').src = internal.config.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getMilliseconds()
+    document.createElement('img').src = internal.config.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime()
   }
 
   function generateBindObject() {
