@@ -10,4 +10,4 @@ logs/
 *.iml
 hs_err*.log
 node_modules/
-
+dist/
