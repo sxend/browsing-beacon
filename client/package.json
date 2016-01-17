@@ -9,6 +9,8 @@
   "author": "sxend",
   "license": "MIT",
   "dependencies": {
+  },
+  "devDependencies": {
     "webpack": "^1.12.11"
   }
 }
