@@ -12,5 +12,10 @@ module.exports = {
         warnings: false
       }
     })
-  ]
+  ],
+  loaders: [{
+    test: /\.(js)$/,
+    exclude: /node_modules/,
+    loader: 'babel?presets[]=es2015'
+  }]
 };
