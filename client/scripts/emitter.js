@@ -1,3 +1,25 @@
+
+module.exports = function(internal){
+  function Emitter() {
+    var emitter = this;
+    emitter.taskQueue = [];
+    setInterval(function() {
+      while (emitter.taskQueue.length > 0) {
+        emitNow(emitter.taskQueue.shift());
+      }
+    }, internal.config.batchInterval || 1000);
+  }
+  internal.Emitter = Emitter;
+
+  Emitter.prototype.emit = function(message) {
+    this.taskQueue.push({
+      endpoint: internal.config.endpoint,
+      message: message
+    });
+  };
+  return Emitter;
+}
+
 function emitNow(task) {
   var parser = document.createElement('a');
   parser.href = location.href;
@@ -14,22 +36,5 @@ function emitNow(task) {
       hash: parser.hash
     }
   };
-  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime()
+  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime();
 }
-
-module.exports = function(batchInterval) {
-  var taskQueue = [];
-  setInterval(function() {
-    while (taskQueue.length > 0) {
-      emitNow(taskQueue.shift());
-    }
-  }, batchInterval || 1000);
-  return {
-    emit: function(endpoint, message) {
-      taskQueue.push({
-        endpoint: endpoint,
-        message: message
-      });
-    }
-  }
-};
