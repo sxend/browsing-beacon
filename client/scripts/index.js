@@ -55,7 +55,6 @@
     var elements = document.querySelectorAll(target.querySelector);
 
     [].slice.call(elements).forEach(function(element) {
-      console.log('watch start.' + target.querySelector);
       var context = {};
       target.handler(element, context, function() {
         callback.bind(generateBindObject())(element, context);
