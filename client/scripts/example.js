@@ -1,41 +1,44 @@
 (function() {
   // initialize
   Beacon.configure({
-    endpoint: "//example.com/beacon"
+    endpoint: "//localhost:9000/beacon",
+    batchInterval: 1000
   });
 
-  // standard events
-  var exampleEvent = Beacon.Events.InView.extend({
+  // inview event
+  var inviewEvent = new Beacon.Events.InView({
     querySelector: '.example-class'
   });
-  Beacon.watchEvent(exampleEvent, function(context) {
+  Beacon.Event.watch(inviewEvent, function(context) {
     this.emit(this.element.innerHTML + " is inview!!!");
   });
-  Beacon.watchEvent('.example-class', function(context) {
-    switch (this.event.type) {
-      case 'click':
-        this.emit("click event!!!");
-        break;
-      default:
-    }
-  });
+  // Beacon.Event.watch('.example-class', function(context) {
+  //   switch (this.event.type) {
+  //     case 'click':
+  //       this.emit("click event!!!");
+  //       break;
+  //     default:
+  //   }
+  // });
 
   // original events
-  Beacon.Events.register({
+  Beacon.Event.register({
     name: 'Example',
-    handler: function(context) {
-      var element = this.element;
-      if (!!context.text && context.text != element.innerText) {
-        context.text = element.innerText;
-        return element;
-      }
-      return;
+    handler: function(element, context, callback) {
+      element.addEventListener('change', function(event) {
+        if (!context.text) context.text = element.innerText;
+        if (context.text != element.innerText) {
+          context.text = element.innerText;
+          callback(context);
+          return;
+        }
+      });
     }
-  }); // return Example Event constructor function
-  var exampleEvent = Beacon.Events.Example.extend({
+  });
+  var exampleEvent = new Beacon.Events.Example({
     querySelector: '.input-form'
   });
-  Beacon.watchEvent(exampleEvent, function(context) {
+  Beacon.Event.watch(exampleEvent, function(context) {
     this.emit("text changed.");
   });
 
