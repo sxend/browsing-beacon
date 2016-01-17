@@ -10,7 +10,7 @@
     querySelector: 'body'
   });
   Beacon.Event.watch(inviewEvent, function(element, event, callback) {
-    this // context
+    this; // context object ({}). generate every watch element.
     callback(inviewEvent.querySelector + " send inview event!!!");
   });
 
@@ -18,7 +18,7 @@
   Beacon.Event.register({
     name: 'Mouseover',
     handler: function(element, callback) {
-      this // context
+      this; // context object
       element.addEventListener('mouseover', function(event) {
         // event type, context handling.
         callback(event);
@@ -29,7 +29,7 @@
     querySelector: 'img'
   });
   Beacon.Event.watch(exampleEvent, function(element, event, callback) {
-    this // context
+    this; // context object
     callback(exampleEvent.querySelector + " send mouseover event!!!");
   });
 
