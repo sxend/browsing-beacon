@@ -16,7 +16,6 @@ import DefaultJsonProtocol._
 object BeaconCatcher {
   def main(args: Array[String]): Unit = {
 
-
     implicit val system = ActorSystem()
     implicit val materializer = ActorMaterializer()
     val route =
