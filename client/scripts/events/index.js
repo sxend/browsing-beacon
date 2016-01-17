@@ -28,8 +28,8 @@ module.exports = function(internal) {
 
     [].slice.call(elements).forEach(function(element) {
       var context = {};
-      target.handler.bind(context)(element, function(event) {
-        callback.bind(context)(element, event, messageCallback);
+      target.handler.call(context, element, function(event) {
+        callback.call(context, element, event, messageCallback);
       });
     });
   };
