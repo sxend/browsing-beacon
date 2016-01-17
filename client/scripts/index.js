@@ -17,6 +17,7 @@
 
   function createEventConstructor(handler) {
     function F(eventConfig) {
+      if (!(this instanceof F)) return new F(eventConfig);
       this.querySelector = eventConfig.querySelector;
       this.handler = handler;
     };
