@@ -16,9 +16,8 @@
     return F;
   }
 
-  function generateBindObject(element) {
+  function generateBindObject() {
     return {
-      element: element,
       emit: function(value) {
         console.log(value);
       }
@@ -33,14 +32,16 @@
     [].slice.call(elements).forEach(function(element) {
       console.log('watch start.' + target.querySelector);
       var context = {};
-      target.handler(element, context, callback);
+      target.handler(element, context, function() {
+        callback.bind(generateBindObject())(element, context);
+      });
     });
   }
   Beacon.Event.register({
     name: 'InView',
     handler: function(element, context, callback) {
       element.addEventListener('click', function(event) {
-        callback.bind(generateBindObject(element))(context);
+        callback();
       })
     }
   });

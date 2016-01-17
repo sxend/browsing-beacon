@@ -9,29 +9,24 @@
   var inviewEvent = new Beacon.Events.InView({
     querySelector: 'body'
   });
-  Beacon.Event.watch(inviewEvent, function(context) {
-    this.emit(inviewEvent.querySelector + " is inview!!!");
+  Beacon.Event.watch(inviewEvent, function(element, context) {
+    this.emit(inviewEvent.querySelector + " send inview event!!!");
   });
 
   // original events
   Beacon.Event.register({
-    name: 'Example',
+    name: 'Mouseover',
     handler: function(element, context, callback) {
-      element.addEventListener('change', function(event) {
-        if (!context.text) context.text = element.innerText;
-        if (context.text != element.innerText) {
-          context.text = element.innerText;
-          callback(context);
-          return;
-        }
+      element.addEventListener('mouseover', function(event) {
+        callback();
       });
     }
   });
-  var exampleEvent = new Beacon.Events.Example({
-    querySelector: 'body'
+  var exampleEvent = new Beacon.Events.Mouseover({
+    querySelector: 'img'
   });
-  Beacon.Event.watch(exampleEvent, function(context) {
-    this.emit("text changed.");
+  Beacon.Event.watch(exampleEvent, function(element, context) {
+    this.emit(exampleEvent.querySelector + " send mouseover event!!!");
   });
 
 })();
