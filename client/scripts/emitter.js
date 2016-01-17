@@ -14,14 +14,14 @@ function emitNow(task) {
       hash: parser.hash
     }
   };
-  document.createElement('img').src = message.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime()
+  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime()
 }
 
 module.exports = function(batchInterval) {
   var taskQueue = [];
   setInterval(function() {
-    while (messageQueue.length > 0) {
-      emitNow(messageQueue.shift());
+    while (taskQueue.length > 0) {
+      emitNow(taskQueue.shift());
     }
   }, batchInterval || 1000);
   return {

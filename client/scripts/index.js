@@ -23,12 +23,8 @@
     return F;
   }
 
-  function createCallbackCaller() {
-    return {
-      emit: function(task) {
-        emitter.emit(internal.config.endpoint, task);
-      }
-    };
+  function messageCallback(message) {
+    emitter.emit(internal.config.endpoint, message);
   }
   Beacon.Event.register = function(newEvent) {
     Beacon.Events[newEvent.name] = createEventConstructor(newEvent.handler);
@@ -38,8 +34,8 @@
 
     [].slice.call(elements).forEach(function(element) {
       var context = {};
-      target.handler(element, context, function() {
-        callback.bind(createCallbackCaller())(element, context);
+      target.handler.bind(context)(element, function(event) {
+        callback.bind(context)(element, event, messageCallback);
       });
     });
   }
