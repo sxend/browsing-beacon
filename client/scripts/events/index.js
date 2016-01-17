@@ -4,11 +4,13 @@ module.exports = function(internal) {
   var Emitter = require('../emitter.js')(internal);
   var emitter = new Emitter();
 
-  function createEventClass(handler) {
-    function Event(eventConfig) {
-      if (!(this instanceof Event)) return new Event(eventConfig);
-      this.querySelector = eventConfig.querySelector;
-      this.handler = handler;
+  function createEventClass(eventDefinition) {
+    function Event(config) {
+      if (!(this instanceof Event)) {
+        return new Event(config);
+      }
+      this.querySelector = config.querySelector;
+      this.handler = eventDefinition.handler;
     };
     return Event;
   }
@@ -17,9 +19,9 @@ module.exports = function(internal) {
     emitter.emit(message);
   }
 
-  Events.register = function(definetion) {
-    Events[definetion.name] = createEventClass(definetion.handler);
-    return Events[definetion.name];
+  Events.register = function(eventDefinition) {
+    Events[eventDefinition.name] = createEventClass(eventDefinition);
+    return Events[eventDefinition.name];
   };
   Events.watch = function(target, callback) {
     var elements = document.querySelectorAll(target.querySelector);

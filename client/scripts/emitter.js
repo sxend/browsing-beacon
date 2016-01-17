@@ -1,5 +1,4 @@
-
-module.exports = function(internal){
+module.exports = function(internal) {
   function Emitter() {
     var emitter = this;
     emitter.taskQueue = [];
