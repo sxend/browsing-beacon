@@ -4,13 +4,13 @@ module.exports = function(internal) {
   var Emitter = require('../emitter.js')(internal);
   var emitter = new Emitter();
 
-  function createEventType(handler) {
-    function F(eventConfig) {
-      if (!(this instanceof F)) return new F(eventConfig);
+  function createEventClass(handler) {
+    function Event(eventConfig) {
+      if (!(this instanceof Event)) return new Event(eventConfig);
       this.querySelector = eventConfig.querySelector;
       this.handler = handler;
     };
-    return F;
+    return Event;
   }
 
   function messageCallback(message) {
@@ -18,7 +18,7 @@ module.exports = function(internal) {
   }
 
   Events.register = function(definetion) {
-    Events[definetion.name] = createEventType(definetion.handler);
+    Events[definetion.name] = createEventClass(definetion.handler);
     return Events[definetion.name];
   };
   Events.watch = function(target, callback) {
