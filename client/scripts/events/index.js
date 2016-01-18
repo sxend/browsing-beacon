@@ -9,7 +9,8 @@ module.exports = function(internal) {
       if (!(this instanceof Event)) {
         return new Event(config);
       }
-      this.querySelector = config.querySelector;
+      this.id = config.id || '';
+      this.querySelector = config.querySelector || '';
       this.handler = eventDefinition.handler;
     };
     return Event;
@@ -23,13 +24,17 @@ module.exports = function(internal) {
     Events[eventDefinition.name] = createEventClass(eventDefinition);
     return Events[eventDefinition.name];
   };
-  Events.watch = function(target, callback) {
-    var elements = document.querySelectorAll(target.querySelector);
+  Events.watch = function(event, callback) {
+    var events = (event instanceof Array) ? [].slice.call(event) : [event];
 
-    [].slice.call(elements).forEach(function(element) {
-      var context = {};
-      target.handler.call(context, element, function(event) {
-        callback.call(context, element, event, messageCallback);
+    events.forEach(function(target) {
+      var elements = document.querySelectorAll(target.querySelector);
+
+      [].slice.call(elements).forEach(function(element) {
+        var context = {};
+        target.handler.call(context, element, function(event) {
+          callback.call(context, element, event, messageCallback);
+        });
       });
     });
   };
