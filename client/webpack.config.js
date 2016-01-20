@@ -17,10 +17,12 @@ var config = {
     filename: "browsing-beacon.js"
   },
   plugins: plugins,
-  loaders: [{
-    test: /\.(js)$/,
-    exclude: /node_modules/,
-    loader: 'babel?presets[]=es2015'
-  }]
+  module: {
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel?presets[]=es2015'
+    }]
+  }
 };
 module.exports = config;
