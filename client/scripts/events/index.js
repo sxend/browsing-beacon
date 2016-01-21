@@ -1,30 +1,21 @@
-module.exports = function(internal) {
-  function Events() {}
-  internal.Events = Events;
-  var Emitter = require('../emitter.js')(internal);
-  var emitter = new Emitter();
+import Event from './event';
+import Emitter from '../emitter';
+import InView from './inview';
 
-  function createEventClass(eventDefinition) {
-    function Event(config) {
-      if (!(this instanceof Event)) {
-        return new Event(config);
-      }
-      this.querySelector = config.querySelector;
-      this.handler = eventDefinition.handler;
-    };
-    return Event;
+class Events {
+  constructor (config) {
+    this.emitter = new Emitter(config);
+
+    loadDefaultEvent(this, config);
   }
 
-  function messageCallback(message) {
-    emitter.emit(message);
-  }
-
-  Events.register = function(eventDefinition) {
+  register(eventDefinition) {
     Events[eventDefinition.name] = createEventClass(eventDefinition);
     return Events[eventDefinition.name];
-  };
-  Events.watch = function(target, callback) {
+  }
+  watch(target, callback) {
     var elements = document.querySelectorAll(target.querySelector);
+
 
     [].slice.call(elements).forEach(function(element) {
       var context = {};
@@ -32,9 +23,18 @@ module.exports = function(internal) {
         callback.call(context, element, event, messageCallback);
       });
     });
-  };
-  // load standard event
-  require('./inview.js')(internal);
+  }
+}
 
-  return Events;
+function loadDefaultEvent(events) {
+  this.InView = InView;
+}
+function createEventClass(eventDefinition) {
+  return function(config) {
+    return new Event(eventDefinition, config);
+  }
+}
+
+function messageCallback(emitter, message) {
+  emitter.emit(message);
 }
