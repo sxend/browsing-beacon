@@ -10,12 +10,12 @@
     <!-- browsing-beacon -->
     <script>
     // uglifyjs -b --compress --mangle -- initial-script.js
-    !function(e, n, t, o, s, c, a) {
-      e.BrowsingBeaconObject = s, e[s] = e[s] || function() {
-        (e[s].q = e[s].q || []).push(arguments);
-      }, e[s].l = 1 * new Date(), c = n.createElement(t), c.async = 1, c.src = o, a = n.getElementsByTagName(t)[0],
-      a.parentNode.insertBefore(c, a);
-    }(window, document, "script", "//localhost:8000/dist/browsing-beacon.js", "bb");
+    !function(e,n,t,o,s,c,a){
+      e.BrowsingBeaconObject=s,e[s]=e[s]||function(){
+        (e[s].q=e[s].q||[]).push(arguments);
+      },e[s].l=1*newDate(),c=n.createElement(t),c.async=1,c.src=o,a=n.getElementsByTagName(t)[0],
+      a.parentNode.insertBefore(c,a);
+    }(window,document,"script","//localhost:8000/dist/browsing-beacon.js","bb");
     bb('configure', 'BB-xxxxxxxx-x');
     bb('send', 'message', 'Hello, Beacon.');
     </script>
