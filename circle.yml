@@ -18,6 +18,7 @@ deployment:
     commands:
       - webpack
       - aws s3 sync dist/ ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/
+      - aws s3 sync demo/ ${BUCKET_NAME}/ # TODO remove on develop finished.
       - aws s3 sync ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/ ${BUCKET_NAME}/ # TODO remove on develop finished.
   publish:
     tag: /.*/
