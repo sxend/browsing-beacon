@@ -14,11 +14,11 @@ class Events {
     return Events[eventDefinition.name];
   }
   watch(target, callback) {
-    var elements = document.querySelectorAll(target.querySelector);
+    let elements = document.querySelectorAll(target.querySelector);
 
 
     [].slice.call(elements).forEach(function(element) {
-      var context = {};
+      let context = {};
       target.handler.call(context, element, function(event) {
         callback.call(context, element, event, messageCallback);
       });

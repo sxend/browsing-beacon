@@ -6,7 +6,7 @@
   });
 
   // inview event
-  var inviewEvent = new Beacon.Events.InView({
+  let inviewEvent = new Beacon.Events.InView({
     querySelector: 'body'
   });
   Beacon.Events.watch(inviewEvent, function(element, event, callback) {
@@ -25,7 +25,7 @@
       });
     }
   });
-  var exampleEvent = new Beacon.Events.Mouseover({
+  let exampleEvent = new Beacon.Events.Mouseover({
     querySelector: 'img'
   });
   Beacon.Events.watch(exampleEvent, function(element, event, callback) {

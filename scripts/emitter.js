@@ -1,6 +1,6 @@
 module.exports = function(internal) {
   function Emitter() {
-    var emitter = this;
+    let emitter = this;
     emitter.taskQueue = [];
     setInterval(function() {
       while (emitter.taskQueue.length > 0) {
@@ -20,9 +20,9 @@ module.exports = function(internal) {
 }
 
 function emitNow(task) {
-  var parser = document.createElement('a');
+  let parser = document.createElement('a');
   parser.href = location.href;
-  var envelope = {
+  let envelope = {
     ext: {
       message: task.message
     },

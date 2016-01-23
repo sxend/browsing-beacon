@@ -1,7 +1,7 @@
-import Events from './events/index';
-class Beacon {
-  static configure(config) {
-    this.Events = new Events(config);
-  }
-}
-window.Beacon = Beacon;
+let Events = require('./events');
+let commands = "";
+let name = window['BrowsingBeaconObject'];
+let bb = window[name];
+bb.log = console.log.bind(console);
+
+module.exports = {};
