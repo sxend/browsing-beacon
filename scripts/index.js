@@ -1,5 +1,6 @@
 let Events = require('./events');
 let configure = require('./commands/configure');
+console.log(configure);
 let name = window['BrowsingBeaconObject'];
 let bb = window[name];
 bb.log = console.log.bind(console);
