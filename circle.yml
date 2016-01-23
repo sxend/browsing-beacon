@@ -6,7 +6,7 @@ dependencies:
     - npm install
     - npm install -g webpack
   post:
-    - mkdir -p .aws
+    - mkdir -p ~/.aws
     - envsubst < .aws/credentials.template > ~/.aws/credentials
 test:
   override:
