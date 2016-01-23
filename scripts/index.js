@@ -1,3 +1,4 @@
+console.log(bb);
 bb.log = console.log.bind(console);
 let Events = require('./events');
 let configure = require('./commands/configure');
