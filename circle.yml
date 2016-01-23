@@ -8,6 +8,7 @@ dependencies:
   post:
     - mkdir -p ~/.aws
     - envsubst < .aws/credentials.template > ~/.aws/credentials
+    - envsubst < .aws/config.template > ~/.aws/config
 test:
   override:
     - echo 'test'
