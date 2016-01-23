@@ -1,7 +1,8 @@
 let Events = require('./events');
-let commands = "";
+let configure = require('./commands/configure');
 let name = window['BrowsingBeaconObject'];
 let bb = window[name];
 bb.log = console.log.bind(console);
-
-module.exports = {};
+bb.q.forEach(function(command){
+  if (command[0] == 'configure') configure(bb, command.slice(1, command.length));
+})
