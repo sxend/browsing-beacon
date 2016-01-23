@@ -16,5 +16,5 @@ deployment:
   release:
     branch: master
     commands:
-      - webpack -production
+      - webpack
       - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/$(date +%Y%m%d%M%S)/
