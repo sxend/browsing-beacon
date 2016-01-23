@@ -17,4 +17,9 @@ deployment:
     branch: master
     commands:
       - webpack
-      - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/$(date +%Y%m%d%M%S)/
+      - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/
+  publish:
+    tag: /.*/
+    commands:
+      - aws s3 sync s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/ s3://stat.arimit.su/browsing-beacon/tags/${CIRCLE_TAG}/
+      - aws s3 sync s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/ s3://stat.arimit.su/browsing-beacon/
