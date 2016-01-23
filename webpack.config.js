@@ -14,7 +14,7 @@ var config = {
   entry: "./index.js",
   output: {
     path: __dirname + "/dist",
-    filename: "browsing-beacon.js"
+    filename: "bb.js"
   },
   plugins: plugins,
   module: {
