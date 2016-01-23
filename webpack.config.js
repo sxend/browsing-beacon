@@ -23,6 +23,7 @@ var config = {
       exclude: /node_modules/,
       loader: 'babel?presets[]=es2015'
     }]
-  }
+  },
+  devtool: "#source-map"
 };
 module.exports = config;
