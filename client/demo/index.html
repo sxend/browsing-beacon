@@ -10,14 +10,20 @@
     <!-- browsing-beacon -->
     <script>
     // uglifyjs -b --compress --mangle -- initial-script.js
-    !function(e,n,t,o,s,c,a){
-      e.BrowsingBeaconObject=s,e[s]=e[s]||function(){
-        (e[s].q=e[s].q||[]).push(arguments);
-      },e[s].l=1*newDate(),c=n.createElement(t),c.async=1,c.src=o,a=n.getElementsByTagName(t)[0],
-      a.parentNode.insertBefore(c,a);
-    }(window,document,"script","//localhost:8000/demo/example.js","example");
-    example('configure', 'BB-xxxxxxxx-x');
-    example('send', 'message', 'Hello, Beacon.');
+    (function(window, document, script, beaconjs, name, tag, beforeTag) {
+      window['BrowsingBeaconObject'] = name,
+        window[name] = window[name] || function() {
+          (window[name].q = window[name].q || []).push(arguments);
+        },
+        window[name].l = 1 * new Date(),
+        tag = document.createElement(script),
+        tag.async = 1,
+        tag.src = beaconjs,
+        beforeTag = document.getElementsByTagName(script)[0];
+      beforeTag.parentNode.insertBefore(tag, beforeTag);
+    })(window, document, 'script', '//stat.arimit.su/browsing-beacon/bb.js', 'bb');
+    bb('configure', '//stat.arimit.su/browsing-beacon/demo/BB-xxxxxxxxxxxx.js');
+
     </script>
     <!-- End browsing-beacon -->
 

@@ -9,4 +9,5 @@
     tag.src = beaconjs,
     beforeTag = document.getElementsByTagName(script)[0];
   beforeTag.parentNode.insertBefore(tag, beforeTag);
-})(window, document, 'script', '//localhost:8000/dist/browsing-beacon.js', 'bb');
+})(window, document, 'script', '//stat.arimit.su/browsing-beacon/bb.js', 'bb');
+bb('configure', '//stat.arimit.su/browsing-beacon/demo/config.js');
