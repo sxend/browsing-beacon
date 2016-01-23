@@ -3,7 +3,8 @@ machine:
     - docker
 dependencies:
   override:
-    - npm install .
+    - npm install
+    - npm install -g webpack
   post:
     - mkdir -p .aws
     - envsubst < .aws/credentials.template > ~/.aws/credentials
@@ -14,5 +15,5 @@ deployment:
   release:
     branch: master
     commands:
-      - cd client/ && webpack -production
-      - aws s3 sync client/dist/ s3://stat.arimit.su/browsing-beacon/$(date +%Y%m%d%M%S)/
+      - webpack -production
+      - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/$(date +%Y%m%d%M%S)/
