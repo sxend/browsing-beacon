@@ -1,0 +1,18 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - npm install .
+  post:
+    - mkdir -p .aws
+    - envsubst < .aws/credentials.template > ~/.aws/credentials
+test:
+  override:
+    - echo 'test'
+deployment:
+  release:
+    branch: master
+    commands:
+      - webpack -production
+      - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/$(date +%Y%m%d%M%S)/
