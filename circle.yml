@@ -17,9 +17,10 @@ deployment:
     branch: master
     commands:
       - webpack
-      - aws s3 sync dist/ s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/
+      - aws s3 sync dist/ ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/
+      - aws s3 sync ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/ ${BUCKET_NAME}/ # TODO remove on develop finished.
   publish:
     tag: /.*/
     commands:
-      - aws s3 sync s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/ s3://stat.arimit.su/browsing-beacon/tags/${CIRCLE_TAG}/
-      - aws s3 sync s3://stat.arimit.su/browsing-beacon/versions/${CIRCLE_SHA1}/ s3://stat.arimit.su/browsing-beacon/
+      - aws s3 sync ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/ ${BUCKET_NAME}/tags/${CIRCLE_TAG}/
+      - aws s3 sync ${BUCKET_NAME}/versions/${CIRCLE_SHA1}/ ${BUCKET_NAME}/
