@@ -15,4 +15,4 @@ setInterval(function() {
       handler(bb, [].slice.call(command).slice(1, command.length));
     }
   }
-}, 50);
+}, 10);
