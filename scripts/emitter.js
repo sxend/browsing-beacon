@@ -1,25 +1,24 @@
-module.exports = function(internal) {
-  function Emitter() {
+export default class Emitter {
+  constructor(bb) {
     let emitter = this;
+    emitter.bb = bb;
     emitter.taskQueue = [];
     setInterval(function() {
-      while (emitter.taskQueue.length > 0) {
-        emitNow(emitter.taskQueue.shift());
+      let length = emitter.taskQueue.length;
+      for(let i = 0;i < length; i++) {
+        emitNow(emitter.taskQueue.shift(), i);
       }
-    }, internal.config.batchInterval || 1000);
+    }, 1000);
   }
-  internal.Emitter = Emitter;
-
-  Emitter.prototype.emit = function(message) {
+  emit(message){
     this.taskQueue.push({
-      endpoint: internal.config.endpoint,
+      endpoint: this.bb.c.endpoint,
       message: message
     });
-  };
-  return Emitter;
+  }
 }
 
-function emitNow(task) {
+function emitNow(task, i) {
   let parser = document.createElement('a');
   parser.href = location.href;
   let envelope = {
@@ -35,5 +34,5 @@ function emitNow(task) {
       hash: parser.hash
     }
   };
-  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime();
+  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime() + "_" + i;
 }
