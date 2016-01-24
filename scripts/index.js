@@ -1,11 +1,11 @@
-console.log(bb);
+
+let name = window['BrowsingBeaconObject'];
+let bb = window[name];
 bb.log = console.log.bind(console);
+
 let Events = require('./events');
 let configure = require('./commands/configure');
 bb.log(configure);
-let name = window['BrowsingBeaconObject'];
-let bb = window[name];
-
-bb.q.forEach(function(command){
+bb.q.forEach(function(command) {
   if (command[0] == 'configure') configure(bb, [].slice.call(command).slice(1, command.length));
 })

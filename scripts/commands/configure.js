@@ -4,8 +4,8 @@ export function configure(bb, args) {
     return;
   }
   let options = {};
-  if ('string' === typeof args) {
-    options.url = args;
+  if ('string' === typeof args[0]) {
+    options.url = args[0];
   } else {
     options = args;
   }
