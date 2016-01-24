@@ -1,4 +1,4 @@
-export default function configure(bb, args) {
+export default function (bb, args) {
   if (!args) {
     bb.log("empty arguments is invalid");
     return;
