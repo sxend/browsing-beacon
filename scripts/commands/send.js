@@ -1,4 +1,3 @@
-
 import Emitter from '../emitter';
 
 export default function(bb, args) {
