@@ -6,6 +6,7 @@ let Events = require('./events');
 
 import commands from './commands';
 bb.cm = commands;
+
 setInterval(function() {
   let length = bb.q.length;
   for (let i = 0; i < length; i++) {
