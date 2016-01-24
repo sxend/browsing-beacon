@@ -1,22 +1,30 @@
+let tasks = [];
 export default class Emitter {
   constructor(bb) {
     let emitter = this;
     emitter.bb = bb;
     emitter.taskQueue = [];
-    setInterval(function() {
+    let task = function() {
       let length = emitter.taskQueue.length;
-      for(let i = 0;i < length; i++) {
+      for (let i = 0; i < length; i++) {
         emitNow(emitter.taskQueue.shift(), i);
       }
-    }, 1000);
+    };
+    tasks.push(task);
   }
-  emit(message){
+  emit(message) {
     this.taskQueue.push({
       endpoint: this.bb.c.endpoint,
       message: message
     });
   }
 }
+
+setInterval(function() {
+  tasks.forEach(function(task) {
+    task();
+  });
+}, 1000);
 
 function emitNow(task, i) {
   let parser = document.createElement('a');
