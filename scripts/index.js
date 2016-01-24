@@ -1,12 +1,11 @@
 let name = window['BrowsingBeaconObject'];
 let bb = window[name];
-bb.log = console.log.bind(console);
+bb.log = !!bb.__debug__ ? console.log.bind(console) : function() {};
 
 let Events = require('./events');
 
 import configure from './commands/configure';
 
-bb.log(configure);
 setInterval(function() {
   let length = bb.q.length;
   for (let i = 0; i < length; i++) {
