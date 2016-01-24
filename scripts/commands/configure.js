@@ -17,7 +17,7 @@ export default function(bb, args) {
     script.src = url;
     let beforeTag = document.getElementsByTagName('script')[0];
     beforeTag.parentNode.insertBefore(script, beforeTag);
-    window.__BBConfigureCallback = (window.__BBConfigureCallback || function(handler) {
+    window.__BBPluginCallback = (window.__BBPluginCallback || function(handler) {
       handler(bb, options);
     });
   });

@@ -1,4 +1,4 @@
-__BBConfigureCallback(function(bb, context) {
+__BBPluginCallback(function(bb, context) {
   bb.log("plugin loaded.");
   bb.log(context);
 });
