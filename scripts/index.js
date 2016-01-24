@@ -3,7 +3,9 @@ let bb = window[name];
 bb.log = console.log.bind(console);
 
 let Events = require('./events');
-let configure = require('./commands/configure');
+
+import configure from './commands/configure';
+
 bb.log(configure);
 setInterval(function() {
   let length = bb.q.length;
