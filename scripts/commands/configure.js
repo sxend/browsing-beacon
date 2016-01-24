@@ -9,5 +9,5 @@ export default function (bb, args) {
   } else {
     options = args;
   }
-  bb.log(options);
+
 }
