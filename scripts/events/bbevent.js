@@ -1,5 +1,5 @@
-class Event {
-  constructor (eventDefinition, config) {
+export default class BBEvent {
+  constructor(eventDefinition, config) {
     this.querySelector = config.querySelector;
     this.handler = eventDefinition.handler;
   }

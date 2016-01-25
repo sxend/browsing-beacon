@@ -2,10 +2,10 @@ let name = window['BrowsingBeaconObject'];
 let bb = window[name];
 bb.log = !!bb.__debug__ ? console.log.bind(console) : function() {};
 
-let Events = require('./events');
-
 import commands from './commands';
+import events from './events';
 bb.cm = commands;
+bb.ev = events;
 
 setInterval(function() {
   let length = bb.q.length;

@@ -1,5 +1,4 @@
-import Event from './event';
-import Emitter from '../emitter';
+import BBEvent from './bbevent';
 import InView from './inview';
 
 class Events {
