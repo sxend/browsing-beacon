@@ -11,6 +11,9 @@ setInterval(function() {
   let length = bb.q.length;
   for (let i = 0; i < length; i++) {
     let command = bb.q.shift();
+    if(!command || command.length <= 0) {
+      return;
+    }
     let handler = bb.cm[command[0]];
     if (handler) {
       handler(bb, [].slice.call(command).slice(1, command.length));
