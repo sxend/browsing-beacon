@@ -1,8 +1,6 @@
 let taskQueue = [];
-export default function(bb) {
-  return send.bind(null, bb);
-}
-export function send(bb, args) {
+export default function(args) {
+  let bb = this;
   if ('string' === typeof args[0]) {
     taskQueue.push({
       endpoint: bb.c.endpoint,

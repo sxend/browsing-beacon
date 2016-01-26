@@ -1,8 +1,6 @@
 import Config from '../config';
-export default function(bb) {
-  return configure.bind(null, bb);
-}
-export function configure(bb, args) {
+export default function(args) {
+  let bb = this;
   let defaultConfig = Config.getConfig(bb);
   if (!args) {
     bb.log("empty arguments is invalid");
