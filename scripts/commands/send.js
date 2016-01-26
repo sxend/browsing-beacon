@@ -1,14 +1,7 @@
-let taskQueue = [];
-export default function() {
+
+export default function(message) {
   let bb = this;
-  let arg = [].slice.call(arguments);
-  if ('string' === typeof arg[0]) {
-    taskQueue.push({
-      endpoint: bb.c.endpoint,
-      message: arg[0]
-    });
-  }
-  // TODO impl
+  emit(bb.c.endpoint, message);
 };
 
 setInterval(function() {
@@ -18,21 +11,25 @@ setInterval(function() {
   }
 }, 1000);
 
-function emitNow(task, i) {
-  let parser = document.createElement('a');
-  parser.href = location.href;
-  let envelope = {
-    ext: {
-      message: task.message
-    },
-    url: {
+function emit(endpoint, message) {
+  let envelope = new Envelope(message);
+  document.createElement('img').src = `${endpoint}?${envelope.toQueryParam()}`;
+}
+class Envelope {
+  constructor(message){
+    this.message = message;
+    let parser = document.createElement('a');
+    parser.href = location.href;
+    this.url = {
       protocol: parser.protocol,
       hostname: parser.hostname,
       port: parser.port,
       pathname: parser.pathname,
       search: parser.search,
       hash: parser.hash
-    }
-  };
-  document.createElement('img').src = task.endpoint + "?message=" + JSON.stringify(envelope) + "&_=" + new Date().getTime() + "_" + i;
+    };
+  }
+  toQueryParam() {
+    return `envelope=${JSON.stringify({message: this.message, url: this.url})}&z=${new Date().getTime()}`
+  }
 }
