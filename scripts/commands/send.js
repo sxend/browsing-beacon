@@ -5,7 +5,16 @@ export default function(message) {
 
 function emit(endpoint, message) {
   let envelope = new Envelope(message);
-  document.createElement('img').src = `${endpoint}?${envelope.toQueryParam()}`;
+
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(`${endpoint}?${envelope.toDateParam()}`, envelope.toAnalyticsData());
+  } else {
+    document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${envelope.toDateParam()}`;
+  }
+}
+
+function toDateParam() {
+  return `z=${new Date().getTime()}`;
 }
 class Envelope {
   constructor(message) {
@@ -21,7 +30,11 @@ class Envelope {
       hash: parser.hash
     };
   }
-  toQueryParam() {
-    return `envelope=${JSON.stringify({message: this.message, url: this.url})}&z=${new Date().getTime()}`
+  toAnalyticsData() {
+    return JSON.stringify({
+      message: this.message,
+      url: this.url
+    });
   }
+
 }
