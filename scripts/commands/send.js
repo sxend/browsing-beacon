@@ -4,7 +4,7 @@ export default function(bb) {
     if ('string' === typeof args[0]) {
       taskQueue.push({
         endpoint: bb.c.endpoint,
-        message: message
+        message: args[0]
       });
     }
     // TODO impl
