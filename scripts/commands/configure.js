@@ -1,6 +1,6 @@
 import Config from '../config';
 export default function(bb) {
-  let config = Config.getConfig(bb);
+  let defaultConfig = Config.getConfig(bb);
   return function(args) {
     if (!args) {
       bb.log("empty arguments is invalid");
@@ -11,7 +11,7 @@ export default function(bb) {
     if ('string' === typeof args[0]) {
       config.id = args[0]
       config.plugins = args.slice(1, args.length);
-      config.endpoint = config.endpoint // default
+      config.endpoint = defaultConfig.endpoint // default
     } else {
       config = args[0];
     }
