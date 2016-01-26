@@ -20,7 +20,7 @@ function initialize(bb) {
       }
       let handler = bb.cm[command[0]];
       if (handler) {
-        handler(bb, [].slice.call(command).slice(1, command.length));
+        handler([].slice.call(command).slice(1, command.length));
       }
     }
   }, 10);
