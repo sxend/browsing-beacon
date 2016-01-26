@@ -5,7 +5,7 @@ export default function() {
 
   if (event && event.isBBEvent) {
     let callback = args.shift();
-    event.watch(callback);
+    event.handle(callback);
   }
 
 }
