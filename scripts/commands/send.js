@@ -7,9 +7,9 @@ function emit(endpoint, message) {
   let envelope = new Envelope(message);
 
   if (navigator.sendBeacon) {
-    navigator.sendBeacon(`${endpoint}?${envelope.toDateParam()}`, envelope.toAnalyticsData());
+    navigator.sendBeacon(`${endpoint}?${toDateParam()}`, envelope.toAnalyticsData());
   } else {
-    document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${envelope.toDateParam()}`;
+    document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`;
   }
 }
 
