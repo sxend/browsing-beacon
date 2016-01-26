@@ -7,6 +7,13 @@ let oldbb = window[name];
 let bb = function() {
   let args = [].slice.call(arguments);
   let command = args.shift();
+  if(!command) {
+    return;
+  }
+  if(command instanceof Function) {
+    command.apply(bb, args);
+    return;
+  }
   let handler = commands[command];
   if(handler){
     handler.apply(bb, args);
