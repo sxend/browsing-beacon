@@ -1,10 +1,11 @@
 let taskQueue = [];
-export default function(args) {
+export default function() {
   let bb = this;
-  if ('string' === typeof args[0]) {
+  let arg = [].slice.call(arguments);
+  if ('string' === typeof arg[0]) {
     taskQueue.push({
       endpoint: bb.c.endpoint,
-      message: args[0]
+      message: arg[0]
     });
   }
   // TODO impl

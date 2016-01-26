@@ -1,19 +1,19 @@
 import Config from '../config';
-export default function(args) {
+export default function(arg) {
   let bb = this;
   let defaultConfig = Config.getConfig(bb);
-  if (!args) {
+  if (!arg) {
     bb.log("empty arguments is invalid");
     return;
   }
   let config = {};
 
-  if ('string' === typeof args[0]) {
-    config.id = args[0]
-    config.plugins = args.slice(1, args.length);
+  if ('string' === typeof arg) {
+    config.id = arg;
+    config.plugins = [];
     config.endpoint = defaultConfig.endpoint // default
   } else {
-    config = args[0];
+    config = arg;
   }
   bb.c = config;
   config.plugins.forEach(function(url, index) {
