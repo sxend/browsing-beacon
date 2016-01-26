@@ -1,15 +1,16 @@
 let taskQueue = [];
 export default function(bb) {
-  return function(args) {
-    if ('string' === typeof args[0]) {
-      taskQueue.push({
-        endpoint: bb.c.endpoint,
-        message: args[0]
-      });
-    }
-    // TODO impl
-  };
+  return send.bind(null, bb);
 }
+export function send(bb, args) {
+  if ('string' === typeof args[0]) {
+    taskQueue.push({
+      endpoint: bb.c.endpoint,
+      message: args[0]
+    });
+  }
+  // TODO impl
+};
 
 setInterval(function() {
   let length = taskQueue.length;
