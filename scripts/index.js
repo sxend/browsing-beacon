@@ -9,7 +9,7 @@ function initialize(bb) {
   }
   bb.log = bb.isProduction() ? function() {} : console.log.bind(console);
   bb.cm = commands(bb);
-  bb.ev = events(bb);
+  // bb.ev = events(bb); // FIXME
 
   setInterval(function() {
     let length = bb.q.length;
