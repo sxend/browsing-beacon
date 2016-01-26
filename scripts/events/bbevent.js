@@ -1,11 +1,7 @@
 export default class BBEvent {
-  constructor(eventDefinition, config) {
-    this.querySelector = config.querySelector;
-    this.handler = eventDefinition.handler;
+  constructor(condition) {
+    this.condition = condition;
   }
-  static create(eventDefinition) {
-    return function(config) {
-      return new Event(eventDefinition, config);
-    }
+  watcher(element) {
   }
 }

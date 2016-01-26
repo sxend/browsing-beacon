@@ -1,6 +1,10 @@
 import BBEvent from './bbevent';
 import InView from './inview';
+import Click from './click';
 
+export default {
+  'Click': Click
+}
 class Events {
   constructor (config) {
     this.emitter = new Emitter(config);

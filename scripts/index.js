@@ -15,6 +15,7 @@ let bb = function() {
 
 bb.l = oldbb.l;
 bb.__ENVIRONMENT__ = oldbb.__ENVIRONMENT__;
+bb.ev = events;
 
 bb.isProduction = function() {
   return !bb.__ENVIRONMENT__ || bb.__ENVIRONMENT__ == 'prd';
