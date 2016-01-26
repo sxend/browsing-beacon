@@ -3,5 +3,12 @@ export default class BBEvent {
     this.isBBEvent = true;
     this.condition = condition;
   }
-  watcher(element) {}
+  watch(callback) {}
+  getElements() {
+    let elements = [].slice.call(document.querySelectorAll(this..condition.querySelector));
+    if (this.condition.index) {
+      return elements.slice(this.condition.index, this.condition.index + 1);
+    }
+    return elements;
+  }
 }

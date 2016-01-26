@@ -5,10 +5,7 @@ export default function() {
 
   if (event && event.isBBEvent) {
     let callback = args.shift();
-    let elements = document.querySelectorAll(event.condition.querySelector);
-    [].slice.call(elements).forEach(function(element) {
-      event.watcher(element, callback);
-    });
+    event.watch(callback);
   }
 
 }
