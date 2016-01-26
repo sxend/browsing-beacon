@@ -1,8 +1,8 @@
 import prd from './prd';
 import stg from './stg';
-import bb from '../';
+
 export default class Config {
-  static getConfig (){
+  static getConfig (bb){
     bb.isProduction() ? prd : stg;
   }
 }

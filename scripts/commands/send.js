@@ -1,16 +1,17 @@
-
 let taskQueue = [];
-export default function(bb, args) {
-  if ('string' === typeof args[0]) {
-    taskQueue.push({
-      endpoint: bb.c.endpoint,
-      message: message
-    });
-  }
-  // TODO impl
+export default function(bb) {
+  return function(args) {
+    if ('string' === typeof args[0]) {
+      taskQueue.push({
+        endpoint: bb.c.endpoint,
+        message: message
+      });
+    }
+    // TODO impl
+  };
 }
 
-setInterval(function(){
+setInterval(function() {
   let length = taskQueue.length;
   for (let i = 0; i < length; i++) {
     emitNow(taskQueue.shift(), i);

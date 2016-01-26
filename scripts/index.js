@@ -1,16 +1,15 @@
 let name = window['BrowsingBeaconObject'];
 let bb = window[name];
 
-function initialize() {
+import commands from './commands';
+import events from './events';
+function initialize(bb) {
   bb.isProduction = function() {
     return !bb.__ENVIRONMENT__ || bb.__ENVIRONMENT__ == 'prd';
   }
   bb.log = bb.isProduction() ? function() {} : console.log.bind(console);
-
-  import commands from './commands';
-  import events from './events';
-  bb.cm = commands;
-  bb.ev = events;
+  bb.cm = commands(bb);
+  bb.ev = events(bb);
 
   setInterval(function() {
     let length = bb.q.length;
@@ -26,5 +25,4 @@ function initialize() {
     }
   }, 10);
 }
-initialize();
-export default bb;
+initialize(bb);
