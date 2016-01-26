@@ -1,7 +1,14 @@
-export default function(bbevent, callback) {
+export default function() {
   let bb = this;
-  let elements = document.querySelectorAll(bbevent.condition.querySelector);
-  [].slice.call(elements).forEach(function(element) {
-    bbevent.watcher(element, callback);
-  });
+  let args = [].slice.call(arguments);
+  let event = args.shift();
+
+  if (event && event.isBBEvent) {
+    let callback = args.shift();
+    let elements = document.querySelectorAll(event.condition.querySelector);
+    [].slice.call(elements).forEach(function(element) {
+      event.watcher(element, callback);
+    });
+  }
+
 }
