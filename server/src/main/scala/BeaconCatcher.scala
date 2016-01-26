@@ -19,12 +19,21 @@ object BeaconCatcher {
     implicit val system = ActorSystem()
     implicit val materializer = ActorMaterializer()
     val route =
-      get {
+      post {
         path("beacon") {
-          parameter("message") { (message) =>
-            println(message)
+          entity(as[String]) { e =>
+            println(e)
             complete(NoContent)
           }
+
+        }
+      } ~ get {
+        path("beacon") {
+          parameter("envelope") { e =>
+            println(e)
+            complete(NoContent)
+          }
+
         }
       }
 
