@@ -1,20 +1,11 @@
 import Config from '../config';
 export default function(arg) {
   let bb = this;
-  let defaultConfig = Config.getConfig(bb);
   if (!arg) {
     bb.log("empty arguments is invalid");
     return;
   }
-  let config = {};
-
-  if ('string' === typeof arg) {
-    config.id = arg;
-    config.plugins = [];
-    config.endpoint = defaultConfig.endpoint // default
-  } else {
-    config = arg;
-  }
+  let config = Config.getConfig(bb, arg);
   bb.c = config;
   config.plugins.forEach(function(url, index) {
     let script = document.createElement('script');
