@@ -5,11 +5,12 @@ export default class Mouseover extends BBEvent {
     super(condition);
   }
   handle(callback) {
+    let that = this;
     try {
       super.getElements().forEach(function(element) {
         element.addEventListener('mouseover', function(ev) {
           callback(null, ev);
-        });
+        }, !!that.condition.useCapture);
       });
     } catch (e) {
       callback(e);
