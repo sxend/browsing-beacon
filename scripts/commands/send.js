@@ -1,22 +1,14 @@
-
 export default function(message) {
   let bb = this;
   emit(bb.c.endpoint, message);
 };
-
-setInterval(function() {
-  let length = taskQueue.length;
-  for (let i = 0; i < length; i++) {
-    emitNow(taskQueue.shift(), i);
-  }
-}, 1000);
 
 function emit(endpoint, message) {
   let envelope = new Envelope(message);
   document.createElement('img').src = `${endpoint}?${envelope.toQueryParam()}`;
 }
 class Envelope {
-  constructor(message){
+  constructor(message) {
     this.message = message;
     let parser = document.createElement('a');
     parser.href = location.href;
