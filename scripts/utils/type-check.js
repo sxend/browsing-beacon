@@ -1,13 +1,15 @@
-export default class TypeCheck {
-  static isFunction(a) {
-    return "function" == typeof a;
-  }
+export function isFunction(o) {
+  return "function" == typeof o;
+}
 
-  static isArray(a) {
-    return "[object Array]" == Object.prototype.toString.call(Object(a));
-  }
+export function isNumber(o) {
+  return "number" == typeof o;
+}
 
-  static isString(a) {
-    return void 0 != a && -1 < (a.constructor + "").indexOf("String");
-  }
+export function isArray(o) {
+  return "[object Array]" == Object.prototype.toString.call(Object(o));
+}
+
+export function isString(o) {
+  return void 0 != o && -1 < (o.constructor + "").indexOf("String");
 }

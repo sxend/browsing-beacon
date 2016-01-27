@@ -1,5 +1,10 @@
 import commands from './commands';
 import events from './events';
+import {
+  isFunction,
+  isString
+}
+from './utils/type-check';
 
 let name = window['BrowsingBeaconObject'];
 let oldbb = window[name];
@@ -7,16 +12,18 @@ let oldbb = window[name];
 let bb = function() {
   let args = [].slice.call(arguments);
   let command = args.shift();
-  if(!command) {
+  if (!command) {
     return;
   }
-  if(command instanceof Function) {
+  if (isFunction(command)) {
     command.apply(bb, args);
     return;
   }
-  let handler = commands[command];
-  if(handler){
-    handler.apply(bb, args);
+  if (isString(command)) {
+    let handler = commands[command];
+    if (isFunction(handler)) {
+      handler.apply(bb, args);
+    }
   }
 };
 
@@ -30,6 +37,6 @@ bb.isProduction = function() {
 bb.log = bb.isProduction() ? function() {} : console.log.bind(console);
 window[name] = bb;
 
-oldbb.q.forEach(function(queuedArguments){
+oldbb.q.forEach(function(queuedArguments) {
   bb.apply(null, queuedArguments);
 });
