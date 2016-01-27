@@ -10,7 +10,7 @@ __BBPluginCallback(function(bb, context) {
     querySelector: 'a',
     useCapture: true
   });
-  bb('watch', onLinkMouseover, function(e){
+  bb('watch', onLinkMouseover, function(e) {
     bb('send', 'link mouseover');
   });
 });

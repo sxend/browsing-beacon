@@ -6,7 +6,12 @@ export default function(message, option) {
 function emit(bb, message, option) {
   let endpoint = bb.c.endpoint;
   let transport = option.transport || bb.c.transport;
-  transport = (!transport || transport == 'auto') ? "img" : transport;
+  if (!transport || transport == 'auto') {
+    transport = "img";
+  } else if (transport == 'strict') {
+    transport = 'xhr';
+    option.async = false;
+  }
 
   let envelope = new Envelope(message);
   switch (transport) {

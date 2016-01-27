@@ -19,21 +19,28 @@
   },e[a].l=1*new Date(),c=n.createElement(t),c.async=1,c.src=s,o=n.getElementsByTagName(t)[0],o.parentNode.insertBefore(c,o);
   }(window,document,"script","//stat.arimit.su/browsing-beacon/bb.js","bb");
   bb('configure', {
-      id: 'BBID-00000-0',
-      plugins: [],
-      endpoint: 'https://stat.arimit.su/misc/tracking-beacon.html',
-      transport: "xhr"
+    id: 'BBID-00000-0',
+    plugins: [],
+    endpoint: 'https://stat.arimit.su/misc/tracking-beacon.html',
+    transport: "auto"
+  });
+  bb.__ENVIRONMENT__ = "stg";
+  bb('send', 'pageview');
+  bb(function() {
+    var onLinkClick = new bb.ev.Click({
+      querySelector: 'a'
     });
-    bb.__ENVIRONMENT__ = "stg";
-    bb('send', 'pageview');
-    bb(function() {
-      var onLinkClick = new bb.ev.Click({
-        querySelector: 'a'
-      });
-      bb('watch', onLinkClick, function(e) {
-        bb('send', 'link click', {transport: "xhr", async: false});
+    bb('watch', onLinkClick, function(e) {
+      bb('send', "strict measurement: link click", {
+        transport: 'strict'
       });
     });
+    bb('watch', new bb.ev.Mouseover({
+        querySelector: '*'
+    }, function(e) {
+      bb('send', 'too many events: mouse move!!!!!');
+    });
+  });
   </script>
   <!-- End browsing-beacon -->
 
