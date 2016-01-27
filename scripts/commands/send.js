@@ -33,7 +33,7 @@ function imgBeacon(endpoint, envelope, option) {
 
 function xhrBeacon(endpoint, envelope, option) {
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, !!option.async);
+  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, (option.async === void 0) ? true : option.async);
   xhr.send();
 }
 
