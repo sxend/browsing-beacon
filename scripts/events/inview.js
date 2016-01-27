@@ -5,14 +5,11 @@ export default class InView extends BBEvent {
   constructor(condition) {
     super(condition);
   }
-  watch(callback) {
-
+  handle(callback) {
     try {
-      super.getElements().forEach(function(element) {
+      super.getElements().forEach((element) => {
         let inViewManager = new InViewManager(element, callback);
-        element.addEventListener('mouseover', function(ev) {
-          callback(null, ev);
-        });
+        InViewInstrument.addEventListeners(inViewManager.handler);
       });
     } catch (e) {
       callback(e);
@@ -32,12 +29,44 @@ class InViewInstrument {
 
     return new Rectangle(l, t, w, h);
   };
+  static startInViewTimer(inViewManager) {
+    if (!!inViewManager.timerId) { // timerId is not zero. Already started.
+      return;
+    }
+    inViewManager.timerId = setTimeout(() => {
+      inViewManager.timerId = 0;
+
+      inViewManager.inView = true;
+      InViewInstrument.removeEventListeners(inViewManager.handler);
+      if (inViewManager.callback) {
+        inViewManager.callback(inViewManager.element);
+      }
+    }, InViewInstrument.inViewThresholdMillis());
+  }
+  static clearInViewTimer(inViewManager) {
+    if (inViewManager.timerId) {
+      clearTimeout(inViewManager.timerId);
+      inViewManager.timerId = 0;
+    }
+  }
+  static addEventListeners(handler) {
+    let w = window.top;
+    w.addEventListener("load", handler, false);
+    w.addEventListener("resize", handler, false);
+    w.addEventListener("scroll", handler, false);
+  }
+  static removeEventListeners(handler) {
+    let w = window.top;
+    w.removeEventListener("load", handler);
+    w.removeEventListener("resize", handler);
+    w.removeEventListener("scroll", handler);
+  }
 }
 
 class InViewManager {
-  constructor(element, callback, handler) {
+  constructor(element, callback) {
     this.element = element;
-    this.callabck = callback;
+    this.callback = callback;
     this.handler = createInViewInstrumentHandler(this);
     this.inView = false;
     this.timerId = 0;
