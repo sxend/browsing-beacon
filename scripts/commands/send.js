@@ -1,6 +1,6 @@
 export default function(message, option) {
   let bb = this;
-  emit(bb, message, option);
+  emit(bb, message, option || {});
 };
 
 function emit(bb, message, option) {
