@@ -14,24 +14,26 @@
   <!-- browsing-beacon -->
   <script>
     // uglifyjs -b --compress --mangle -- initial-script.js
-    (function(window, document, script, beaconjs, name, tag, beforeTag) {
-      window['BrowsingBeaconObject'] = name;
-      window[name] = window[name] || function() {
-        (window[name].q = window[name].q || []).push(arguments);
-      };
-      window[name].l = 1 * new Date();
-      tag = document.createElement(script);
-      tag.async = 1;
-      tag.src = beaconjs;
-      beforeTag = document.getElementsByTagName(script)[0];
-      beforeTag.parentNode.insertBefore(tag, beforeTag);
-    })(window, document, 'script', '//stat.arimit.su/browsing-beacon/bb.js', 'bb');
-    bb('configure', {
+  !function(e,n,t,s,a,c,o){e.BrowsingBeaconObject=a,e[a]=e[a]||function(){
+  (e[a].q=e[a].q||[]).push(arguments);
+  },e[a].l=1*new Date(),c=n.createElement(t),c.async=1,c.src=s,o=n.getElementsByTagName(t)[0],o.parentNode.insertBefore(c,o);
+  }(window,document,"script","//stat.arimit.su/browsing-beacon/bb.js","bb");
+  bb('configure', {
       id: 'BBID-00000-0',
-      plugins: ['//stat.arimit.su/browsing-beacon/demo/plugin.js'],
-      endpoint: '//stat.arimit.su/misc/tracking-beacon.gif'
+      plugins: [],
+      endpoint: 'https://stat.arimit.su/misc/tracking-beacon.html',
+      transport: "xhr"
     });
+    bb.__ENVIRONMENT__ = "stg";
     bb('send', 'pageview');
+    bb(function() {
+      var onLinkClick = new bb.ev.Click({
+        querySelector: 'a'
+      });
+      bb('watch', onLinkClick, function(e) {
+        bb('send', 'link click', {transport: "xhr", async: false});
+      });
+    });
   </script>
   <!-- End browsing-beacon -->
 

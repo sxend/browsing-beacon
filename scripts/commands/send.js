@@ -1,30 +1,40 @@
-export default function(message) {
+export default function(message, option) {
   let bb = this;
-  emit(bb, message);
+  emit(bb, message, option);
 };
 
-function emit(bb, message) {
+function emit(bb, message, option) {
   let endpoint = bb.c.endpoint;
-  let transport = (!bb.c.transport || bb.c.transport == 'auto') ? "img" : bb.c.transport;
+  let transport = option.transport || bb.c.transport;
+  transport = (!transport || transport == 'auto') ? "img" : transport;
 
   let envelope = new Envelope(message);
   switch (transport) {
     case "beacon":
-      navigator.sendBeacon(`${endpoint}?${toDateParam()}`, envelope.toAnalyticsData());
+      navigatorBeacon(endpoint, envelope, option);
       break;
     case "xhr":
-      let xhr = new XMLHttpRequest();
-      xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, false);
-      xhr.send();
+      xhrBeacon(endpoint, envelope, option);
       break;
-    // case "js":
-    //   let sc = document.createElement('script');
-    //   sc.src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`;
-    //   document.head.appendChild(sc);
-    //   break;
     case "img":
     default:
-      document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`;
+      imgBeacon(endpoint, envelope, option);
+  }
+}
+
+function imgBeacon(endpoint, envelope, option) {
+  document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`;
+}
+
+function xhrBeacon(endpoint, envelope, option) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, !!option.async);
+  xhr.send();
+}
+
+function navigatorBeacon(endpoint, envelope, option) {
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(`${endpoint}?${toDateParam()}`, envelope.toAnalyticsData());
   }
 }
 
