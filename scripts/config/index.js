@@ -14,7 +14,7 @@ export default class Config {
       option.id || environments.id || `Anonymous-${location.href}`, // FIXME idのデフォルト生成方法検討
       option.plugins || environments.plugins || [],
       option.endpoint || environments.endpoint || '//0.0.0.0/beacon',
-      option.transport || environments.transport || 'auto' // FIXME auto時のbeacon送信方法を変える
+      option.transport || environments.transport || 'auto'
     );
   }
 }
