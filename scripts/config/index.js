@@ -1,20 +1,25 @@
 import prd from './prd';
 import stg from './stg';
+import defaults from './defaults';
 
 export default class Config {
-  constructor(id, plugins, endpoint, transport) {
-    this.id = id;
-    this.plugins = plugins;
-    this.endpoint = endpoint;
-    this.transport = transport;
-  }
   static getConfig(bb, option) {
-    let environments = bb.isProduction() ? prd : stg;
-    return new Config(
-      option.id || environments.id || `Anonymous-${location.href}`, // FIXME idのデフォルト生成方法検討
-      option.plugins || environments.plugins || [],
-      option.endpoint || environments.endpoint || '//0.0.0.0/beacon',
-      option.transport || environments.transport || 'auto'
-    );
+    let environments = extend(bb.c, extend(bb.isProduction() ? prd : stg, defaults));
+    return extend(option, environments);
   }
+}
+
+function extend(child, parent) {
+  child = child || {};
+  parent = parent || {};
+  let childKeys = Object.keys(child);
+  let parentKeyes = Object.keys(parent);
+  let keys = childKeys.concat(parentKeyes).filter(function(x, i, self) {
+    return self.indexOf(x) === i;
+  });
+  let result = {};
+  keys.forEach(function(key) {
+    result[key] = child[key] || parent[key];
+  });
+  return result;
 }

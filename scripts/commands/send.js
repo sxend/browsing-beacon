@@ -1,43 +1,53 @@
+import Config from '../config';
+
 export default function(message, option) {
   let bb = this;
   emit(bb, message, option || {});
 };
 
 function emit(bb, message, option) {
-  let endpoint = bb.c.endpoint;
-  let transport = option.transport || bb.c.transport;
+  let config = Config.getConfig(bb, option);
+  let endpoint = config.endpoint;
+  let transport = config.transport;
   if (!transport || transport == 'auto') {
     transport = "img";
   } else if (transport == 'strict') {
     transport = 'xhr';
-    option.async = false;
+    config.async = false;
   }
 
   let envelope = new Envelope(message);
   switch (transport) {
     case "beacon":
-      navigatorBeacon(endpoint, envelope, option);
+      navigatorBeacon(endpoint, envelope, config);
       break;
     case "xhr":
-      xhrBeacon(endpoint, envelope, option);
+      xhrBeacon(endpoint, envelope, config);
       break;
     case "img":
     default:
-      imgBeacon(endpoint, envelope, option);
+      imgBeacon(endpoint, envelope, config);
   }
 }
 
-function imgBeacon(endpoint, envelope, option) {
+function imgBeacon(endpoint, envelope, config) {
   document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`;
 }
 
-function xhrBeacon(endpoint, envelope, option) {
+function xhrBeacon(endpoint, envelope, config) {
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, (option.async === void 0) ? true : option.async);
-  xhr.send();
+  let isAsync = (config.async === void 0) ? true : config.async;
+  xhr.ontimeout = function () {
+    console.error("The request for " + url + " timed out.");
+  };
+  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData()}&${toDateParam()}`, isAsync);
+  if(isAsync){
+    xhr.timeout = config.sendTimeout;
+  }
+  xhr.send(null);
 }
 
-function navigatorBeacon(endpoint, envelope, option) {
+function navigatorBeacon(endpoint, envelope, config) {
   if (navigator.sendBeacon) {
     navigator.sendBeacon(`${endpoint}?${toDateParam()}`, envelope.toAnalyticsData());
   }
