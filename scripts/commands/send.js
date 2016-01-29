@@ -71,10 +71,10 @@ class Envelope {
     };
   }
   toAnalyticsData() {
-    return JSON.stringify({
+    return encodeURIComponent(JSON.stringify({
       message: this.message,
       url: this.url
-    });
+    }));
   }
 
 }
