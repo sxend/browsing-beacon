@@ -21,7 +21,7 @@ export default function() {
             if (err) {;
               return callback(err);
             }
-            callback.apply(context, args);
+            callback.apply(context, [element].concat(args));
           });
         }
       });
