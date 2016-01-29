@@ -5,7 +5,7 @@ export default class InView extends BBEvent {
   constructor(condition) {
     super(condition);
   }
-  handle(element, callback) {
+  handle(context, element, callback) {
     try {
       let inViewManager = new InViewManager(element, callback);
       InViewInstrument.addEventListeners(inViewManager.handler);
@@ -37,7 +37,7 @@ class InViewInstrument {
       inViewManager.inView = true;
       InViewInstrument.removeEventListeners(inViewManager.handler);
       if (inViewManager.callback) {
-        inViewManager.callback(inViewManager.element);
+        inViewManager.callback(null);
       }
     }, InViewInstrument.inViewThresholdMillis());
   }

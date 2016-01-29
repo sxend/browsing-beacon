@@ -4,6 +4,7 @@ export default function() {
   let event = args.shift();
   if (event && event.isBBEvent) {
     let callback = args.shift();
+    let context = {};
     let watchedElements = [];
     setInterval(() => {
       let elements = event.getElements();
@@ -14,7 +15,14 @@ export default function() {
       elements.forEach((element) => {
         if (watchedElements.indexOf(element) < 0) {
           watchedElements.push(element);
-          event.handle(element, callback);
+          event.handle(context, element, function() {
+            let args = [].slice.call(arguments);
+            let err = args.shift();
+            if (err) {;
+              return callback(err);
+            }
+            callback.apply(context, args);
+          });
         }
       });
       watchedElements = watchedElements.filter((watched) => {
