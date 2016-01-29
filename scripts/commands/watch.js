@@ -18,10 +18,7 @@ export default function() {
           event.handle(context, element, function() {
             let args = [].slice.call(arguments);
             let err = args.shift();
-            if (err) {;
-              return callback(err);
-            }
-            callback.apply(context, [element].concat(args));
+            callback.apply(context, [err, element].concat(args));
           });
         }
       });
