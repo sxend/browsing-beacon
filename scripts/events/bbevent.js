@@ -3,7 +3,7 @@ export default class BBEvent {
     this.isBBEvent = true;
     this.condition = condition;
   }
-  handle(callback) {}
+  handle(context, callback) {}
   getElements() {
     let elements = [].slice.call(document.querySelectorAll(this.condition.querySelector));
     if (this.condition.index) {

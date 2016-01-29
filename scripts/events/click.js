@@ -4,9 +4,13 @@ export default class Click extends BBEvent {
   constructor(condition) {
     super(condition);
   }
-  handle(callback) {
+  handle(context, callback) {
+    context.watchedElement = context.watchedElement || [];
     try {
       super.getElements().forEach((element) => {
+        if (context.watchedElement.indexOf(element) >= 0) {
+          return;
+        }
         element.addEventListener('click', function(ev) {
           callback(null, ev);
         }, !!this.condition.useCapture);
