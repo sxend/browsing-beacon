@@ -54,7 +54,7 @@ function navigatorBeacon(endpoint, envelope, config) {
 }
 
 function toDateParam() {
-  return `z=${new Date().getTime()}`;
+  return `z=${Date.now()}`;
 }
 class Envelope {
   constructor(message) {
