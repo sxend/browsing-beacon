@@ -1,4 +1,6 @@
 export default class BBEvent {
+  public condition: any;
+  public isBBEvent: boolean;
   constructor(condition) {
     this.isBBEvent = true;
     this.condition = condition;

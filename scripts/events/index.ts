@@ -1,10 +1,9 @@
-import BBEvent from './bbevent';
-import Click from './click';
-import Mouseover from './mouseover';
-import InView from './inview';
+import Click from './click.ts';
+import Mouseover from './mouseover.ts';
+import InView from './inview.ts';
 
-export default {
-  'Click': Click,
-  'Mouseover': Mouseover,
-  'InView': InView
+export module Events {
+  export var Click = Click;
+  export var Mouseover = Mouseover;
+  export var InView = InView;
 }

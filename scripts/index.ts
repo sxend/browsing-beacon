@@ -1,20 +1,19 @@
-declare var window: Window;
-import {
-isFunction,
-isString
-}
-from './utils/type-check.ts';
 import * as commands from './commands/index.ts';
+import * as events from './events/index.ts';
+import {
+  isFunction,
+  isString
+} from './utils/type-check.ts';
 
-interface BB {
+export interface BBObject {
   (...args: any[]): void;
   q: any[];
   l: number;
+  ev: any;
 }
-
 var name: string = window['BrowsingBeaconObject'];
-var __bb: BB = window[name];
-var bb: BB = <BB> function(...args: any[]): void {
+var __bb: BBObject = window[name];
+var bb: BBObject = <BBObject> function(...args: any[]): void {
   var command: any = args.shift();
   if (!command) {
     return;
@@ -31,11 +30,17 @@ var bb: BB = <BB> function(...args: any[]): void {
   }
 };
 bb.l = __bb.l;
+bb.ev = events;
 
 window[name] = bb;
 __bb.q.forEach(function(queuedArguments) {
   bb.apply(null, queuedArguments);
 });
+
+
+
+
+
 
 // import commands from './commands';
 // import events from './events';

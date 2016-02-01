@@ -1,4 +1,4 @@
-import BBEvent from './bbevent';
+import BBEvent from './bbevent.ts';
 
 export default class Click extends BBEvent {
   constructor(condition) {
