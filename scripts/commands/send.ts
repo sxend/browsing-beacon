@@ -7,7 +7,7 @@ export default function send(message, option): void {
 };
 
 function emit(bb, message, option): void {
-  var config: any = Config.getConfig(bb, option);
+  var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
   var transport = config.transport;
   if (!transport || transport == 'auto') {

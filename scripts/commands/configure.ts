@@ -18,8 +18,8 @@ export default function configure(arg: any): void {
   } else {
     option = arg;
   }
-  var config: any = Config.getConfig(bb, option);
-  bb.c = config;
+  Config.setConfig(option);
+  var config: any = bb.c = Config.getConfig();
   config.plugins.forEach(function(url, index) {
     var script = document.createElement('script');
     script.async = true;

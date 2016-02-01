@@ -1,11 +1,19 @@
-import prd from './prd.ts';
-import stg from './stg.ts';
 import defaults from './defaults.ts';
 
 export default class Config {
-  static getConfig(bb, option) {
-    var environments = extend(bb.c, extend(bb.isProduction() ? prd : stg, defaults));
-    return extend(option, environments);
+  private static isConfigured: boolean = false;
+  private static config: any;
+  public static getConfig(option?: any) {
+    if (!this.isConfigured) {
+      throw new Error("bb object is not configured yet!! please call 'configure' command with options.");
+    }
+    return option ? extend(option, this.config): this.config;
+  }
+  public static setConfig(option) {
+    this.config = extend(option, defaults);
+    if (this.config) {
+      this.isConfigured = true;
+    }
   }
 }
 
@@ -19,7 +27,7 @@ function extend(child, parent) {
   });
   var result = {};
   keys.forEach(function(key) {
-    result[key] = child[key] || parent[key];
+    result[key] = child[key] === void 0 ? parent[key] : child[key];
   });
   return result;
 }
