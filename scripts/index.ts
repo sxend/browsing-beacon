@@ -1,5 +1,6 @@
-import * as commands from './commands/index.ts';
-import * as events from './events/index.ts';
+import Commands from './commands/index.ts';
+import Events from './events/index.ts';
+
 import {
   isFunction,
   isString
@@ -23,14 +24,14 @@ var bb: BBObject = <BBObject> function(...args: any[]): void {
     return;
   }
   if (isString(command)) {
-    var handler = commands[command];
+    var handler = Commands[command];
     if (isFunction(handler)) {
       handler.apply(bb, args);
     }
   }
 };
 bb.l = __bb.l;
-bb.ev = events;
+bb.ev = Events;
 
 window[name] = bb;
 __bb.q.forEach(function(queuedArguments) {
