@@ -1,7 +1,7 @@
 declare var navigator: any;
 import Config from '../config/index.ts';
 
-export function send(message, option): void {
+export default function send(message, option): void {
   var bb = this;
   emit(bb, message, option || {});
 };

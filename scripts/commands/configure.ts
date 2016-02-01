@@ -6,7 +6,7 @@ import {
 }
 from '../utils/type-check.ts';
 
-export function configure(arg: any): void {
+export default function configure(arg: any): void {
   var bb = this;
   if (!arg) {
     bb.log("empty arguments is invalid");

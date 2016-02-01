@@ -1,4 +1,4 @@
-export function watch(...args: any[]): void {
+export default function watch(...args: any[]): void {
   var bb = this;
   var event = args.shift();
   if (event && event.isBBEvent) {
