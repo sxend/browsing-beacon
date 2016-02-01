@@ -2,7 +2,7 @@
   "name": "browsing-beacon.js",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
@@ -10,10 +10,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "babel-core": "^6.4.5",
-    "babel-loader": "^6.2.1",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
+    "ts-loader": "^0.8.0",
+    "tsd": "^0.6.5",
+    "typescript": "^1.7.5",
     "webpack": "^1.12.11"
   }
 }
