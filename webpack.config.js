@@ -4,6 +4,9 @@ var toProduction = !!process.env['TO_PRODUCTION'];
 var minifyPlugin = new webpack.optimize.UglifyJsPlugin({
   compress: {
     warnings: false
+  },
+  mangle: {
+    except: []
   }
 });
 
