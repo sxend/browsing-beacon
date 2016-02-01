@@ -11,6 +11,9 @@ export interface BBObject {
   q: any[];
   l: number;
   ev: any;
+  isProduction: () => boolean;
+  log: (any) => void; 
+  __ENVIRONMENT__: string;
 }
 var name: string = window['BrowsingBeaconObject'];
 var __bb: BBObject = window[name];
@@ -32,6 +35,11 @@ var bb: BBObject = <BBObject> function(...args: any[]): void {
 };
 bb.l = __bb.l;
 bb.ev = Events;
+
+bb.isProduction = function() {
+  return !bb.__ENVIRONMENT__ || bb.__ENVIRONMENT__ == 'prd';
+}
+bb.log = bb.isProduction() ? function() {} : console.log.bind(console);
 
 window[name] = bb;
 __bb.q.forEach(function(queuedArguments) {
