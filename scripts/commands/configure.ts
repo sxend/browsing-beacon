@@ -1,28 +1,30 @@
-import Config from '../config';
+declare var window: any;
+
+import Config from '../config/index.ts';
 import {
   isString
 }
-from '../utils/type-check';
+from '../utils/type-check.ts';
 
-export default function(arg) {
-  let bb = this;
+export function configure(arg: any): void {
+  var bb = this;
   if (!arg) {
     bb.log("empty arguments is invalid");
     return;
   }
-  let option = {};
+  var option: any = {};
   if (isString(arg)) {
     option.id = arg;
   } else {
     option = arg;
   }
-  let config = Config.getConfig(bb, option);
+  var config: any = Config.getConfig(bb, option);
   bb.c = config;
   config.plugins.forEach(function(url, index) {
-    let script = document.createElement('script');
-    script.async = 1;
+    var script = document.createElement('script');
+    script.async = true;
     script.src = url;
-    let beforeTag = document.getElementsByTagName('script')[0];
+    var beforeTag = document.getElementsByTagName('script')[0];
     beforeTag.parentNode.insertBefore(script, beforeTag);
     window.__BBPluginCallback = (window.__BBPluginCallback || function(handler) {
       handler(bb, config);

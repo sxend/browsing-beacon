@@ -7,7 +7,7 @@ export default class InView extends BBEvent {
   }
   handle(context, element, callback) {
     try {
-      let inViewManager = new InViewManager(element, callback);
+      var inViewManager = new InViewManager(element, callback);
       InViewInstrument.addEventListeners(inViewManager.handler);
     } catch (e) {
       callback(e);
@@ -20,10 +20,10 @@ class InViewInstrument {
     return 1000;
   };
   static getViewportRect(doc) {
-    let l = doc.documentElement.scrollLeft || doc.body.scrollLeft;
-    let t = doc.documentElement.scrollTop || doc.body.scrollTop;
-    let w = doc.body.clientWidth;
-    let h = doc.body.clientHeight;
+    var l = doc.documentElement.scrollLeft || doc.body.scrollLeft;
+    var t = doc.documentElement.scrollTop || doc.body.scrollTop;
+    var w = doc.body.clientWidth;
+    var h = doc.body.clientHeight;
 
     return new Rectangle(l, t, w, h);
   };
@@ -48,13 +48,13 @@ class InViewInstrument {
     }
   }
   static addEventListeners(handler) {
-    let w = window.top;
+    var w = window.top;
     w.addEventListener("load", handler, false);
     w.addEventListener("resize", handler, false);
     w.addEventListener("scroll", handler, false);
   }
   static removeEventListeners(handler) {
-    let w = window.top;
+    var w = window.top;
     w.removeEventListener("load", handler);
     w.removeEventListener("resize", handler);
     w.removeEventListener("scroll", handler);
@@ -80,9 +80,9 @@ function createInViewInstrumentHandler(inViewManager) {
       case "load":
       case "resize":
       case "scroll":
-        let viewportRect = InViewInstrument.getViewportRect(window.top.document);
-        let adClientRect = inViewManager.element.getBoundingClientRect();
-        let adRect = new Rectangle(
+        var viewportRect = InViewInstrument.getViewportRect(window.top.document);
+        var adClientRect = inViewManager.element.getBoundingClientRect();
+        var adRect = new Rectangle(
           adClientRect.left + window.scrollX,
           adClientRect.top + window.scrollY,
           adClientRect.width,

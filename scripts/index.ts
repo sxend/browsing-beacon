@@ -1,10 +1,10 @@
 declare var window: Window;
-declare var commands: any;
 import {
 isFunction,
 isString
 }
 from './utils/type-check.ts';
+import * as commands from './commands/index.ts';
 
 interface BB {
   (...args: any[]): void;

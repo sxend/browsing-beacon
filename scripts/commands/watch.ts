@@ -1,13 +1,12 @@
-export default function() {
-  let bb = this;
-  let args = [].slice.call(arguments);
-  let event = args.shift();
+export function watch(...args: any[]): void {
+  var bb = this;
+  var event = args.shift();
   if (event && event.isBBEvent) {
-    let callback = args.shift();
-    let context = {};
-    let watchedElements = [];
+    var callback = args.shift();
+    var context = {};
+    var watchedElements = [];
     setInterval(() => {
-      let elements = event.getElements();
+      var elements = event.getElements();
       if (elements.length == 0) {
         watchedElements = [];
         return;
@@ -16,8 +15,8 @@ export default function() {
         if (watchedElements.indexOf(element) < 0) {
           watchedElements.push(element);
           event.handle(context, element, function() {
-            let args = [].slice.call(arguments);
-            let err = args.shift();
+            var args = [].slice.call(arguments);
+            var err = args.shift();
             callback.apply(context, [err, element].concat(args));
           });
         }

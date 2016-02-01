@@ -25,12 +25,12 @@ export default class Rectangle {
     return (this.width * this.height);
   };
   getIntersectingArea(another) {
-    let minRight = Math.min(this.right, another.right);
-    let maxLeft = Math.max(this.left, another.left);
-    let minBottom = Math.min(this.bottom, another.bottom);
-    let maxTop = Math.max(this.top, another.top);
-    let width = minRight - maxLeft;
-    let height = minBottom - maxTop;
+    var minRight = Math.min(this.right, another.right);
+    var maxLeft = Math.max(this.left, another.left);
+    var minBottom = Math.min(this.bottom, another.bottom);
+    var maxTop = Math.max(this.top, another.top);
+    var width = minRight - maxLeft;
+    var height = minBottom - maxTop;
 
     if (width < 0 || height < 0) {
       // Uncrossed if minus. Protect following case.

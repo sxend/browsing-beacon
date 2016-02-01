@@ -5,7 +5,7 @@ export default class BBEvent {
   }
   handle(context, element, callback) {}
   getElements() {
-    let elements = [].slice.call(document.querySelectorAll(this.condition.querySelector));
+    var elements = [].slice.call(document.querySelectorAll(this.condition.querySelector));
     if (this.condition.index) {
       return elements.slice(this.condition.index, this.condition.index + 1);
     }
