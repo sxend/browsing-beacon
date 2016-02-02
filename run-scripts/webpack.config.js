@@ -22,10 +22,6 @@ module.exports = function(toProduction) {
         loader: "tslint"
       }],
       loaders: [{
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel?presets[]=es2015'
-      }, {
         test: /\.ts$/,
         loader: 'ts-loader'
       }]
