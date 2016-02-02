@@ -8,6 +8,7 @@ import {
 
 export interface BBObject {
   (...args: any[]): void;
+  id: string;
   q: any[];
   l: number;
   ev: any;

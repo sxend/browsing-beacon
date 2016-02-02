@@ -1,24 +1,17 @@
 declare var window: any;
-
+import {BBObject} from '../index.ts';
 import Config from '../config/index.ts';
-import {
-isString
-}
-from '../utils/type-check.ts';
+import {isString} from '../utils/type-check.ts';
 
-export default function create(trackingId: string, ...options: any[]): void {
+export default function create(id: string, option: any): void {
   'use strict';
-  var bb = this;
-  if (!isString(trackingId)) {
-    bb.log("arguments is invalid");
-    return;
+  var bb: BBObject = this;
+  if (!isString(id)) {
+    throw new Error("id is required.");
   }
-  var option = {
-    id: trackingId
-  };
-  // FIXME
+  bb.id = id;
   Config.setConfig(option);
-  var config: any = bb.c = Config.getConfig();
+  var config: any = Config.getConfig();
   config.plugins.forEach(function(url, index) {
     var script = document.createElement('script');
     script.async = true;
