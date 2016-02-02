@@ -1,3 +1,4 @@
+// FIXME まだバグあり
 import BBEvent from './bbevent.ts';
 import Rectangle from './rectangle.ts';
 
