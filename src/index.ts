@@ -2,8 +2,8 @@ import Commands from './commands/index.ts';
 import Events from './events/index.ts';
 
 import {
-  isFunction,
-  isString
+isFunction,
+isString
 } from './utils/type-check.ts';
 
 export interface BBObject {
@@ -31,10 +31,9 @@ var bb: BBObject = <BBObject> function(...args: any[]): void {
     }
   }
 };
-bb.l = __bb.l;
-bb.ev = Events;
-
 window[name] = bb;
-__bb.q.forEach(function(queuedArguments) {
+bb.ev = Events;
+bb.l = __bb ? __bb.l : Date.now();
+__bb ? __bb.q.forEach(function(queuedArguments) {
   bb.apply(null, queuedArguments);
-});
+}) : 0;
