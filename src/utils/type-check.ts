@@ -21,5 +21,5 @@ export function isString(o: any): boolean {
 
 export function isObject(o: any): boolean {
   'use strict';
-  return "[object Object]" === Object.prototype.toString.call(Object(o));
+  return o !== void 0 && o !== null && "[object Object]" === Object.prototype.toString.call(Object(o));
 }
