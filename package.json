@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build": "node webpack.js",
+    "build": "node ./run-scripts/build.js",
     "test": "echo \"Error: no test specified\""
   },
   "author": "sxend",

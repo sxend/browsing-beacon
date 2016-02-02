@@ -11,12 +11,13 @@ var minifyPlugin = new webpack.optimize.UglifyJsPlugin({
 });
 
 var plugins = toProduction ? [minifyPlugin] : [];
-console.log(__dirname + "/src");
+var path = require('path');
+
 var config = {
-  context: __dirname + "/src",
+  context: path.join(__dirname, "../src"),
   entry: "./index.ts",
   output: {
-    path: __dirname + "/dist",
+    path: path.join(__dirname, "../dist"),
     filename: "bb.js"
   },
   plugins: plugins,
@@ -39,4 +40,7 @@ webpack(config, function(err, stats) {
   if (err) {
     throw err;
   }
+  console.log(stats.toString({
+    colors: true
+  }));
 });
