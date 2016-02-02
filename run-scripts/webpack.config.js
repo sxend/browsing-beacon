@@ -17,6 +17,10 @@ module.exports = function(toProduction) {
       extensions: ['', '.webpack.js', '.ts', '.js']
     },
     module: {
+      preLoaders: [{
+        test: /\.ts$/,
+        loader: "tslint-loader"
+      }],
       loaders: [{
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -26,7 +30,14 @@ module.exports = function(toProduction) {
         loader: 'ts-loader'
       }]
     },
-    devtool: "#source-map"
+    devtool: "#source-map",
+    tslint: {
+      configuration: {
+        rules: {
+          quotemark: [true, "double"]
+        }
+      }
+    }
   };
 }
 
