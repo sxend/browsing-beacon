@@ -1,13 +1,14 @@
 declare var navigator: any;
-import Config from '../config/index.ts';
+import Config from '../config/index';
+import {BBObject} from '../index';
 
-export default function send(message, option): void {
+export default function send(hitType: string, option?: any): void {
   'use strict';
-  var bb = this;
-  emit(bb, message, option || {});
+  var bb: BBObject = this;
+  emit(bb, hitType, option || {});
 };
 
-function emit(bb, message, option): void {
+function emit(bb: BBObject, hitType: string, option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
@@ -19,7 +20,7 @@ function emit(bb, message, option): void {
     config.async = false;
   }
 
-  var envelope = new Envelope(message);
+  var envelope = new Envelope(hitType);
   switch (transport) {
     case "beacon":
       navigatorBeacon(endpoint, envelope, config);
@@ -62,7 +63,7 @@ function toDateParam(): string {
 }
 class Envelope {
   public url: any;
-  constructor(public message: any) {
+  constructor(public hitType: any) {
     var parser = document.createElement('a');
     parser.href = location.href;
     this.url = {
@@ -76,7 +77,7 @@ class Envelope {
   }
   toAnalyticsData() {
     return encodeURIComponent(JSON.stringify({
-      message: this.message,
+      hitType: this.hitType,
       url: this.url
     }));
   }
