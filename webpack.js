@@ -11,9 +11,9 @@ var minifyPlugin = new webpack.optimize.UglifyJsPlugin({
 });
 
 var plugins = toProduction ? [minifyPlugin] : [];
-
+console.log(__dirname + "/src");
 var config = {
-  context: __dirname + "/scripts",
+  context: __dirname + "/src",
   entry: "./index.ts",
   output: {
     path: __dirname + "/dist",
@@ -35,4 +35,8 @@ var config = {
   },
   devtool: "#source-map"
 };
-module.exports = config;
+webpack(config, function(err, stats) {
+  if (err) {
+    throw err;
+  }
+});
