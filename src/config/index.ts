@@ -11,7 +11,7 @@ export default class Config {
     return option ? extend(option, this.config) : this.config;
   }
   public static setConfig(option) {
-    this.config = extend(option, defaults);
+    this.config = extend(option, this.config ? this.config : defaults);
     if (this.config) {
       this.isConfigured = true;
     }
