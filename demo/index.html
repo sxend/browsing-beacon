@@ -23,7 +23,6 @@
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
     transport: "auto"
   });
-  bb.__ENVIRONMENT__ = "stg";
   bb('send', 'pageview');
   bb(function() {
     var onLinkClick = new bb.ev.Click({
