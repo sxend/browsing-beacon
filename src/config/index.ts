@@ -18,6 +18,7 @@ export default class Config {
 }
 
 function extend(child, parent) {
+  'use strict';
   child = child || {};
   parent = parent || {};
   var childKeys = Object.keys(child);

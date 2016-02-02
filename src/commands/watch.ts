@@ -1,5 +1,5 @@
 export default function watch(...args: any[]): void {
-  var bb = this;
+  'use strict';
   var event = args.shift();
   if (event && event.isBBEvent) {
     var callback = args.shift();
@@ -7,7 +7,7 @@ export default function watch(...args: any[]): void {
     var watchedElements = [];
     setInterval(() => {
       var elements = event.getElements();
-      if (elements.length == 0) {
+      if (elements.length === 0) {
         watchedElements = [];
         return;
       }

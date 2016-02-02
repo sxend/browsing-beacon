@@ -7,6 +7,7 @@ import {
 from '../utils/type-check.ts';
 
 export default function configure(arg: any): void {
+  'use strict';
   var bb = this;
   if (!arg) {
     bb.log("empty arguments is invalid");

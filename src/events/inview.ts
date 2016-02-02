@@ -21,7 +21,7 @@ class InViewManager {
   timerId: number;
   inView: boolean;
   handler: (e: Event) => void;
-  constructor(element: any, callback: (element: HTMLElement) => void){
+  constructor(element: any, callback: (element: HTMLElement) => void) {
     this.element = element;
     this.callback = callback;
     this.timerId = 0;
