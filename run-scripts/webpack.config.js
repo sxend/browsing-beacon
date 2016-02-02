@@ -19,7 +19,7 @@ module.exports = function(toProduction) {
     module: {
       preLoaders: [{
         test: /\.ts$/,
-        loader: "tslint-loader"
+        loader: "tslint"
       }],
       loaders: [{
         test: /\.jsx?$/,
@@ -30,14 +30,7 @@ module.exports = function(toProduction) {
         loader: 'ts-loader'
       }]
     },
-    devtool: "#source-map",
-    tslint: {
-      configuration: {
-        rules: {
-          quotemark: [true, "double"]
-        }
-      }
-    }
+    devtool: "#source-map"
   };
 }
 
