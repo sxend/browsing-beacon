@@ -1,4 +1,5 @@
 import defaults from './defaults.ts';
+import {isObject} from '../utils/type-check.ts';
 
 export default class Config {
   private static isConfigured: boolean = false;
@@ -7,7 +8,7 @@ export default class Config {
     if (!this.isConfigured) {
       throw new Error("bb object is not configured yet!! please call 'configure' command with options.");
     }
-    return option ? extend(option, this.config): this.config;
+    return option ? extend(option, this.config) : this.config;
   }
   public static setConfig(option) {
     this.config = extend(option, defaults);
@@ -28,7 +29,11 @@ function extend(child, parent) {
   });
   var result = {};
   keys.forEach(function(key) {
-    result[key] = child[key] === void 0 ? parent[key] : child[key];
+    var value = child[key] === void 0 ? parent[key] : child[key];
+    if (isObject(value)) {
+      value = extend(child[key], parent[key]);
+    }
+    result[key] = value;
   });
   return result;
 }
