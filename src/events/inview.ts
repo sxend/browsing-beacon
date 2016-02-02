@@ -6,7 +6,7 @@ export default class InView extends BBEvent {
   constructor(condition) {
     super(condition);
   }
-  handle(context, element, callback) {
+  handle(element, callback) {
     try {
       var inViewManager = new InViewManager(element, callback);
       InViewInstrument.addEventListeners(inViewManager.handler);

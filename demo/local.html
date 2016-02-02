@@ -10,7 +10,7 @@
   <a href="https://www.google.co.jp" class="link-elements">google</a>
   <a href="http://www.yahoo.co.jp/" class="link-elements">yahoo</a>
   <p>title</p>
-  <p id="main-content" style="height: 7000px; padding-top: 4000px">main content</p>
+  <p id="main-content" style="height: 7000px; margin-top: 4000px">main content</p>
   <!-- browsing-beacon -->
   <script>
     // uglifyjs -b --compress --mangle -- initial-script.js
@@ -26,7 +26,7 @@
   bb('send', 'pageview');
   bb(function() {
     var onLinkClick = new bb.ev.Click({
-      querySelector: 'a'
+      querySelector: 'p'
     });
     bb('watch', onLinkClick, function(e) {
       bb('send', "strict measurement: link click", {

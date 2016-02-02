@@ -28,14 +28,14 @@
     var onLinkClick = new bb.ev.Click({
       querySelector: 'a'
     });
-    bb('watch', onLinkClick, function(e) {
+    bb('watch', onLinkClick, function(err, element) {
       bb('send', "strict measurement: link click", {
         transport: 'strict'
       });
     });
     bb('watch', new bb.ev.Mouseover({
         querySelector: '*'
-    }), function(e) {
+    }), function(err, element) {
       bb('send', 'too many events: mouse move!!!!!');
     });
   });

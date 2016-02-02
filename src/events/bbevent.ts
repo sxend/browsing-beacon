@@ -5,7 +5,7 @@ export default class BBEvent {
     this.isBBEvent = true;
     this.condition = condition;
   }
-  handle(context, element, callback) {}
+  handle(element, callback) {}
   getElements() {
     var elements = [].slice.call(document.querySelectorAll(this.condition.querySelector));
     if (this.condition.index) {

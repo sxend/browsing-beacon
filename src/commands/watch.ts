@@ -1,9 +1,8 @@
-export default function watch(...args: any[]): void {
+import BBEvent from '../events/bbevent';
+export default function watch(event: BBEvent, callback?: (Error, Element) => void): void {
   'use strict';
-  var event = args.shift();
+  var bb = this;
   if (event && event.isBBEvent) {
-    var callback = args.shift();
-    var context = {};
     var watchedElements = [];
     setInterval(() => {
       var elements = event.getElements();
@@ -14,10 +13,10 @@ export default function watch(...args: any[]): void {
       elements.forEach((element) => {
         if (watchedElements.indexOf(element) < 0) {
           watchedElements.push(element);
-          event.handle(context, element, function() {
+          event.handle(element, function() {
             var args = [].slice.call(arguments);
             var err = args.shift();
-            callback.apply(context, [err, element].concat(args));
+            (callback || defaultCallback).apply(bb, [err, element].concat(args));
           });
         }
       });
@@ -27,4 +26,10 @@ export default function watch(...args: any[]): void {
     }, 50);
   }
 
+}
+
+function defaultCallback(err, element) {
+  'use strict';
+  var bb = this;
+  bb('send', 'default callback');
 }
