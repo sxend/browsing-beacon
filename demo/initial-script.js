@@ -10,4 +10,4 @@
     beforeTag = document.getElementsByTagName(script)[0];
   beforeTag.parentNode.insertBefore(tag, beforeTag);
 })(window, document, 'script', '//stat.arimit.su/browsing-beacon/bb.js', 'bb');
-bb('create', '//stat.arimit.su/browsing-beacon/demo/config.js');
+bb('create', 'ID', '//stat.arimit.su/browsing-beacon/demo/config.js');

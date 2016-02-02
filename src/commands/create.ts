@@ -2,23 +2,21 @@ declare var window: any;
 
 import Config from '../config/index.ts';
 import {
-  isString
+isString
 }
 from '../utils/type-check.ts';
 
-export default function create(arg: any): void {
+export default function create(trackingId: string, ...options: any[]): void {
   'use strict';
   var bb = this;
-  if (!arg) {
-    bb.log("empty arguments is invalid");
+  if (!isString(trackingId)) {
+    bb.log("arguments is invalid");
     return;
   }
-  var option: any = {};
-  if (isString(arg)) {
-    option.id = arg;
-  } else {
-    option = arg;
-  }
+  var option = {
+    id: trackingId
+  };
+  // FIXME
   Config.setConfig(option);
   var config: any = bb.c = Config.getConfig();
   config.plugins.forEach(function(url, index) {
