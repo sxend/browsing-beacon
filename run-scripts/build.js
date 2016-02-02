@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var toProduction = !!process.env['TO_PRODUCTION'];
+var toProduction = process.env['TO_PRODUCTION'] == "true";
 var npmConfigArgv = JSON.parse(process.env.npm_config_argv);
 var config = require('./webpack.config.js')(toProduction);
 
