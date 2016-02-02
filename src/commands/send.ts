@@ -1,4 +1,3 @@
-'use strict';
 declare var navigator: any;
 import Config from '../config/index.ts';
 
