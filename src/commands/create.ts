@@ -6,7 +6,7 @@ import {
 }
 from '../utils/type-check.ts';
 
-export default function configure(arg: any): void {
+export default function create(arg: any): void {
   'use strict';
   var bb = this;
   if (!arg) {

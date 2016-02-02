@@ -6,7 +6,7 @@ export default class Config {
   private static config: any;
   public static getConfig(option?: any) {
     if (!this.isConfigured) {
-      throw new Error("bb object is not configured yet!! please call 'configure' command with options.");
+      throw new Error("bb object is not configured yet!! please call 'create' command with options.");
     }
     return option ? extend(option, this.config) : this.config;
   }
