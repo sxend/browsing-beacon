@@ -1,3 +1,4 @@
+var path = require('path');
 var webpack = require('webpack');
 
 var toProduction = !!process.env['TO_PRODUCTION'];
@@ -11,7 +12,6 @@ var minifyPlugin = new webpack.optimize.UglifyJsPlugin({
 });
 
 var plugins = toProduction ? [minifyPlugin] : [];
-var path = require('path');
 
 var config = {
   context: path.join(__dirname, "../src"),
