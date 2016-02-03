@@ -35,48 +35,46 @@ function sendBeacon(bb: BBObject, hitType: string, fields: string[], option: any
     config.async = false;
   }
 
-  var envelope = new Envelope(hitType);
+  var analyticsData = new AnalyticsData(hitType);
   switch (transport) {
     case "beacon":
-      navigatorBeacon(endpoint, envelope, config);
+      navigatorBeacon(endpoint, analyticsData, config);
       break;
     case "xhr":
-      xhrBeacon(endpoint, envelope, config);
+      xhrBeacon(endpoint, analyticsData, config);
       break;
     case "img":
     default:
-      imgBeacon(endpoint, envelope, config);
+      imgBeacon(endpoint, analyticsData, config);
   }
 }
 
-function imgBeacon(endpoint, envelope, config): void {
+function imgBeacon(endpoint, analyticsData, config): void {
   'use strict';
-  document.createElement('img').src = `${endpoint}?envelope=${envelope.toAnalyticsData() }&${toDateParam() }`;
+  document.createElement('img').src = `${endpoint}?${analyticsData.toParameter() }`;
 }
 
-function xhrBeacon(endpoint, envelope, config): void {
+function xhrBeacon(endpoint, analyticsData, config): void {
   'use strict';
   var xhr = new XMLHttpRequest();
   var isAsync = (config.async === void 0) ? true : config.async;
-  xhr.open("GET", `${endpoint}?envelope=${envelope.toAnalyticsData() }&${toDateParam() }`, isAsync);
+  xhr.open("GET", `${endpoint}?${analyticsData.toParameter() }`, isAsync);
   if (isAsync) {
     xhr.timeout = config.sendTimeout;
   }
   xhr.send(null);
 }
 
-function navigatorBeacon(endpoint, envelope, config): void {
+function navigatorBeacon(endpoint, analyticsData, config): void {
   'use strict';
   if (navigator.sendBeacon) {
-    navigator.sendBeacon(`${endpoint}?${toDateParam() }`, envelope.toAnalyticsData());
+    navigator.sendBeacon(endpoint, analyticsData.toParameter());
   }
 }
 
-function toDateParam(): string {
-  'use strict';
-  return `z=${Date.now() }`;
-}
-class Envelope {
+
+class AnalyticsData {
+  private version: number = 1;
   public url: any;
   constructor(public hitType: any) {
     var parser = document.createElement('a');
@@ -90,11 +88,22 @@ class Envelope {
       hash: parser.hash
     };
   }
-  toAnalyticsData() {
-    return encodeURIComponent(JSON.stringify({
-      hitType: this.hitType,
-      url: this.url
-    }));
+  toParameter() {
+    var map = this.createParameterMap();
+    var parameter = Object.keys(map).map(function(key) {
+      return `${key}=${encodeURIComponent(JSON.stringify(map[key])) }`;
+    }).join('&') + '&' + this.toDateParam();
+    return parameter;
   }
-
+  private createParameterMap(): any {
+    return {
+      v: this.version,
+      url: this.url,
+      t: this.hitType
+    };
+  }
+  private toDateParam(): string {
+    'use strict';
+    return 'z=' + Date.now();
+  }
 }
