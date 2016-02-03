@@ -1,29 +1,19 @@
 declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
-import {isString, isObject} from '../utils/type-check';
+import {isString} from '../utils/type-check';
+import {extend} from '../utils/objects';
 
-export default function send(): void {
+export default function send(hitType: string, fields?: any, option?: any): void {
   'use strict';
   var bb: BBObject = this;
-  var args = [].slice.call(arguments);
-  var hitType: string = args.shift();
-  var fields = [];
-  var option = {};
   if (!isString(hitType)) {
     throw new Error("hitType is required.");
   }
-  for (var i = 0; i < args.length; i++) {
-    if (isString(args[i])) {
-      fields.push(args[i]);
-    } else if (isObject(args[i])) {
-      option = args[i];
-    }
-  }
-  sendBeacon(bb, hitType, fields, option);
+  sendBeacon(bb, hitType, fields || {}, option || {});
 };
 
-function sendBeacon(bb: BBObject, hitType: string, fields: string[], option: any): void {
+function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
@@ -35,7 +25,7 @@ function sendBeacon(bb: BBObject, hitType: string, fields: string[], option: any
     config.async = false;
   }
 
-  var analyticsData = new AnalyticsData(hitType);
+  var analyticsData = new AnalyticsData(bb.id, hitType, fields, config);
   switch (transport) {
     case "beacon":
       navigatorBeacon(endpoint, analyticsData, config);
@@ -72,21 +62,16 @@ function navigatorBeacon(endpoint, analyticsData, config): void {
   }
 }
 
-
 class AnalyticsData {
-  private version: number = 1;
-  private url: any;
-  constructor(public hitType: string) {
-    var parser = document.createElement('a');
-    parser.href = location.href;
-    this.url = {
-      protocol: parser.protocol,
-      hostname: parser.hostname,
-      port: parser.port,
-      pathname: parser.pathname,
-      search: parser.search,
-      hash: parser.hash
-    };
+  private id: string;
+  private hitType: string;
+  private fields: any;
+  private option: any;
+  constructor(id: string, hitType: string, fields: any, option: any) {
+    this.id = id;
+    this.hitType = hitType;
+    this.fields = fields;
+    this.option = option;
   }
   toParameter() {
     var map = this.createParameterMap();
@@ -96,11 +81,7 @@ class AnalyticsData {
     return parameter;
   }
   private createParameterMap(): any {
-    return {
-      v: this.version,
-      url: this.url,
-      t: this.hitType
-    };
+    return extend(this.fields, this.option);
   }
   private toDateParam(): string {
     return 'z=' + Date.now();

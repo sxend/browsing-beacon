@@ -23,8 +23,3 @@ export function isObject(o: any): boolean {
   'use strict';
   return o !== void 0 && o !== null && "[object Object]" === Object.prototype.toString.call(Object(o));
 }
-
-export function toObject(o: any): any {
-  'use strict';
-  return isObject(o) ? o : undefined;
-}
