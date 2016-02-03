@@ -75,8 +75,8 @@ function navigatorBeacon(endpoint, analyticsData, config): void {
 
 class AnalyticsData {
   private version: number = 1;
-  public url: any;
-  constructor(public hitType: any) {
+  private url: any;
+  constructor(public hitType: string) {
     var parser = document.createElement('a');
     parser.href = location.href;
     this.url = {
@@ -103,7 +103,6 @@ class AnalyticsData {
     };
   }
   private toDateParam(): string {
-    'use strict';
     return 'z=' + Date.now();
   }
 }
