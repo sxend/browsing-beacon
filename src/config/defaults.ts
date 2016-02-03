@@ -3,5 +3,4 @@ export default {
   plugins: [],
   endpoint: '//0.0.0.0/beacon',
   transport: 'auto',
-  sendTimeout: 1000
 }

@@ -50,7 +50,7 @@ function xhrBeacon(endpoint, analyticsData, config): void {
   var isAsync = (config.async === void 0) ? true : config.async;
   xhr.open("GET", `${endpoint}?${analyticsData.toParameter() }`, isAsync);
   if (isAsync) {
-    xhr.timeout = config.sendTimeout;
+    xhr.timeout = 1000;
   }
   xhr.send(null);
 }
