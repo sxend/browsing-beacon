@@ -1,10 +1,10 @@
-import Commands from './commands/index.ts';
-import Events from './events/index.ts';
+import Commands from './commands/index';
+import Events from './events/index';
 
 import {
 isFunction,
 isString
-} from './utils/type-check.ts';
+} from './utils/type-check';
 
 export interface BBObject {
   (...args: any[]): void;

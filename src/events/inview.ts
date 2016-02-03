@@ -1,6 +1,6 @@
 // FIXME まだバグあり
-import BBEvent from './bbevent.ts';
-import Rectangle from './rectangle.ts';
+import BBEvent from './bbevent';
+import Rectangle from './rectangle';
 
 export default class InView extends BBEvent {
   constructor(condition) {

@@ -1,6 +1,6 @@
-import Click from './click.ts';
-import Mouseover from './mouseover.ts';
-import InView from './inview.ts';
+import Click from './click';
+import Mouseover from './mouseover';
+import InView from './inview';
 
 export default {
   Click: Click,

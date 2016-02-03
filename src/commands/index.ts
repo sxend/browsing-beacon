@@ -1,6 +1,6 @@
-import create from './create.ts';
-import send from './send.ts';
-import watch from './watch.ts';
+import create from './create';
+import send from './send';
+import watch from './watch';
 
 export default {
   create: create,

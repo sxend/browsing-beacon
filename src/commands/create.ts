@@ -1,7 +1,7 @@
 declare var window: any;
-import {BBObject} from '../index.ts';
-import Config from '../config/index.ts';
-import {isString, toObject} from '../utils/type-check.ts';
+import {BBObject} from '../index';
+import Config from '../config/index';
+import {isString, toObject} from '../utils/type-check';
 
 export default function create(id: string, endpoint: any, option: any): void {
   'use strict';

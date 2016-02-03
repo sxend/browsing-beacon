@@ -1,4 +1,4 @@
-import BBEvent from './bbevent.ts';
+import BBEvent from './bbevent';
 
 export default class Mouseover extends BBEvent {
   constructor(condition) {

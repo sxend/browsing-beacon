@@ -1,5 +1,5 @@
-import defaults from './defaults.ts';
-import {isObject} from '../utils/type-check.ts';
+import defaults from './defaults';
+import {isObject} from '../utils/type-check';
 
 export default class Config {
   private static isConfigured: boolean = false;
