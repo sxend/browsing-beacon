@@ -1,14 +1,29 @@
 declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
+import {isString, isObject} from '../utils/type-check';
 
-export default function send(hitType: string, option?: any): void {
+export default function send(): void {
   'use strict';
   var bb: BBObject = this;
-  emit(bb, hitType, option || {});
+  var args = [].slice.call(arguments);
+  var hitType: string = args.shift();
+  var fields = [];
+  var option = {};
+  if (isString(hitType)) {
+    throw new Error("hitType is required.");
+  }
+  for (var i = 0; i < args.length; i++) {
+    if (isString(args[i])) {
+      fields.push(args[i]);
+    } else if (isObject(args[i])) {
+      option = args[i];
+    }
+  }
+  emit(bb, hitType, fields, option);
 };
 
-function emit(bb: BBObject, hitType: string, option: any): void {
+function emit(bb: BBObject, hitType: string, fields: string[], option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
