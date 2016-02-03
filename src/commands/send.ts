@@ -75,7 +75,7 @@ class AnalyticsData {
     this.option = option;
   }
   toParameter() {
-    var parameterMap = extend(this.fields, this.createParameterMap());
+    var parameterMap = this.createParameterMap();
     var parameter = Object.keys(parameterMap).map(function(key) {
       return `${key}=${encodeURIComponent(JSON.stringify(parameterMap[key])) }`;
     }).join('&') + '&' + this.toDateParam();
@@ -85,7 +85,8 @@ class AnalyticsData {
     return 'z=' + Date.now();
   }
   private createParameterMap(): any {
-    return {
+    var data = extend(this.fields, this.option);
+    var map: any = {
       v: 1,
       id: this.bb.id,
       t: this.hitType,
@@ -101,12 +102,15 @@ class AnalyticsData {
       dl: document.location.origin + document.location.pathname + document.location.search,
       dh: document.location.hostname,
       dp: document.location.pathname,
-      cd: document.title,
-      an: this.option['appName'] || "",
-      aid: this.option['appId'] || "",
-      av: this.option['appVersion'] || "",
-      aiid: this.option['appInstallerId'] || "",
-      opt: this.option,
+      cd: document.title
     };
+    Object.keys(data).forEach(function(key) {
+      var value = data[key];
+      if (key.indexOf('event') === 0) {
+        key = "e" + (key.replace('event', '')[0] || "").toLowerCase();
+      }
+      map[key] = value;
+    });
+    return map;
   }
 }
