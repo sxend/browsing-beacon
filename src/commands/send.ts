@@ -20,10 +20,10 @@ export default function send(): void {
       option = args[i];
     }
   }
-  emit(bb, hitType, fields, option);
+  sendBeacon(bb, hitType, fields, option);
 };
 
-function emit(bb: BBObject, hitType: string, fields: string[], option: any): void {
+function sendBeacon(bb: BBObject, hitType: string, fields: string[], option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
