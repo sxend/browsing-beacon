@@ -7,7 +7,7 @@ export default class Cookies {
     if (!sKey || !this.hasItem(sKey)) { return null; }
     return decodeURIComponent(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"), "$1"));
   }
-  public static setItem(sKey, sValue, vEnd, sPath, sDomain, bSecure): void {
+  public static setItem(sKey, sValue, vEnd?, sPath?, sDomain?, bSecure?): void {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return; }
     var sExpires = "";
     if (vEnd) {
@@ -25,7 +25,7 @@ export default class Cookies {
     }
     document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
   }
-  public static removeItem(sKey, sPath): void {
+  public static removeItem(sKey, sPath?): void {
     if (!sKey || !this.hasItem(sKey)) { return; }
     document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sPath ? "; path=" + sPath : "");
 

@@ -85,6 +85,8 @@ class AnalyticsData {
     return 'z=' + Date.now();
   }
   private createParameterMap(): any {
+    var ck = Cookies.getItem('pa-click-place');
+    Cookies.removeItem('pa-click-place');
     return {
       v: 1,
       id: this.bb.id,
@@ -110,6 +112,7 @@ class AnalyticsData {
       ea: this.fields['action'] || "",
       el: this.fields['label'] || "",
       ev: this.fields['value'] || "",
+      ck: ck,
       opt: this.option,
     };
   }
