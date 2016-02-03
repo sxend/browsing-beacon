@@ -89,7 +89,6 @@ class AnalyticsData {
       v: 1,
       id: this.bb.id,
       t: this.hitType,
-      qt: Date.now() - this.bb.l,
       cid: Cookies.getItem("pfxid"),
       uid: Cookies.getItem("uid"),
       dr: document.referrer,
@@ -97,6 +96,20 @@ class AnalyticsData {
       wsh: window.parent.screen.height,
       vpw: window.innerWidth,
       vph: window.innerHeight,
+      sd: window.screen.colorDepth,
+      ul: window.navigator.language,
+      dl: document.location.origin + document.location.pathname + document.location.search,
+      dh: document.location.hostname,
+      dp: document.location.pathname,
+      cd: document.title, // TODO コレであってる？
+      an: this.option['applicationName'] || "",
+      aid: this.option['applicationId'] || "",
+      av: this.option['applicationVersion'] || "",
+      aiid: this.option['applicationInstallerId'] || "",
+      ec: this.fields['category'] || "",
+      ea: this.fields['action'] || "",
+      el: this.fields['label'] || "",
+      ev: this.fields['value'] || "",
       opt: this.option,
     };
   }

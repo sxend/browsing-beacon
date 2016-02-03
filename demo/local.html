@@ -21,7 +21,8 @@
   bb('create', 'TID-00000-0', {
     plugins: [],
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
-    transport: "auto"
+    transport: "auto",
+    applicationName: 'sample-app',
   });
   bb('send', 'pageview');
   bb(function() {
