@@ -10,7 +10,7 @@ export default function send(): void {
   var hitType: string = args.shift();
   var fields = [];
   var option = {};
-  if (isString(hitType)) {
+  if (!isString(hitType)) {
     throw new Error("hitType is required.");
   }
   for (var i = 0; i < args.length; i++) {
