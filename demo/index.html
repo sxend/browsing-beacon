@@ -23,20 +23,29 @@
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
     transport: "auto"
   });
-  bb('send', 'pageview');
+  bb('send', 'pageview', {"with-afterimage": true});
   bb(function() {
     var onLinkClick = new bb.ev.Click({
       querySelector: 'a'
     });
-    bb('watch', onLinkClick, function(err, element) {
-      bb('send', "strict measurement: link click", {
+    bb('watch', onLinkClick, function(err, element, index) {
+      bb('send', "event", {
+        action: click,
+        placement: index
+      }, {
         transport: 'strict'
+      });
+      bb('set', {
+
       });
     });
     bb('watch', new bb.ev.Mouseover({
         querySelector: '*'
-    }), function(err, element) {
-      bb('send', 'too many events: mouse move!!!!!');
+    }), function(err, element, index) {
+      bb('send', 'event', {
+        action: 'mouseover',
+        placement: index
+      });
     });
   });
   </script>

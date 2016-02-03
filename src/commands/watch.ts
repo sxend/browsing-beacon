@@ -10,13 +10,13 @@ export default function watch(event: BBEvent, callback?: (Error, Element) => voi
         watchedElements = [];
         return;
       }
-      elements.forEach((element) => {
+      elements.forEach((element, index) => {
         if (watchedElements.indexOf(element) < 0) {
           watchedElements.push(element);
           event.handle(element, function() {
             var args = [].slice.call(arguments);
             var err = args.shift();
-            (callback || defaultCallback).apply(bb, [err, element].concat(args));
+            (callback || defaultCallback).apply(bb, [err, element, index].concat(args));
           });
         }
       });

@@ -2,7 +2,7 @@ declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
 import {isString} from '../utils/type-check';
-// import {extend} from '../utils/objects';
+import {extend} from '../utils/objects';
 import Cookies from '../utils/cookies';
 
 export default function send(hitType: string, fields?: any, option?: any): void {
@@ -75,7 +75,7 @@ class AnalyticsData {
     this.option = option;
   }
   toParameter() {
-    var parameterMap = this.createParameterMap();
+    var parameterMap = extend(this.fields, this.createParameterMap());
     var parameter = Object.keys(parameterMap).map(function(key) {
       return `${key}=${encodeURIComponent(JSON.stringify(parameterMap[key])) }`;
     }).join('&') + '&' + this.toDateParam();
@@ -85,8 +85,6 @@ class AnalyticsData {
     return 'z=' + Date.now();
   }
   private createParameterMap(): any {
-    var ck = Cookies.getItem('pa-click-place');
-    Cookies.removeItem('pa-click-place');
     return {
       v: 1,
       id: this.bb.id,
@@ -103,16 +101,11 @@ class AnalyticsData {
       dl: document.location.origin + document.location.pathname + document.location.search,
       dh: document.location.hostname,
       dp: document.location.pathname,
-      cd: document.title, // TODO コレであってる？
+      cd: document.title,
       an: this.option['appName'] || "",
       aid: this.option['appId'] || "",
       av: this.option['appVersion'] || "",
       aiid: this.option['appInstallerId'] || "",
-      ec: this.fields['category'] || "",
-      ea: this.fields['action'] || "",
-      el: this.fields['label'] || "",
-      ev: this.fields['value'] || "",
-      ck: ck,
       opt: this.option,
     };
   }

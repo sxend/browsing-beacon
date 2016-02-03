@@ -10,6 +10,13 @@
   <a href="https://www.google.co.jp" class="link-elements">google</a>
   <a href="http://www.yahoo.co.jp/" class="link-elements">yahoo</a>
   <p>title</p>
+  <p>title</p>
+  <p>title</p>
+  <p>title</p>
+  <p>title</p>
+  <p>title</p>
+  <p>title</p>
+  <p>title</p>
   <p id="main-content" style="height: 7000px; margin-top: 4000px">main content</p>
   <!-- browsing-beacon -->
   <script>
@@ -29,14 +36,12 @@
     var onLinkClick = new bb.ev.Click({
       querySelector: 'p'
     });
-    bb('watch', onLinkClick, function(e) {
-      bb('send', "strict measurement: link click", {
-        transport: 'strict'
-      });
+    bb('watch', onLinkClick, function(err, element, index) {
+      bb('send', "event", {action: 'click', placement: index}, {transport: 'strict'});
     });
     bb('watch', new bb.ev.InView({
         querySelector: '#main-content'
-    }), function(e) {
+    }), function(err, element, index) {
       bb('send', 'inview');
     });
   });
