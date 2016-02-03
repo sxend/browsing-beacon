@@ -2,7 +2,8 @@ declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
 import {isString} from '../utils/type-check';
-import {extend} from '../utils/objects';
+// import {extend} from '../utils/objects';
+import Cookies from '../utils/cookies';
 
 export default function send(hitType: string, fields?: any, option?: any): void {
   'use strict';
@@ -25,7 +26,7 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
     config.async = false;
   }
 
-  var analyticsData = new AnalyticsData(bb.id, hitType, fields, config);
+  var analyticsData = new AnalyticsData(bb, hitType, fields, config);
   switch (transport) {
     case "beacon":
       navigatorBeacon(endpoint, analyticsData, config);
@@ -63,24 +64,40 @@ function navigatorBeacon(endpoint, analyticsData, config): void {
 }
 
 class AnalyticsData {
-  private id: string;
+  private bb: BBObject;
   private hitType: string;
   private fields: any;
   private option: any;
-  constructor(id: string, hitType: string, fields: any, option: any) {
-    this.id = id;
+  constructor(bb: BBObject, hitType: string, fields: any, option: any) {
+    this.bb = bb;
     this.hitType = hitType;
     this.fields = fields;
     this.option = option;
   }
   toParameter() {
-    var data = extend(this.fields, this.option);
-    var parameter = Object.keys(data).map(function(key) {
-      return `${key}=${encodeURIComponent(JSON.stringify(data[key])) }`;
+    var parameterMap = this.createParameterMap();
+    var parameter = Object.keys(parameterMap).map(function(key) {
+      return `${key}=${encodeURIComponent(JSON.stringify(parameterMap[key])) }`;
     }).join('&') + '&' + this.toDateParam();
     return parameter;
   }
   private toDateParam(): string {
     return 'z=' + Date.now();
+  }
+  private createParameterMap(): any {
+    return {
+      v: 1,
+      id: this.bb.id,
+      t: this.hitType,
+      qt: Date.now() - this.bb.l,
+      cid: Cookies.getItem("pfxid"),
+      uid: Cookies.getItem("uid"),
+      dr: document.referrer,
+      wsw: window.parent.screen.width,
+      wsh: window.parent.screen.height,
+      vpw: window.innerWidth,
+      vph: window.innerHeight,
+      opt: this.option,
+    };
   }
 }
