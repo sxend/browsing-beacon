@@ -74,14 +74,11 @@ class AnalyticsData {
     this.option = option;
   }
   toParameter() {
-    var map = this.createParameterMap();
-    var parameter = Object.keys(map).map(function(key) {
-      return `${key}=${encodeURIComponent(JSON.stringify(map[key])) }`;
+    var data = extend(this.fields, this.option);
+    var parameter = Object.keys(data).map(function(key) {
+      return `${key}=${encodeURIComponent(JSON.stringify(data[key])) }`;
     }).join('&') + '&' + this.toDateParam();
     return parameter;
-  }
-  private createParameterMap(): any {
-    return extend(this.fields, this.option);
   }
   private toDateParam(): string {
     return 'z=' + Date.now();
