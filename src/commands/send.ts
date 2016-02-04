@@ -5,6 +5,8 @@ import {isString} from '../utils/type-check';
 import {extend} from '../utils/objects';
 import Cookies from '../utils/cookies';
 
+// bb('send', 'pageview');
+// bb('send', 'event', {'name': 'click'}, {transport: 'strict'});
 export default function send(hitType: string, fields?: any, option?: any): void {
   'use strict';
   var bb: BBObject = this;
@@ -102,7 +104,7 @@ class AnalyticsData {
       dl: document.location.origin + document.location.pathname + document.location.search,
       dh: document.location.hostname,
       dp: document.location.pathname,
-      cd: document.title
+      dt: document.title
     };
     Object.keys(data).forEach(function(key) {
       var value = data[key];
