@@ -1,19 +1,14 @@
 declare var window: any;
 import {BBObject} from '../index';
 import Config from '../config/index';
-import {toObject} from '../utils/objects';
 import {isString} from '../utils/type-check';
 
-export default function create(id: string, endpoint: any, option: any): void {
+// bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
+export default function create(id: string, option: any): void {
   'use strict';
   var bb: BBObject = this;
   if (!isString(id)) {
     throw new Error("id is required.");
-  }
-  option = toObject(endpoint) || toObject(option) || {};
-  option.id = bb.id = id;
-  if (isString(endpoint)) {
-    option.endpoint = endpoint;
   }
   Config.setConfig(option);
   var config: any = Config.getConfig();
