@@ -25,43 +25,21 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
     transport = "img";
   } else if (transport === 'strict') {
     transport = 'xhr';
-    config.async = false;
+    config['transport-async'] = false;
   }
 
   var analyticsData = new AnalyticsData(bb, hitType, fields, config);
+  var parameter = analyticsData.toParameter();
   switch (transport) {
     case "beacon":
-      navigatorBeacon(endpoint, analyticsData, config);
+      navigatorBeacon(endpoint, parameter);
       break;
     case "xhr":
-      xhrBeacon(endpoint, analyticsData, config);
+      xhrBeacon(endpoint, parameter, config['transport-async']);
       break;
     case "img":
     default:
-      imgBeacon(endpoint, analyticsData, config);
-  }
-}
-
-function imgBeacon(endpoint, analyticsData, config): void {
-  'use strict';
-  document.createElement('img').src = `${endpoint}?${analyticsData.toParameter() }`;
-}
-
-function xhrBeacon(endpoint, analyticsData, config): void {
-  'use strict';
-  var xhr = new XMLHttpRequest();
-  var isAsync = (config.async === void 0) ? true : config.async;
-  xhr.open("GET", `${endpoint}?${analyticsData.toParameter() }`, isAsync);
-  if (isAsync) {
-    xhr.timeout = 1000;
-  }
-  xhr.send(null);
-}
-
-function navigatorBeacon(endpoint, analyticsData, config): void {
-  'use strict';
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(endpoint, analyticsData.toParameter());
+      imgBeacon(endpoint, parameter);
   }
 }
 
@@ -114,5 +92,27 @@ class AnalyticsData {
       map[key] = value;
     });
     return map;
+  }
+}
+
+function imgBeacon(endpoint: string, parameter: string): void {
+  'use strict';
+  document.createElement('img').src = `${endpoint}?${parameter}`;
+}
+
+function xhrBeacon(endpoint: string, parameter: string, isAsync: boolean): void {
+  'use strict';
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", `${endpoint}?${parameter}`, isAsync);
+  if (isAsync) {
+    xhr.timeout = 1000;
+  }
+  xhr.send(null);
+}
+
+function navigatorBeacon(endpoint: string, parameter: string): void {
+  'use strict';
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(endpoint, parameter);
   }
 }

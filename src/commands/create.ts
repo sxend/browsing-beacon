@@ -10,6 +10,8 @@ export default function create(id: string, option: any): void {
   if (!isString(id)) {
     throw new Error("id is required.");
   }
+  option = option || {};
+  option.id = bb.id = id;
   Config.setConfig(option);
   initialize(bb, Config.getConfig());
 }
