@@ -8,9 +8,7 @@ export default class Marks {
   }
   static withProtocolParams(hitType: string, params: any): any {
     var prefix = `mark:${hitType}:`;
-    console.log(prefix);
     var dataList = Cookies.keys().filter(function(key) {
-      console.log(key);
       return key.indexOf(prefix) === 0;
     }).map(function(key) {
       return JSON.parse(Cookies.getItem(key));
@@ -22,7 +20,6 @@ export default class Marks {
         Cookies.removeItem(`mark:${data.hitType}:${data.key}`);
       }
     });
-    console.log(specialParams);
     return extend(specialParams, params);
   }
 }
