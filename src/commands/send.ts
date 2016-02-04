@@ -66,7 +66,6 @@ class AnalyticsData {
     return 'z=' + Date.now();
   }
   private createParameterMap(): any {
-    var data = extend(this.fields, this.option);
     var map: any = {
       v: 1,
       id: this.bb.id,
@@ -84,15 +83,8 @@ class AnalyticsData {
       dh: document.location.hostname,
       dp: document.location.pathname,
       dt: document.title
-    };
-    Object.keys(data).forEach(function(key) {
-      var value = data[key];
-      if (key.indexOf('event') === 0) {
-        key = "e" + (key.replace('event', '')[0] || "").toLowerCase();
-      }
-      map[key] = value;
-    });
-    return map;
+    }; // 基本データ
+    return extend(this.fields, map);
   }
 }
 
