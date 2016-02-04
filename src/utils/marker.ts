@@ -8,8 +8,8 @@ export default class Marker {
   static find(key: string): any {
     return Cookies.getItem(this.makeMarkerKey(key));
   }
-  static remove(key): void {
-    Cookies.removeItem(key);
+  static remove(key: string): void {
+    Cookies.removeItem(this.makeMarkerKey(key));
   }
   private static makeMarkerKey(key: string): string {
     return `marker:${key}`;
