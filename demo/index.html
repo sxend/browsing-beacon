@@ -28,19 +28,19 @@
     var onLinkClick = new bb.ev.Click({
       querySelector: 'a'
     });
-    bb('watch', onLinkClick, function(err, element, index) {
+    bb('watch', onLinkClick, function(err, event, element, index) {
       bb('send', "event", {eventAction: 'click', placement: index}, {transport: 'strict'});
     });
     bb('watch', new bb.ev.InView({
         querySelector: '#main-content'
-    }), function(err, element, index) {
+    }), function(err, event, element, index) {
       bb('send', 'inview');
     });
     bb('watch', new bb.ev.Mouseover({
         querySelector: '*'
-    }), function(err, element, index) {
+    }), function(err, event, element, index) {
       bb('send', 'event', {
-        eventAction: 'mouseover',
+        eventAction: 'mouse',
         placement: index
       });
     });

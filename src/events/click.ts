@@ -2,7 +2,7 @@ import BBEvent from './bbevent';
 import Cookies from '../utils/cookies';
 export default class Click extends BBEvent {
   constructor(condition) {
-    super(condition);
+    super("click", condition);
   }
   handle(element, callback) {
     try {

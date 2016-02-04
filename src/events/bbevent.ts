@@ -1,9 +1,12 @@
 export default class BBEvent {
+  public name: string;
   public condition: any;
   public isBBEvent: boolean;
-  constructor(condition) {
+
+  constructor(name, condition) {
     this.isBBEvent = true;
     this.condition = condition;
+    this.name = name;
   }
   handle(element, callback) {}
   getElements() {

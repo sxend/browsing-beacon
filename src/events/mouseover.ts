@@ -2,7 +2,7 @@ import BBEvent from './bbevent';
 
 export default class Mouseover extends BBEvent {
   constructor(condition) {
-    super(condition);
+    super("mouseover", condition);
   }
   handle(element, callback) {
     try {

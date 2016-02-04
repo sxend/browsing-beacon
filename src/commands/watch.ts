@@ -16,7 +16,7 @@ export default function watch(event: BBEvent, callback?: (Error, Element) => voi
           event.handle(element, function() {
             var args = [].slice.call(arguments);
             var err = args.shift();
-            (callback || defaultCallback).apply(bb, [err, element, index].concat(args));
+            (callback || defaultCallback).apply(bb, [err, event, element, index].concat(args));
           });
         }
       });
@@ -28,8 +28,17 @@ export default function watch(event: BBEvent, callback?: (Error, Element) => voi
 
 }
 
-function defaultCallback(err, element) {
+function defaultCallback(err, event, element, index) {
   'use strict';
   var bb = this;
-  bb('send', 'default callback');
+  if (err) {
+    bb('send', 'exception', {
+      exDescription: err.message,
+      exStack: err.stack
+    });
+    return;
+  }
+  bb('send', 'event', {
+    eventAction: event.name
+  });
 }
