@@ -1,13 +1,14 @@
 import Config from '../config/index';
-import {isString, isObject} from '../utils/type-check';
+import {isString} from '../utils/type-check';
 
+// bb('set', 'key', 'value');
+// bb('set', { 'key' : 'value' });
 export default function set(key: any, value: any): void {
   'use strict';
-  if (isObject(key)) {
-    Config.setConfig(key);
-  } else if (isString(key)) {
-    var option = {};
+  var option = key;
+  if (isString(key)) {
+    option = {};
     option[key] = value;
-    Config.setConfig(option);
   }
+  Config.setConfig(option);
 }
