@@ -21,11 +21,12 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
   var transport = config.transport;
+  var isAsync = true;
   if (!transport || transport === 'auto') {
     transport = "img";
   } else if (transport === 'strict') {
     transport = 'xhr';
-    config['transport-async'] = false;
+    isAsync = false;
   }
 
   var analyticsData = new AnalyticsData(bb, hitType, fields, config);
@@ -35,7 +36,7 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
       navigatorBeacon(endpoint, parameter);
       break;
     case "xhr":
-      xhrBeacon(endpoint, parameter, config['transport-async']);
+      xhrBeacon(endpoint, parameter, isAsync);
       break;
     case "img":
     default:
