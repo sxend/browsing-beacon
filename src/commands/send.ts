@@ -4,6 +4,7 @@ import {BBObject} from '../index';
 import {isString} from '../utils/type-check';
 import {extend} from '../utils/objects';
 import Cookies from '../utils/cookies';
+import HitType from './hittypes';
 
 // bb('send', 'pageview');
 // bb('send', 'event', {'name': 'click'}, {transport: 'strict'});
@@ -13,10 +14,11 @@ export default function send(hitType: string, fields?: any, option?: any): void 
   if (!isString(hitType)) {
     throw new Error("hitType is required.");
   }
-  sendBeacon(bb, hitType, fields || {}, option || {});
+
+  sendBeacon(bb, HitType.resolve(hitType, fields), option || {});
 };
 
-function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): void {
+function sendBeacon(bb: BBObject, hitType: HitType, option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
@@ -29,7 +31,7 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
     isAsync = false;
   }
 
-  var analyticsData = new AnalyticsData(bb, hitType, fields, config);
+  var analyticsData = new AnalyticsData(bb, hitType, config);
   var parameter = analyticsData.toParameter();
   switch (transport) {
     case "beacon":
@@ -42,25 +44,14 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
     default:
       imgBeacon(endpoint, parameter);
   }
-  putMarker(hitType);
-}
-function putMarker(hitType) {
-  'use strict';
-  Cookies.setItem(`marker:${hitType}`, Number(Cookies.getItem(`marker:${hitType}`)) + 1 || 0);
-}
-function addMarkerParam(map: any, hitType): void {
-  'use strict';
-  map[`marker:${hitType}`] = Cookies.getItem(`marker:${hitType}`);
 }
 class AnalyticsData {
   private bb: BBObject;
-  private hitType: string;
-  private fields: any;
+  private hitType: HitType;
   private option: any;
-  constructor(bb: BBObject, hitType: string, fields: any, option: any) {
+  constructor(bb: BBObject, hitType: HitType, option: any) {
     this.bb = bb;
     this.hitType = hitType;
-    this.fields = fields;
     this.option = option;
   }
   toParameter() {
@@ -74,10 +65,10 @@ class AnalyticsData {
     return 'z=' + Date.now();
   }
   private createParameterMap(): any {
-    var map: any = {
+    var parameterMap: any = {
       v: 1,
       id: this.bb.id,
-      t: this.hitType,
+      t: this.hitType.name,
       cid: Cookies.getItem("pfxid"),
       uid: Cookies.getItem("uid"),
       dr: document.referrer,
@@ -93,8 +84,7 @@ class AnalyticsData {
       dt: document.title,
       marker: Cookies.getItem(`marker:${this.hitType}`)
     }; // 基本データ
-    addMarkerParam(map, this.hitType);
-    return extend(this.fields, map);
+    return extend(this.hitType.createParameterMap(), parameterMap);
   }
 }
 

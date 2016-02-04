@@ -35,7 +35,7 @@
   bb('send', 'pageview');
   bb(function() {
     var onLinkClick = new bb.ev.Click({
-      querySelector: 'p'
+      querySelector: 'a'
     });
     bb('watch', onLinkClick, function(err, event, element, index) {
       bb('send', "event", {eventAction: 'click', placement: index}, {transport: 'strict'});
