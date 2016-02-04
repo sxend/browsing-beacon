@@ -2,9 +2,9 @@ declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
 import {isString} from '../utils/type-check';
-import {extend} from '../utils/objects';
 import Cookies from '../utils/cookies';
-import HitType from './hittypes';
+import HitType from '../models/hittypes';
+import Marks from '../utils/marks';
 
 // bb('send', 'pageview');
 // bb('send', 'event', {'name': 'click'}, {transport: 'strict'});
@@ -32,17 +32,17 @@ function sendBeacon(bb: BBObject, hitType: HitType, option: any): void {
   }
 
   var analyticsData = new AnalyticsData(bb, hitType, config);
-  var parameter = analyticsData.toParameter();
+  var queryString = analyticsData.toQueryString();
   switch (transport) {
     case "beacon":
-      navigatorBeacon(endpoint, parameter);
+      navigatorBeacon(endpoint, queryString);
       break;
     case "xhr":
-      xhrBeacon(endpoint, parameter, isAsync);
+      xhrBeacon(endpoint, queryString, isAsync);
       break;
     case "img":
     default:
-      imgBeacon(endpoint, parameter);
+      imgBeacon(endpoint, queryString);
   }
 }
 class AnalyticsData {
@@ -54,18 +54,18 @@ class AnalyticsData {
     this.hitType = hitType;
     this.option = option;
   }
-  toParameter() {
-    var parameterMap = this.createParameterMap();
-    var parameter = Object.keys(parameterMap).map(function(key) {
-      return `${key}=${encodeURIComponent(JSON.stringify(parameterMap[key])) }`;
+  toQueryString() {
+    var params = this.createProtocolParams();
+    var queryString = Object.keys(params).map(function(key) {
+      return `${key}=${encodeURIComponent(JSON.stringify(params[key])) }`;
     }).join('&') + '&' + this.toDateParam();
-    return parameter;
+    return queryString;
   }
   private toDateParam(): string {
     return 'z=' + Date.now();
   }
-  private createParameterMap(): any {
-    var parameterMap: any = {
+  private createProtocolParams(): any {
+    var params: any = {
       v: 1,
       id: this.bb.id,
       t: this.hitType.name,
@@ -82,30 +82,31 @@ class AnalyticsData {
       dh: document.location.hostname,
       dp: document.location.pathname,
       dt: document.title,
-      marker: Cookies.getItem(`marker:${this.hitType}`)
     }; // 基本データ
-    return extend(this.hitType.createParameterMap(), parameterMap);
+    params = this.hitType.withProtocolParams(params);
+    params = Marks.withProtocolParams(this.hitType.name, params);
+    return params;
   }
 }
 
-function imgBeacon(endpoint: string, parameter: string): void {
+function imgBeacon(endpoint: string, queryString: string): void {
   'use strict';
-  document.createElement('img').src = `${endpoint}?${parameter}`;
+  document.createElement('img').src = `${endpoint}?${queryString}`;
 }
 
-function xhrBeacon(endpoint: string, parameter: string, isAsync: boolean): void {
+function xhrBeacon(endpoint: string, queryString: string, isAsync: boolean): void {
   'use strict';
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", `${endpoint}?${parameter}`, isAsync);
+  xhr.open("GET", `${endpoint}?${queryString}`, isAsync);
   if (isAsync) {
     xhr.timeout = 1000;
   }
   xhr.send(null);
 }
 
-function navigatorBeacon(endpoint: string, parameter: string): void {
+function navigatorBeacon(endpoint: string, queryString: string): void {
   'use strict';
   if (navigator.sendBeacon) {
-    navigator.sendBeacon(endpoint, parameter);
+    navigator.sendBeacon(endpoint, queryString);
   }
 }

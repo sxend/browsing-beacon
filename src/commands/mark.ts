@@ -1,6 +1,9 @@
-import Marker from '../utils/marker';
+import Marks from '../utils/marks';
 
-export default function mark(key: string, value: any) {
+export default function mark(option: any) {
   'use strict';
-  Marker.mark(key, value);
+  if (!option || !option.key || !option.value) {
+    throw new Error('mark key or value is required.');
+  }
+  Marks.mark(option);
 }
