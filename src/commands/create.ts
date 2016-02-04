@@ -11,7 +11,12 @@ export default function create(id: string, option: any): void {
     throw new Error("id is required.");
   }
   Config.setConfig(option);
-  var config: any = Config.getConfig();
+  initialize(bb, Config.getConfig());
+}
+
+function initialize(bb: BBObject, config: any) {
+  'use strict';
+  // load plugin
   config.plugins.forEach(function(url, index) {
     var script = document.createElement('script');
     script.async = true;

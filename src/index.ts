@@ -12,6 +12,7 @@ export interface BBObject {
   q: any[];
   l: number;
   ev: any;
+  cmd: any;
 }
 var name: string = window['BrowsingBeaconObject'];
 var __bb: BBObject = window[name];
@@ -33,6 +34,7 @@ var bb: BBObject = <BBObject> function(...args: any[]): void {
 };
 window[name] = bb;
 bb.ev = Events;
+bb.cmd = Commands;
 bb.l = __bb ? __bb.l : Date.now();
 __bb ? __bb.q.forEach(function(queuedArguments) {
   bb.apply(null, queuedArguments);
