@@ -10,14 +10,16 @@ export default function create(id: string, option: any): void {
   if (!isString(id)) {
     throw new Error("id is required.");
   }
-  option = option || {};
-  option.id = bb.id = id;
-  Config.setConfig(option);
-  initialize(bb, Config.getConfig());
+  initialize(bb, id, option || {});
 }
 
-function initialize(bb: BBObject, config: any) {
+function initialize(bb: BBObject, id: string, option: any) {
   'use strict';
+  option.id = bb.id = id;
+  // ロード時のアクセス状況をクッキーから読んだりoptionにセットする
+
+  Config.setConfig(option);
+  var config = Config.getConfig();
   // load plugin
   config.plugins.forEach(function(url, index) {
     var script = document.createElement('script');
