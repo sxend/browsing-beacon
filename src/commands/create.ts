@@ -2,6 +2,7 @@ declare var window: any;
 import {BBObject} from '../index';
 import Config from '../config/index';
 import {isString} from '../utils/type-check';
+import Cookies from '../utils/cookies';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
 export default function create(id: string, option: any): void {

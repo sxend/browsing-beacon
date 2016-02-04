@@ -42,8 +42,16 @@ function sendBeacon(bb: BBObject, hitType: string, fields: any, option: any): vo
     default:
       imgBeacon(endpoint, parameter);
   }
+  putMarker(hitType);
 }
-
+function putMarker(hitType) {
+  'use strict';
+  Cookies.setItem(`marker:${hitType}`, Number(Cookies.getItem(`marker:${hitType}`)) + 1 || 0);
+}
+function addMarkerParam(map: any, hitType): void {
+  'use strict';
+  map[`marker:${hitType}`] = Cookies.getItem(`marker:${hitType}`);
+}
 class AnalyticsData {
   private bb: BBObject;
   private hitType: string;
@@ -82,8 +90,10 @@ class AnalyticsData {
       dl: document.location.origin + document.location.pathname + document.location.search,
       dh: document.location.hostname,
       dp: document.location.pathname,
-      dt: document.title
+      dt: document.title,
+      marker: Cookies.getItem(`marker:${this.hitType}`)
     }; // 基本データ
+    addMarkerParam(map, this.hitType);
     return extend(this.fields, map);
   }
 }
