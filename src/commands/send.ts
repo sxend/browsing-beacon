@@ -57,7 +57,8 @@ class AnalyticsData {
   toQueryString() {
     var params = this.createProtocolParams();
     var queryString = Object.keys(params).map(function(key) {
-      return `${key}=${encodeURIComponent(JSON.stringify(params[key])) }`;
+      var value = params[key];
+      return `${key}=${encodeURIComponent(isString(value) ? value : JSON.stringify(value)) }`;
     }).join('&') + '&' + this.toDateParam();
     return queryString;
   }
@@ -107,6 +108,6 @@ function xhrBeacon(endpoint: string, queryString: string, isAsync: boolean): voi
 function navigatorBeacon(endpoint: string, queryString: string): void {
   'use strict';
   if (navigator.sendBeacon) {
-    navigator.sendBeacon(endpoint, queryString);
+    navigator.sendBeacon(`${endpoint}?${queryString}`, "");
   }
 }
