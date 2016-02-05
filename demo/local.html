@@ -38,12 +38,26 @@
       querySelector: 'a'
     });
     bb('watch', onLinkClick, function(err, event, element, index) {
-      bb('mark', {
-        hitType: 'pageview',
-        key: 'bcl',  // before click location
-        value: location.href,
-        remove: true
-      });
+      bb('mark', [
+        {
+          hitType: 'pageview',
+          key: 'bcl', // before click location
+          value: location.href,
+          remove: true
+        },
+        {
+          hitType: 'pageview',
+          key: 'plc', // place
+          value: index,
+          remove: true
+        },
+        {
+          hitType: 'pageview',
+          key: 'linktxt',
+          value: element.innerText,
+          remove: true
+        }
+      ]);
     });
   });
   </script>

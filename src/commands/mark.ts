@@ -1,9 +1,12 @@
 import Marks from '../utils/marks';
 
-export default function mark(option: any) {
+export default function mark(args: any) {
   'use strict';
-  if (!option || !option.key || !option.value) {
-    throw new Error('mark key or value is required.');
-  }
-  Marks.mark(option);
+  var marks = [].concat.call(args); // {} => [{}], [{}, {}] => [{}, {}]
+  marks.forEach((mark) => {
+    if (!mark || mark.key === void 0 || !mark.value === void 0) {
+      throw new Error('mark key or value is required.');
+    }
+    Marks.mark(mark);
+  });
 }
