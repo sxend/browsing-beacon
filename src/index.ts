@@ -9,14 +9,15 @@ isString
 export interface BBObject {
   (...args: any[]): void;
   id: string;
-  q: any[];
   l: number;
   ev: any;
   cmd: any;
 }
-var name: string = window['BrowsingBeaconObject'];
-var __bb: BBObject = window[name];
-var bb: BBObject = <BBObject> function(...args: any[]): void {
+var name: string = window['BrowsingBeaconObject'] = window['BrowsingBeaconObject'] || "bb";
+var __bb: any = window[name] || {};
+var l: number = Number(__bb.l || Date.now());
+var q: any[] = [].concat.call(__bb.q || []);
+var bb = <BBObject> function(...args: any[]): void {
   var command: any = args.shift();
   if (!command) {
     return;
@@ -32,10 +33,11 @@ var bb: BBObject = <BBObject> function(...args: any[]): void {
     }
   }
 };
-window[name] = bb;
+
+bb.l = l;
 bb.ev = Events;
 bb.cmd = Commands;
-bb.l = __bb ? __bb.l : Date.now();
-__bb ? __bb.q.forEach(function(queuedArguments) {
+window[name] = bb;
+q.forEach((queuedArguments) => {
   bb.apply(null, queuedArguments);
-}) : 0;
+});
