@@ -1,20 +1,14 @@
 import Commands from './commands/index';
 import Events from './events/index';
-
+import {BrowsingBeacon} from './browsing-beacon';
 import {TypeChecker} from './utils/type-checker';
 
-export interface BBObject {
-  (...args: any[]): void;
-  id: string;
-  l: number;
-  ev: any;
-  cmd: any;
-}
+
 var name: string = window['BrowsingBeaconObject'] = window['BrowsingBeaconObject'] || "bb";
 var __bb: any = window[name] || {};
 var l: number = Number(__bb.l || Date.now());
 var q: any[] = [].concat.call(__bb.q || []);
-var bb = <BBObject> function(...args: any[]): void {
+var bb = <BrowsingBeacon> function(...args: any[]): void {
   var command: any = args.shift();
   if (!command) {
     return;
@@ -33,7 +27,6 @@ var bb = <BBObject> function(...args: any[]): void {
 
 bb.l = l;
 bb.ev = Events;
-bb.cmd = Commands;
 window[name] = bb;
 q.forEach((queuedArguments) => {
   bb.apply(null, queuedArguments);
