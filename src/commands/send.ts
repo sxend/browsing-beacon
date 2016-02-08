@@ -1,7 +1,7 @@
 declare var navigator: any;
 import Config from '../config/index';
 import {BBObject} from '../index';
-import {isString} from '../utils/type-check';
+import {TypeChecker} from '../utils/type-checker';
 import Cookies from '../utils/cookies';
 import HitType from '../models/hittypes';
 import Marks from '../utils/marks';
@@ -11,7 +11,7 @@ import Marks from '../utils/marks';
 export default function send(hitType: string, fields?: any, option?: any): void {
   'use strict';
   var bb: BBObject = this;
-  if (!isString(hitType)) {
+  if (!TypeChecker.isString(hitType)) {
     throw new Error("hitType is required.");
   }
 
@@ -58,7 +58,7 @@ class AnalyticsData {
     var params = this.createProtocolParams();
     var queryString = Object.keys(params).map(function(key) {
       var value = params[key];
-      return `${key}=${encodeURIComponent(isString(value) ? value : JSON.stringify(value)) }`;
+      return `${key}=${encodeURIComponent(TypeChecker.isString(value) ? value : JSON.stringify(value)) }`;
     }).join('&') + '&' + this.toDateParam();
     return queryString;
   }

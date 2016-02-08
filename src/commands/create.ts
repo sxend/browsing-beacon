@@ -1,13 +1,13 @@
 declare var window: any;
 import {BBObject} from '../index';
 import Config from '../config/index';
-import {isString} from '../utils/type-check';
+import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
 export default function create(id: string, option: any): void {
   'use strict';
   var bb: BBObject = this;
-  if (!isString(id)) {
+  if (!TypeChecker.isString(id)) {
     throw new Error("id is required.");
   }
   initialize(bb, id, option || {});

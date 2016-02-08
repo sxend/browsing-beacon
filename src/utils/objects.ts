@@ -1,4 +1,4 @@
-import {isObject} from '../utils/type-check';
+import {TypeChecker} from '../utils/type-checker';
 
 export function extend(child, parent) {
   'use strict';
@@ -12,7 +12,7 @@ export function extend(child, parent) {
   var result = {};
   keys.forEach(function(key) {
     var value = child[key] === void 0 ? parent[key] : child[key];
-    if (isObject(value)) {
+    if (TypeChecker.isObject(value)) {
       value = extend(child[key], parent[key]);
     }
     result[key] = value;
@@ -22,5 +22,5 @@ export function extend(child, parent) {
 
 export function toObject(o: any): any {
   'use strict';
-  return isObject(o) ? o : undefined;
+  return TypeChecker.isObject(o) ? o : undefined;
 }

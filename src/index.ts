@@ -1,10 +1,7 @@
 import Commands from './commands/index';
 import Events from './events/index';
 
-import {
-isFunction,
-isString
-} from './utils/type-check';
+import {TypeChecker} from './utils/type-checker';
 
 export interface BBObject {
   (...args: any[]): void;
@@ -22,13 +19,13 @@ var bb = <BBObject> function(...args: any[]): void {
   if (!command) {
     return;
   }
-  if (isFunction(command)) {
+  if (TypeChecker.isFunction(command)) {
     command.apply(bb, args);
     return;
   }
-  if (isString(command)) {
+  if (TypeChecker.isString(command)) {
     var handler = Commands[command];
-    if (isFunction(handler)) {
+    if (TypeChecker.isFunction(handler)) {
       handler.apply(bb, args);
     }
   }
