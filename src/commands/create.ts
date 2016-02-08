@@ -21,5 +21,6 @@ export default function create(tracker: Tracker, trackingId: string = "", cookie
     fieldObject = name;
     fieldObject.name = "";
   }
+  fieldObject.trackingId = trackingId;
   bb.h[name] = new Tracker(bb, fieldObject);
 }
