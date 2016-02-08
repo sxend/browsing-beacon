@@ -34,7 +34,7 @@ var bb = <BrowsingBeacon> function(...args: any[]): void {
     }
     var tracker: Tracker = bb.h[trackerName];
     var plugin = tracker ? tracker.get(pluginName) : undefined;
-    args = (!!tracker ? [tracker] : []).concat(args);
+    args = (tracker ? [tracker] : []).concat(args);
 
     if (plugin) {
       plugin[command].apply(bb, args);
