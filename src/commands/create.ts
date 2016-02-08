@@ -1,34 +1,25 @@
 declare var window: any;
 import Tracker from '../tracker';
 import {BrowsingBeacon} from '../browsing-beacon';
-import Config from '../config/index';
 import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
-export default function create(tracker: Tracker, trackingId: string, option: any): void {
+export default function create(tracker: Tracker, trackingId: string = "", cookieDomain: string = document.location.hostname, name: string = "", fieldObject: any = {}): void {
   'use strict';
   var bb: BrowsingBeacon = this;
-  console.log(arguments);
-  if (!TypeChecker.isString(trackingId)) {
-    throw new Error("id is required.");
+  if (tracker) {
+    console.warn('this tracker is already initialized. trackerName: ', tracker.get("name"));
   }
-  initialize(bb, trackingId, option || {});
-}
+  if (!TypeChecker.isString(trackingId)) {
+    throw new Error("trackingId is required.");
+  }
 
-function initialize(bb: BrowsingBeacon, id: string, option: any) {
-  'use strict';
-
-  Config.setConfig(option);
-  var config = Config.getConfig();
-  // load plugin
-  config.plugins.forEach(function(url, index) {
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = url;
-    var beforeTag = document.getElementsByTagName('script')[0];
-    beforeTag.parentNode.insertBefore(script, beforeTag);
-    window.__BBPluginCallback = (window.__BBPluginCallback || function(handler) {
-      handler(bb, config);
-    });
-  });
+  if (TypeChecker.isObject(cookieDomain)) {
+    fieldObject = cookieDomain;
+    fieldObject.cookieDomain = document.location.hostname;
+  } else if (TypeChecker.isObject(name)) {
+    fieldObject = name;
+    fieldObject.name = "";
+  }
+  bb.h[name] = new Tracker(bb, fieldObject);
 }

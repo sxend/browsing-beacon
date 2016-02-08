@@ -3,16 +3,32 @@ import Config from './config/index';
 import {TypeChecker} from './utils/type-checker';
 import Cookies from './utils/cookies';
 import Marks from './utils/marks';
-import Model from './model';
+import {DefaultModel, Model} from './model';
 import {Tasks} from './tasks';
+import {BrowsingBeacon} from './browsing-beacon';
 
 export default class Tracker {
+  private bb: BrowsingBeacon;
   private tasks = Tasks.apply(this);
   model: Model;
   plugins: any = {};
   data: any = {};
-  constructor() {
-    this.model = new Model();
+  constructor(bb: BrowsingBeacon, fieldObject: any) {
+    this.bb = bb;
+    this.model = new DefaultModel(fieldObject);
+    this.loadPlugins();
+  }
+  private loadPlugins() {
+    this.get('plugins').forEach((url) => {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = url;
+      var beforeTag = document.getElementsByTagName('script')[0];
+      beforeTag.parentNode.insertBefore(script, beforeTag);
+      window['__BBPluginCallback'] = (window['__BBPluginCallback'] || function(handler) {
+        handler(this.bb, this.model);
+      });
+    });
   }
   get(key: string): any {
     return this.model.get(key) || this.plugins[key] || this.tasks[key];
@@ -25,7 +41,7 @@ export default class Tracker {
     }
   }
   send(...fields: any[]): void {
-    var model = new Model(this.model);
+    var model = new DefaultModel(this.model);
     var fieldObject = {};
     fields.forEach((field, index) => {
       if (TypeChecker.isString(field)) {
@@ -37,15 +53,15 @@ export default class Tracker {
         });
       }
     });
-    this.tasks.previewTask(model);
-    this.tasks.checkProtocolTask(model);
-    this.tasks.validationTask(model);
-    this.tasks.checkStorageTask(model);
-    this.tasks.historyImportTask(model);
-    this.tasks.samplerTask(model);
-    this.tasks.buildHitTask(model);
-    this.tasks.sendHitTask(model);
-    this.tasks.timingTask(model);
+    this.executeTask("previewTask", model);
+    this.executeTask("checkProtocolTask", model);
+    this.executeTask("validationTask", model);
+    this.executeTask("checkStorageTask", model);
+    this.executeTask("historyImportTask", model);
+    this.executeTask("samplerTask", model);
+    this.executeTask("buildHitTask", model);
+    this.executeTask("sendHitTask", model);
+    this.executeTask("timingTask", model);
   }
   private executeTask(name: string, model: Model) {
     if (TypeChecker.isFunction(this.tasks[name])) {

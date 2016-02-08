@@ -55,7 +55,6 @@ function resolveMethod(bb: BrowsingBeacon, command: string) {
   var pluginMethod = plugin && plugin[methodName];
   var builtinMethod = Commands[methodName];
   return function(...args: any[]) {
-    console.log(args);
     if (!TypeChecker.isFunction(pluginMethod) && !TypeChecker.isFunction(builtinMethod)) {
       return;
     }

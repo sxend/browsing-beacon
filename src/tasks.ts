@@ -1,5 +1,5 @@
 import Tracker from './tracker';
-import Model from './model';
+import {Model} from './model';
 
 export module Tasks {
   'use strict';
