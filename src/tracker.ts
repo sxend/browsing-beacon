@@ -13,4 +13,7 @@ export default class Tracker {
   set(key: string, value: any): void {
     this.data[key] = value;
   }
+  send(): void {
+
+  }
 }

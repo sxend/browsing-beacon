@@ -1,24 +1,23 @@
 declare var navigator: any;
 import Config from '../config/index';
-import {BBObject} from '../index';
 import {TypeChecker} from '../utils/type-checker';
 import Cookies from '../utils/cookies';
 import HitType from '../models/hittypes';
 import Marks from '../utils/marks';
+import Tracker from '../tracker';
 
 // bb('send', 'pageview');
 // bb('send', 'event', {'name': 'click'}, {transport: 'strict'});
-export default function send(hitType: string, fields?: any, option?: any): void {
+export default function send(tracker: Tracker, hitType: string, fields?: any, option?: any): void {
   'use strict';
-  var bb: BBObject = this;
   if (!TypeChecker.isString(hitType)) {
     throw new Error("hitType is required.");
   }
-
-  sendBeacon(bb, HitType.resolve(hitType, fields), option || {});
+  tracker.send();
+  sendBeacon(tracker.get('trackingId'), HitType.resolve(hitType, fields), option || {});
 };
 
-function sendBeacon(bb: BBObject, hitType: HitType, option: any): void {
+function sendBeacon(tracker: Tracker, hitType: HitType, option: any): void {
   'use strict';
   var config: any = Config.getConfig(option);
   var endpoint = config.endpoint;
@@ -31,7 +30,7 @@ function sendBeacon(bb: BBObject, hitType: HitType, option: any): void {
     isAsync = false;
   }
 
-  var analyticsData = new AnalyticsData(bb, hitType, config);
+  var analyticsData = new AnalyticsData(tracker.get('trackingId'), hitType, config);
   var queryString = analyticsData.toQueryString();
   switch (transport) {
     case "beacon":
@@ -46,11 +45,11 @@ function sendBeacon(bb: BBObject, hitType: HitType, option: any): void {
   }
 }
 class AnalyticsData {
-  private bb: BBObject;
+  private tid: string;
   private hitType: HitType;
   private option: any;
-  constructor(bb: BBObject, hitType: HitType, option: any) {
-    this.bb = bb;
+  constructor(tid: string, hitType: HitType, option: any) {
+    this.tid = tid;
     this.hitType = hitType;
     this.option = option;
   }
@@ -68,7 +67,7 @@ class AnalyticsData {
   private createProtocolParams(): any {
     var params: any = {
       v: 1,
-      id: this.bb.id,
+      tid: this.tid,
       t: this.hitType.name,
       cid: Cookies.getItem("pfxid"),
       uid: Cookies.getItem("uid"),

@@ -1,22 +1,20 @@
 declare var window: any;
-import {BBObject} from '../index';
+import {BrowsingBeacon} from '../browsing-beacon';
 import Config from '../config/index';
 import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
 export default function create(id: string, option: any): void {
   'use strict';
-  var bb: BBObject = this;
+  var bb: BrowsingBeacon = this;
   if (!TypeChecker.isString(id)) {
     throw new Error("id is required.");
   }
   initialize(bb, id, option || {});
 }
 
-function initialize(bb: BBObject, id: string, option: any) {
+function initialize(bb: BrowsingBeacon, id: string, option: any) {
   'use strict';
-  option.id = bb.id = id;
-  // ロード時のアクセス状況をクッキーから読んだりoptionにセットする
 
   Config.setConfig(option);
   var config = Config.getConfig();

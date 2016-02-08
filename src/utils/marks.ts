@@ -1,5 +1,5 @@
 import Cookies from './cookies';
-import {extend} from '../utils/objects';
+import {Objects} from '../utils/objects';
 
 export default class Marks {
 
@@ -20,6 +20,6 @@ export default class Marks {
         Cookies.removeItem(`mark:${data.hitType}:${data.key}`);
       }
     });
-    return extend(specialParams, params);
+    return Objects.extend(specialParams, params);
   }
 }

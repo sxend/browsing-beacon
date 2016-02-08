@@ -1,4 +1,4 @@
-import {extend} from '../utils/objects';
+import {Objects} from '../utils/objects';
 
 export default class HitType {
   public name: string;
@@ -19,7 +19,7 @@ export default class HitType {
   withProtocolParams(params: any): any {
     var specialParams = {};
     // TODO 必須項目埋める
-    return extend(specialParams, params);
+    return Objects.extend(specialParams, params);
   }
 }
 
@@ -41,6 +41,6 @@ class Event extends HitType {
     specialParams['ea'] = this.fields['eventAction'] || "";
     specialParams['el'] = this.fields['eventLabel'] || "";
     specialParams['ev'] = this.fields['eventValue'] || "";
-    return extend(specialParams, params);
+    return Objects.extend(specialParams, params);
   }
 }

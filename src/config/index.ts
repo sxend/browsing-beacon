@@ -1,5 +1,5 @@
 import defaults from './defaults';
-import {extend} from '../utils/objects';
+import {Objects} from '../utils/objects';
 
 export default class Config {
   private static isConfigured: boolean = false;
@@ -8,10 +8,10 @@ export default class Config {
     if (!this.isConfigured) {
       throw new Error("bb object is not configured yet!! please call 'create' command with options.");
     }
-    return option ? extend(option, this.config) : this.config;
+    return option ? Objects.extend(option, this.config) : this.config;
   }
   public static setConfig(option) {
-    this.config = extend(option, this.config ? this.config : defaults);
+    this.config = Objects.extend(option, this.config ? this.config : defaults);
     if (this.config) {
       this.isConfigured = true;
     }
