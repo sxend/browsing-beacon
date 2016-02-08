@@ -2,7 +2,6 @@ declare var navigator: any;
 import Config from './config/index';
 import {TypeChecker} from './utils/type-checker';
 import Cookies from './utils/cookies';
-import HitType from './models/hittypes';
 import Marks from './utils/marks';
 import Model from './model';
 import {Tasks} from './tasks';
@@ -19,36 +18,39 @@ export default class Tracker {
     return this.model.get(key) || this.plugins[key] || this.tasks[key];
   }
   set(key: string, value: any): void {
-    if (TypeChecker.isFunction(this.tasks[key]) && TypeChecker.isFunction(value)) {
+    if (TypeChecker.isFunction(this.tasks[key])) {
       this.tasks[key] = value;
     } else {
       this.model.set(key, value);
     }
   }
-  send(hitType: string, ...fields: any[]): void {
-    if (!hitType) {
-      return;
-    }
-    this.set("hitType", hitType);
+  send(...fields: any[]): void {
+    var model = new Model(this.model);
+    var fieldObject = {};
     fields.forEach((field, index) => {
       if (TypeChecker.isString(field)) {
-        this.set(String(index), field);
+        model.set(String(index), field, true);
       } else if (TypeChecker.isObject(field)) {
         Object.keys(field).forEach((key) => {
-          this.set(key, field[key]);
+          fieldObject[key] = field[key];
+          model.set(String(index), field, true);
         });
       }
     });
-
-    this.tasks.previewTask(this.model);
-    this.tasks.checkProtocolTask(this.model);
-    this.tasks.validationTask(this.model);
-    this.tasks.checkStorageTask(this.model);
-    this.tasks.historyImportTask(this.model);
-    this.tasks.samplerTask(this.model);
-    this.tasks.buildHitTask(this.model);
-    this.tasks.sendHitTask(this.model);
-    this.tasks.timingTask(this.model);
+    this.tasks.previewTask(model);
+    this.tasks.checkProtocolTask(model);
+    this.tasks.validationTask(model);
+    this.tasks.checkStorageTask(model);
+    this.tasks.historyImportTask(model);
+    this.tasks.samplerTask(model);
+    this.tasks.buildHitTask(model);
+    this.tasks.sendHitTask(model);
+    this.tasks.timingTask(model);
+  }
+  private executeTask(name: string, model: Model) {
+    if (TypeChecker.isFunction(this.tasks[name])) {
+      this.tasks[name](model);
+    }
   }
 }
 
