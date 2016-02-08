@@ -1,4 +1,3 @@
-declare var navigator: any;
 import Tracker from '../tracker';
 
 // bb('send', 'pageview');

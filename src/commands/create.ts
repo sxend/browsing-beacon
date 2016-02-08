@@ -1,10 +1,11 @@
 declare var window: any;
+import Tracker from '../tracker';
 import {BrowsingBeacon} from '../browsing-beacon';
 import Config from '../config/index';
 import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
-export default function create(id: string, option: any): void {
+export default function create(tracker: Tracker, id: string, option: any): void {
   'use strict';
   var bb: BrowsingBeacon = this;
   if (!TypeChecker.isString(id)) {

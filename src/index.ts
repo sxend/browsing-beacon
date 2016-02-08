@@ -33,14 +33,9 @@ var bb = <BrowsingBeacon> function(...args: any[]): void {
       command = command.substring(colonIndex + 1, command.length);
     }
     var tracker: Tracker = bb.h[trackerName];
-    var plugin = tracker ? tracker.get(pluginName) : undefined;
-    args = (tracker ? [tracker] : []).concat(args);
-
-    if (plugin) {
-      plugin[command].apply(bb, args);
-    } else {
-      Commands[command].apply(bb, args);
-    }
+    var plugin = tracker && tracker.get(pluginName);
+    var pluginMethod = plugin && plugin[command];
+    (pluginMethod || Commands[command]).apply(bb, [tracker].concat(args));
   }
 };
 
