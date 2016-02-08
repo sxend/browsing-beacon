@@ -43,7 +43,7 @@ export default class Tracker {
         model.set(String(index), field, true);
       } else if (TypeChecker.isObject(field)) {
         Object.keys(field).forEach((key) => {
-          model.set(String(index), field, true);
+          model.set(key, field, true);
         });
       }
     });
