@@ -17,5 +17,8 @@
     "tslint-loader": "^2.1.0",
     "typescript": "^1.7.5",
     "webpack": "^1.12.11"
+  },
+  "engines": {
+    "node": ">=0.12"
   }
 }
