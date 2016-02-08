@@ -5,13 +5,14 @@ import Config from '../config/index';
 import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
-export default function create(tracker: Tracker, id: string, option: any): void {
+export default function create(tracker: Tracker, trackingId: string, option: any): void {
   'use strict';
   var bb: BrowsingBeacon = this;
-  if (!TypeChecker.isString(id)) {
+  console.log(arguments);
+  if (!TypeChecker.isString(trackingId)) {
     throw new Error("id is required.");
   }
-  initialize(bb, id, option || {});
+  initialize(bb, trackingId, option || {});
 }
 
 function initialize(bb: BrowsingBeacon, id: string, option: any) {
