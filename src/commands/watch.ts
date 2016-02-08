@@ -14,7 +14,7 @@ export default function watch(tracker: Tracker, event: BBEvent, callback?: (Erro
       elements.forEach((element, index) => {
         if (watchedElements.indexOf(element) < 0) {
           watchedElements.push(element);
-          event.handle(element, function() {
+          event.register(element, function() {
             var args = [].slice.call(arguments);
             var err = args.shift();
             (callback || defaultCallback).apply(bb, [err, event, element, index].concat(args));

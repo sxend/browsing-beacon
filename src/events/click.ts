@@ -4,7 +4,7 @@ export default class Click extends BBEvent {
   constructor(condition) {
     super("click", condition);
   }
-  handle(element, callback) {
+  register(element, callback) {
     try {
       element.addEventListener('click', (event) => {
         callback(null);

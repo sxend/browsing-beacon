@@ -8,10 +8,10 @@ export default class BBEvent {
     this.condition = condition;
     this.name = name;
   }
-  handle(element, callback) {}
+  register(element, callback) {}
   getElements() {
     var elements = [].slice.call(document.querySelectorAll(this.condition.querySelector));
-    if (this.condition.index) {
+    if (this.condition.index !== void 0) {
       return elements.slice(this.condition.index, this.condition.index + 1);
     }
     return elements;
