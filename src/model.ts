@@ -9,7 +9,7 @@ export class DefaultModel implements Model {
   constructor(fieldObject: any = {}, parent?: Model) {
     this.parent = parent ? parent : new NoOpModel();
     Object.keys(fieldObject).forEach((key) => {
-      this.set(key, fieldObject[key]);
+      this.set(key, fieldObject[key], true);
     });
   }
   get(key: string): any {
