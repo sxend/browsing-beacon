@@ -1,3 +1,5 @@
+import {Objects} from './utils/objects';
+
 export interface Model {
   get(key: string): any;
   set(key: string, value: any, temporary?: boolean);
@@ -13,7 +15,7 @@ export class DefaultModel implements Model {
     });
   }
   get(key: string): any {
-    return this.data[key] || this.parent.get(key);
+    return Objects.firstDefinedValue(this.data[key], this.parent.get(key));
   }
   set(key: string, value: any, temporary: boolean = false): void {
     this.data[key] = value;

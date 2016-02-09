@@ -24,4 +24,16 @@ export module Objects {
   export function toObject(o: any): any {
     return TypeChecker.isObject(o) ? o : undefined;
   }
+
+  export function firstDefinedValue(...args: any[]): any {
+    if (args.length === 0) {
+      return;
+    }
+    for (var i = 0; i < args.length; i++) {
+      if (!TypeChecker.isUndefined(args[i])) {
+        console.log(args[i]);
+        return args[i];
+      }
+    }
+  }
 }

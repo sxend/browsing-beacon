@@ -2,19 +2,18 @@ import {TypeChecker} from './utils/type-checker';
 import {DefaultModel, Model} from './model';
 import {Tasks} from './tasks';
 import {BrowsingBeacon} from './browsing-beacon';
-
+import {Objects} from './utils/objects';
 export default class Tracker {
   private bb: BrowsingBeacon;
   private tasks = Tasks.apply(this);
   model: Model;
   plugins: any = {};
-  data: any = {};
   constructor(bb: BrowsingBeacon, fieldObject: any) {
     this.bb = bb;
     this.model = new DefaultModel(fieldObject);
   }
   get(key: string): any {
-    return this.model.get(key) || this.plugins[key] || this.tasks[key];
+    return Objects.firstDefinedValue(this.model.get(key), this.plugins[key], this.tasks[key]);
   }
   set(key: string, value: any): void {
     if (TypeChecker.isFunction(this.tasks[key])) {
