@@ -20,6 +20,10 @@ export module TypeChecker {
     return typeCheck(o, "[object Object]");
   }
 
+  export function isUndefined(o: any): boolean {
+    return o === void 0;
+  }
+
   function typeCheck(o: any, typeString: string): boolean {
     return o !== void 0 && o !== null && typeString === Object.prototype.toString.call(Object(o));
   }
