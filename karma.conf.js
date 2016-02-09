@@ -66,7 +66,7 @@ module.exports = function(config) {
     // (you don't need to specify the entry option)
     // webpack watches dependencies
     // webpack configuration
-    webpack: require('./run-scripts/webpack.config.js')(false)
+    webpack: require('./webpack.config.js')(false)
 
   });
 };

@@ -6,10 +6,10 @@ module.exports = function(toProduction) {
     plugins.push(uglifyPlugin());
   }
   return {
-    context: path.join(__dirname, "../src"),
+    context: path.join(__dirname, "./src"),
     entry: "./index.ts",
     output: {
-      path: path.join(__dirname, "../dist"),
+      path: path.join(__dirname, "./dist"),
       filename: "bb.js"
     },
     plugins: plugins,
