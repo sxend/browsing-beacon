@@ -10,7 +10,7 @@ dependencies:
     - envsubst < .aws/config.template > ~/.aws/config
 test:
   override:
-    - echo 'test'
+    - npm run test
 deployment:
   release:
     branch: master
