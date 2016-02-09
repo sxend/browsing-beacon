@@ -38,13 +38,15 @@ function registerPluginFromUrl(bb: BrowsingBeacon, tracker: Tracker, pluginName:
   var beforeTag = document.getElementsByTagName('script')[0];
   beforeTag.parentNode.insertBefore(script, beforeTag);
   var pluginCallbackName = '__BBPluginCallback_' + tracker.get("name");
-  window[pluginCallbackName] = (window[pluginCallbackName] || function(handler) {
-    handler(bb, tracker, function(err, PluginConstructor) {
+  window[pluginCallbackName] = (window[pluginCallbackName] || function(generator) {
+    generator(bb, tracker, function(err, PluginConstructor) {
       if (err) {
         throw err;
       }
-      provide.call(bb, tracker, pluginName, PluginConstructor);
-      registerPlugin(bb, tracker, pluginName, pluginOption);
+      if (TypeChecker.isFunction(PluginConstructor)) {
+        provide.call(bb, tracker, pluginName, PluginConstructor);
+        registerPlugin(bb, tracker, pluginName, pluginOption);
+      }
     });
   });
 }
