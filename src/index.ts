@@ -27,6 +27,7 @@ var bb = <BrowsingBeacon> function(...args: any[]): void {
 bb.l = l;
 bb.ev = Events;
 bb.h = {};
+bb.plg = {};
 window[name] = bb;
 q.forEach((queuedArguments) => {
   bb.apply(null, queuedArguments);

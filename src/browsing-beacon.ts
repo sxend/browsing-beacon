@@ -3,4 +3,5 @@ export interface BrowsingBeacon {
   l: number;
   h: any;
   ev: any;
+  plg: any;
 }
