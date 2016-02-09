@@ -31,7 +31,6 @@ export module Objects {
     }
     for (var i = 0; i < args.length; i++) {
       if (!TypeChecker.isUndefined(args[i])) {
-        console.log(args[i]);
         return args[i];
       }
     }
