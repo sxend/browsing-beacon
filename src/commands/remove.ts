@@ -1,5 +1,6 @@
 import {BrowsingBeacon} from '../browsing-beacon';
 import {TypeChecker} from '../utils/type-checker';
+import Tracker from '../tracker';
 
 export default function remove(tracker: Tracker) {
   'use strict';
@@ -9,6 +10,6 @@ export default function remove(tracker: Tracker) {
     return;
   }
   if (!TypeChecker.isUndefined(bb.h)) {
-    delete bb.h[tracker.name];
+    delete bb.h[tracker.get('name')];
   }
 }
