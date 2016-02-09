@@ -1,7 +1,7 @@
 declare var navigator: any;
 import Tracker from './tracker';
 import {Model} from './model';
-import {TypeChecker} from './utils/type-checker';
+import {isString} from './utils/type-checker';
 
 export module Tasks {
   'use strict';
@@ -80,7 +80,7 @@ class AnalyticsData {
     var params = this.createProtocolParams();
     var queryString = Object.keys(params).map(function(key) {
       var value = params[key];
-      return `${key}=${encodeURIComponent(TypeChecker.isString(value) ? value : JSON.stringify(value)) }`;
+      return `${key}=${encodeURIComponent(isString(value) ? value : JSON.stringify(value)) }`;
     }).join('&') + '&' + this.toDateParam();
     return queryString;
   }

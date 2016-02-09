@@ -1,4 +1,4 @@
-import {TypeChecker} from '../utils/type-checker';
+import {isObject, isUndefined} from '../utils/type-checker';
 
 export module Objects {
   'use strict';
@@ -13,7 +13,7 @@ export module Objects {
     var result = {};
     keys.forEach(function(key) {
       var value = child[key] === void 0 ? parent[key] : child[key];
-      if (TypeChecker.isObject(value)) {
+      if (isObject(value)) {
         value = extend(child[key], parent[key]);
       }
       result[key] = value;
@@ -22,7 +22,7 @@ export module Objects {
   }
 
   export function toObject(o: any): any {
-    return TypeChecker.isObject(o) ? o : undefined;
+    return isObject(o) ? o : undefined;
   }
 
   export function firstDefinedValue(...args: any[]): any {
@@ -30,7 +30,7 @@ export module Objects {
       return;
     }
     for (var i = 0; i < args.length; i++) {
-      if (!TypeChecker.isUndefined(args[i])) {
+      if (!isUndefined(args[i])) {
         return args[i];
       }
     }

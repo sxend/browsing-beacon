@@ -1,16 +1,16 @@
 import Tracker from '../tracker';
-import {TypeChecker} from '../utils/type-checker';
+import {isString, isFunction} from '../utils/type-checker';
 import {BrowsingBeacon} from '../browsing-beacon';
 import {Strings} from '../utils/strings';
 
 export default function provide(tracker: Tracker, pluginName: string, constructorOrUrl: any, callback?: (Error, PluginConstructor) => void) {
   'use strict';
   var bb: BrowsingBeacon = this;
-  if (!TypeChecker.isString(pluginName)) {
+  if (!isString(pluginName)) {
     throw new Error('pluginName must be string');
   }
   bb.plg = bb.plg || {};
-  if (TypeChecker.isFunction(constructorOrUrl)) {
+  if (isFunction(constructorOrUrl)) {
     bb.plg[pluginName] = constructorOrUrl;
   } else if (Strings.startsWith(constructorOrUrl, '//')) {
     loadPluginFromUrl(bb, pluginName, constructorOrUrl, callback);
@@ -49,7 +49,7 @@ function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl: st
       }
     };
   }
-  if (!TypeChecker.isFunction(window['__BBPluginCallback'])) {
+  if (!isFunction(window['__BBPluginCallback'])) {
     next();
   } else {
     queue.push(next);

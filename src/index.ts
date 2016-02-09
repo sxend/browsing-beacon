@@ -1,7 +1,7 @@
 import Commands from './commands/index';
 import Events from './events/index';
 import {BrowsingBeacon} from './browsing-beacon';
-import {TypeChecker} from './utils/type-checker';
+import {isString, isFunction} from './utils/type-checker';
 import Tracker from './tracker';
 
 
@@ -14,11 +14,11 @@ var bb = <BrowsingBeacon> function(...args: any[]): void {
   if (!command) {
     return;
   }
-  if (TypeChecker.isFunction(command)) {
+  if (isFunction(command)) {
     return command.apply(bb, args);
   }
 
-  if (TypeChecker.isString(command)) {
+  if (isString(command)) {
     var method = resolveMethod(bb, command);
     return method.apply(null, args);
   }
@@ -56,7 +56,7 @@ function resolveMethod(bb: BrowsingBeacon, command: string) {
   var pluginMethod = plugin && plugin[methodName];
   var builtinMethod = Commands[methodName];
   return function(...args: any[]) {
-    if (!TypeChecker.isFunction(pluginMethod) && !TypeChecker.isFunction(builtinMethod)) {
+    if (!isFunction(pluginMethod) && !isFunction(builtinMethod)) {
       return;
     }
     (pluginMethod || builtinMethod).apply(bb, [tracker].concat(args));

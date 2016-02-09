@@ -1,4 +1,4 @@
-import {TypeChecker} from './utils/type-checker';
+import {isFunction, isString, isObject} from './utils/type-checker';
 import {DefaultModel, Model} from './model';
 import {Tasks} from './tasks';
 import {BrowsingBeacon} from './browsing-beacon';
@@ -16,7 +16,7 @@ export default class Tracker {
     return Objects.firstDefinedValue(this.model.get(key), this.plugins[key], this.tasks[key]);
   }
   set(key: string, value: any): void {
-    if (TypeChecker.isFunction(this.tasks[key])) {
+    if (isFunction(this.tasks[key])) {
       this.tasks[key] = value;
     } else {
       this.model.set(key, value);
@@ -25,9 +25,9 @@ export default class Tracker {
   send(...fields: any[]): void {
     var model = new DefaultModel({}, this.model);
     fields.forEach((field, index) => {
-      if (TypeChecker.isString(field)) {
+      if (isString(field)) {
         model.set(String(index), field, true);
-      } else if (TypeChecker.isObject(field)) {
+      } else if (isObject(field)) {
         Object.keys(field).forEach((key) => {
           model.set(key, field, true);
         });
@@ -44,7 +44,7 @@ export default class Tracker {
     this.executeTask("timingTask", model);
   }
   private executeTask(name: string, model: Model) {
-    if (TypeChecker.isFunction(this.tasks[name])) {
+    if (isFunction(this.tasks[name])) {
       this.tasks[name](model);
     }
   }
