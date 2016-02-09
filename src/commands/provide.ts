@@ -40,7 +40,7 @@ function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl: st
           }
         });
       } catch (e) {
-        console.warn(e);
+        console.warn(e); // 他のプラグインロードを阻害しないようにする
       }
       if (queue.length > 0) {
         queue.shift()();
