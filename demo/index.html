@@ -19,32 +19,10 @@
   },e[a].l=1*new Date(),c=n.createElement(t),c.async=1,c.src=s,o=n.getElementsByTagName(t)[0],o.parentNode.insertBefore(c,o);
   }(window,document,"script","//stat.arimit.su/browsing-beacon/bb.js","bb");
   bb('create', 'TID-00000-0', {
-    plugins: [],
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
     transport: "auto"
   });
   bb('send', 'pageview');
-  bb(function() {
-    var onLinkClick = new bb.ev.Click({
-      querySelector: 'a'
-    });
-    bb('watch', onLinkClick, function(err, event, element, index) {
-      bb('send', "event", {eventAction: 'click', placement: index}, {transport: 'strict'});
-    });
-    bb('watch', new bb.ev.InView({
-        querySelector: '#main-content'
-    }), function(err, event, element, index) {
-      bb('send', 'inview');
-    });
-    bb('watch', new bb.ev.Mouseover({
-        querySelector: '*'
-    }), function(err, event, element, index) {
-      bb('send', 'event', {
-        eventAction: 'mouse',
-        placement: index
-      });
-    });
-  });
   </script>
   <!-- End browsing-beacon -->
 

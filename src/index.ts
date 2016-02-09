@@ -59,6 +59,11 @@ function resolveMethod(bb: BrowsingBeacon, command: string) {
     if (!isFunction(pluginMethod) && !isFunction(builtinMethod)) {
       return;
     }
-    (pluginMethod || builtinMethod).apply(bb, [tracker].concat(args));
+    if (isFunction(pluginMethod)) {
+      return pluginMethod.apply(bb, args);
+    }
+    if (isFunction(builtinMethod)) {
+      return builtinMethod.apply(bb, [tracker].concat(args)); // TODO pluginと合わせる
+    }
   };
 }

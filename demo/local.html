@@ -27,37 +27,16 @@
   },e[a].l=1*new Date(),c=n.createElement(t),c.async=1,c.src=s,o=n.getElementsByTagName(t)[0],o.parentNode.insertBefore(c,o);
 }(window,document,"script","//localhost:8000/dist/bb.js","bb");
   bb('create', 'TID-00000-0', {
-    plugins: [],
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
     transport: "auto",
-    appName: 'sample-app',
   });
   bb('send', 'pageview');
-  bb(function() {
-    var onLinkClick = new bb.ev.Click({
-      querySelector: 'a'
-    });
-    bb('watch', onLinkClick, function(err, event, element, index) {
-      bb('mark', [
-        {
-          hitType: 'pageview',
-          key: 'bcl', // before click location
-          value: location.href,
-          remove: true
-        },
-        {
-          hitType: 'pageview',
-          key: 'plc', // place
-          value: index,
-          remove: true
-        },
-        {
-          hitType: 'pageview',
-          key: 'linktxt',
-          value: element.innerText,
-          remove: true
-        }
-      ]);
+  bb('provide', 'fooPlugin', '//localhost:8000/demo/foo-plugin.js', function(err, FooPluginConstructor) {
+    bb('require', 'fooPlugin');
+    bb('fooPlugin:foo');
+    bb('provide', 'barPlugin', '//localhost:8000/demo/bar-plugin.js', function(err, BarPluginConstructor) {
+      bb('require', 'barPlugin');
+      bb('barPlugin:bar');
     });
   });
   </script>
