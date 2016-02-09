@@ -29,10 +29,15 @@ function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl: st
       try {
         generator(bb, function(err, PluginConstructor) {
           if (err) {
-            return callback(err);
+            if (callback) {
+              callback(err);
+            }
+            return;
           }
           bb.plg[pluginName] = PluginConstructor;
-          callback(null, PluginConstructor);
+          if (callback) {
+            callback(null, PluginConstructor);
+          }
         });
       } catch (e) {
         console.warn(e);
