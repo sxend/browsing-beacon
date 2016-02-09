@@ -12,19 +12,6 @@ export default class Tracker {
   constructor(bb: BrowsingBeacon, fieldObject: any) {
     this.bb = bb;
     this.model = new DefaultModel(fieldObject);
-    this.initialize();
-  }
-  private initialize() {
-    this.get('plugins').forEach((url) => {
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = url;
-      var beforeTag = document.getElementsByTagName('script')[0];
-      beforeTag.parentNode.insertBefore(script, beforeTag);
-      window['__BBPluginCallback'] = (window['__BBPluginCallback'] || function(handler) {
-        handler(this.bb, this.model);
-      });
-    });
   }
   get(key: string): any {
     return this.model.get(key) || this.plugins[key] || this.tasks[key];
