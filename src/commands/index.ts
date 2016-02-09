@@ -1,6 +1,5 @@
 import create from './create';
 import send from './send';
-import watch from './watch';
 import mark from './mark';
 import set from './set';
 import provide from './provide';
@@ -10,7 +9,6 @@ import remove from './remove';
 export default {
   create: create,
   send: send,
-  watch: watch,
   mark: mark,
   set: set,
   provide: provide,
