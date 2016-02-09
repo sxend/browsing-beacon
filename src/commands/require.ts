@@ -1,6 +1,5 @@
 import Tracker from '../tracker';
 import {TypeChecker} from '../utils/type-checker';
-import {Strings} from '../utils/strings';
 import {BrowsingBeacon} from '../browsing-beacon';
 import provide from './provide';
 
