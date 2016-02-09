@@ -4,7 +4,7 @@ import {BrowsingBeacon} from '../browsing-beacon';
 import {TypeChecker} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
-export default function create(tracker: Tracker, trackingId: string = "", cookieDomain: string = document.location.hostname, name: string = "", fieldObject: any = {}): void {
+export default function create(tracker: Tracker, trackingId: string, cookieDomain: string, name: string, fieldsObject: any = {}): void {
   'use strict';
   var bb: BrowsingBeacon = this;
   if (tracker) {
@@ -15,12 +15,14 @@ export default function create(tracker: Tracker, trackingId: string = "", cookie
   }
 
   if (TypeChecker.isObject(cookieDomain)) {
-    fieldObject = cookieDomain;
-    fieldObject.cookieDomain = document.location.hostname;
+    fieldsObject = cookieDomain;
+    cookieDomain = document.location.hostname;
   } else if (TypeChecker.isObject(name)) {
-    fieldObject = name;
-    fieldObject.name = "";
+    fieldsObject = name;
+    name = "";
   }
-  fieldObject.trackingId = trackingId;
-  bb.h[name] = new Tracker(bb, fieldObject);
+  fieldsObject.trackingId = trackingId;
+  fieldsObject.cookieDomain = cookieDomain;
+  fieldsObject.name = name;
+  bb.h[name] = new Tracker(bb, fieldsObject);
 }
