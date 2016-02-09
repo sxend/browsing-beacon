@@ -39,6 +39,16 @@
       bb('fooPlugin:foo');
     });
   });
+  bb('event:watch', {
+    type: "Click",
+    condition: {
+      querySelector: 'a'
+    },
+    callback: (err, event, element, index) => {
+      console.log('click!!!');
+      bb('set', 'bcl', location.href);
+    }
+  });
   </script>
   <!-- End browsing-beacon -->
 
