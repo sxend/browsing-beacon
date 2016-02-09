@@ -16,13 +16,12 @@ export default function create(tracker: Tracker, trackingId: string, cookieDomai
 
   if (TypeChecker.isObject(cookieDomain)) {
     fieldsObject = cookieDomain;
-    cookieDomain = document.location.hostname;
   } else if (TypeChecker.isObject(name)) {
     fieldsObject = name;
-    name = "";
   }
-  fieldsObject.trackingId = trackingId;
-  fieldsObject.cookieDomain = cookieDomain;
-  fieldsObject.name = name;
+
+  fieldsObject.trackingId = TypeChecker.isString(trackingId) ? trackingId : "";
+  fieldsObject.cookieDomain = TypeChecker.isString(cookieDomain) ? cookieDomain : document.location.hostname;
+  fieldsObject.name = TypeChecker.isString(name) ? name : "";
   bb.h[name] = new Tracker(bb, fieldsObject);
 }
