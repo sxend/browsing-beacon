@@ -5,7 +5,6 @@ __BBPluginCallback(function(bb, callback) {
     this.option = option;
   }
   FooPlugin.prototype.foo = function() {
-    console.log(arguments);
     console.log('execute foo plugin method.');
   }
   callback(null, FooPlugin);
