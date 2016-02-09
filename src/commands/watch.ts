@@ -1,5 +1,5 @@
 import Tracker from '../tracker';
-import BBEvent from '../events/bbevent';
+import BBEvent from '../events/bb-event';
 export default function watch(tracker: Tracker, event: BBEvent, callback?: (Error, Element) => void): void {
   'use strict';
   var bb = this;

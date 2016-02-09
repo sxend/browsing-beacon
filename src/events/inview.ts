@@ -1,5 +1,5 @@
 // FIXME まだバグあり
-import BBEvent from './bbevent';
+import BBEvent from './bb-event';
 import Rectangle from './rectangle';
 
 export default class InView extends BBEvent {
