@@ -1,4 +1,4 @@
-var plugins = Boolean(process.env['TO_PRODUCTION']) === true ? [uglifyPlugin()] : [];
+var plugins = Boolean(process.env['TO_PRODUCTION']) === true ? [uglifyPlugin] : [];
 var path = require('path');
 var webpack = require('webpack');
 
