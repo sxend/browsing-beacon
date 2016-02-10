@@ -1,12 +1,12 @@
 import Commands from './commands/index';
 import {BrowsingBeacon} from './browsing-beacon';
-import {isString, isFunction, isDefined} from './utils/type-checker';
+import {isString, isFunction} from './utils/type-checker';
+import {Objects} from './utils/objects';
 import Tracker from './tracker';
-
-var name: string = window['BrowsingBeaconObject'] = isDefined(window['BrowsingBeaconObject']) ? window['BrowsingBeaconObject'] : "bb";
-var __bb: any = isDefined(window[name]) ? window[name] : {};
-var loadTimestamp: number = Number(isDefined(__bb.l) ? __bb.l : Date.now());
-var queue: any[] = [].concat.call(isDefined(__bb.q) ? __bb.q : []);
+var name: string = window['BrowsingBeaconObject'] = Objects.getOrElse(window['BrowsingBeaconObject'], "bb");
+var __bb: any = Objects.getOrElse(window[name], {});
+var loadTimestamp: number = Objects.getOrElse(__bb.l, Date.now());
+var queue: any[] = Objects.getOrElse(__bb.q, []);
 var bb = <BrowsingBeacon> function(...args: any[]): void {
   command.apply(bb, args);
 };
@@ -69,4 +69,15 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
       return builtinMethod.apply(bb, [tracker].concat(args)); // TODO pluginと合わせる
     }
   };
+}
+
+class Speaker {
+  private message: string;
+  constructor(message: string) {
+    this.message = message;
+    console.log('create: ', message);
+  }
+  speak() {
+    console.log(this.message);
+  }
 }

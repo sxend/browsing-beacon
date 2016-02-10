@@ -1,4 +1,4 @@
-import {isObject, isUndefined} from '../utils/type-checker';
+import {isObject, isUndefined, isFunction} from '../utils/type-checker';
 
 export module Objects {
   'use strict';
@@ -35,4 +35,8 @@ export module Objects {
       }
     }
   }
+  export function getOrElse(s: any, f: any): any {
+    return s === void 0 || s === null ? (isFunction(f) ? f() : f) : s;
+  }
+
 }
