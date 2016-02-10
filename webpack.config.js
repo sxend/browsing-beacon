@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+var path = require('path');
 var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
   compress: {
     warnings: false
@@ -6,10 +8,7 @@ var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
     except: []
   }
 });
-
 var plugins = Boolean(process.env['TO_PRODUCTION']) === true ? [uglifyPlugin] : [];
-var path = require('path');
-var webpack = require('webpack');
 
 module.exports = {
   context: path.join(__dirname, "./src"),
