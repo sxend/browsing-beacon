@@ -70,14 +70,3 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
     }
   };
 }
-
-class Speaker {
-  private message: string;
-  constructor(message: string) {
-    this.message = message;
-    console.log('create: ', message);
-  }
-  speak() {
-    console.log(this.message);
-  }
-}
