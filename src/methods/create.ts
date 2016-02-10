@@ -4,12 +4,9 @@ import {BrowsingBeacon} from '../browsing-beacon';
 import {isString, isObject} from '../utils/type-checker';
 
 // bb('create', 'id-00000-01', { optionkey: 'optionvalue'});
-export default function create(tracker: Tracker, trackingId: string, cookieDomainOrField: any, nameOrField: any, field: any = {}): void {
+export default function create(_: Tracker, trackingId: string, cookieDomainOrField: any, nameOrField: any, field: any = {}): void {
   'use strict';
   var bb: BrowsingBeacon = this;
-  if (tracker) {
-    console.warn('this tracker is already initialized. trackerName: ', tracker.get("nameOrField"));
-  }
   if (!isString(trackingId)) {
     throw new Error("trackingId is required.");
   }
@@ -20,8 +17,9 @@ export default function create(tracker: Tracker, trackingId: string, cookieDomai
     field = nameOrField;
   }
 
-  field.trackingId = isString(trackingId) ? trackingId : "";
+  field.trackingId = trackingId;
   field.cookieDomain = isString(cookieDomainOrField) ? cookieDomainOrField : document.location.hostname;
   field.name = isString(nameOrField) ? nameOrField : Tracker.DEFAULT_NAME;
-  bb.t[name] = new Tracker(bb, field);
+  var tracker = new Tracker(bb, field);
+  bb.t[tracker.get("name")] = tracker;
 }

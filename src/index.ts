@@ -38,7 +38,7 @@ function command(...args: any[]): void {
 
 function resolveMethod(bb: BrowsingBeacon, commandString: string) {
   'use strict';
-  var trackerName = "";
+  var trackerName = Tracker.DEFAULT_NAME;
   var pluginName = "";
 
   var dotIndex = commandString.indexOf('.');
