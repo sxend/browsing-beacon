@@ -10,7 +10,7 @@ export default {
 
 export function registerPlugin(bb: BrowsingBeacon, tracker: Tracker, pluginName: string, pluginOption: any) {
   'use strict';
-  var PluginConstructor = bb.plg[pluginName];
+  var PluginConstructor = bb.p[pluginName];
   if (isFunction(PluginConstructor)) {
     var plugin = new PluginConstructor(tracker, pluginOption);
     tracker.set(pluginName, plugin);

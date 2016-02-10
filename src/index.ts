@@ -1,26 +1,40 @@
 import Commands from './commands/index';
-import Events from './events/index';
 import {BrowsingBeacon} from './browsing-beacon';
-import {isString, isFunction} from './utils/type-checker';
+import {isString, isFunction, isDefined} from './utils/type-checker';
 import Tracker from './tracker';
 
-
-var name: string = window['BrowsingBeaconObject'] = window['BrowsingBeaconObject'] || "bb";
-var __bb: any = window[name] || {};
-var l: number = Number(__bb.l || Date.now());
-var q: any[] = [].concat.call(__bb.q || []);
+var name: string = window['BrowsingBeaconObject'] = isDefined(window['BrowsingBeaconObject']) ? window['BrowsingBeaconObject'] : "bb";
+var __bb: any = isDefined(window[name]) ? window[name] : {};
+var loadTimestamp: number = Number(isDefined(__bb.l) ? __bb.l : Date.now());
+var queue: any[] = [].concat.call(isDefined(__bb.q) ? __bb.q : []);
 var bb = <BrowsingBeacon> function(...args: any[]): void {
   command.apply(bb, args);
 };
 
-bb.l = l;
-bb.ev = Events;
-bb.h = {};
-bb.plg = {};
+bb.l = loadTimestamp;
+bb.t = {};
+bb.p = {};
 window[name] = bb;
-q.forEach((queuedArguments) => {
+queue.forEach((queuedArguments) => {
   bb.apply(null, queuedArguments);
 });
+
+function command(...args: any[]): void {
+  'use strict';
+  var bb: BrowsingBeacon = this;
+  var commandOrFunction: any = args.shift();
+  if (!commandOrFunction) {
+    return;
+  }
+  if (isString(commandOrFunction)) {
+    var method = resolveMethod(bb, commandOrFunction);
+    if (isFunction(method)) {
+      return method.apply(bb, args);
+    }
+  } else if (isFunction(commandOrFunction)) {
+    return commandOrFunction.apply(bb, args);
+  }
+}
 
 function resolveMethod(bb: BrowsingBeacon, commandString: string) {
   'use strict';
@@ -40,7 +54,7 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
   }
 
   var methodName = commandString;
-  var tracker: Tracker = bb.h[trackerName];
+  var tracker: Tracker = bb.t[trackerName];
   var plugin = tracker && tracker.get(pluginName);
   var pluginMethod = plugin && plugin[methodName];
   var builtinMethod = Commands[methodName];
@@ -55,20 +69,4 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
       return builtinMethod.apply(bb, [tracker].concat(args)); // TODO pluginと合わせる
     }
   };
-}
-function command(...args: any[]): void {
-  'use strict';
-  var bb: BrowsingBeacon = this;
-  var commandOrFunction: any = args.shift();
-  if (!commandOrFunction) {
-    return;
-  }
-  if (isString(commandOrFunction)) {
-    var method = resolveMethod(bb, commandOrFunction);
-    if (isFunction(method)) {
-      return method.apply(bb, args);
-    }
-  } else if (isFunction(commandOrFunction)) {
-    return commandOrFunction.apply(bb, args);
-  }
 }

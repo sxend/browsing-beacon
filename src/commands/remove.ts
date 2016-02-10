@@ -8,7 +8,7 @@ export default function remove(tracker: Tracker) {
   if (isUndefined(tracker)) {
     return;
   }
-  if (!isUndefined(bb.h)) {
-    delete bb.h[tracker.get('name')];
+  if (!isUndefined(bb.t)) {
+    delete bb.t[tracker.get('name')];
   }
 }

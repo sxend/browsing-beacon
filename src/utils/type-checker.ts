@@ -28,6 +28,11 @@ export function isUndefined(o: any): boolean {
   return o === void 0;
 }
 
+export function isDefined(o: any): boolean {
+  'use strict';
+  return !isUndefined(o);
+}
+
 function typeCheck(o: any, typeString: string): boolean {
   'use strict';
   return o !== void 0 && o !== null && typeString === Object.prototype.toString.call(Object(o));

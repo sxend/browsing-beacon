@@ -9,9 +9,9 @@ export default function provide(tracker: Tracker, pluginName: string, constructo
   if (!isString(pluginName)) {
     throw new Error('pluginName must be string');
   }
-  bb.plg = bb.plg || {};
+  bb.p = bb.p || {};
   if (isFunction(constructorOrUrl)) {
-    bb.plg[pluginName] = constructorOrUrl;
+    bb.p[pluginName] = constructorOrUrl;
   } else if (Strings.startsWith(constructorOrUrl, '//')) {
     loadPluginFromUrl(bb, pluginName, constructorOrUrl, callback);
   }
@@ -34,7 +34,7 @@ function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl: st
             }
             return;
           }
-          bb.plg[pluginName] = PluginConstructor;
+          bb.p[pluginName] = PluginConstructor;
           if (callback) {
             callback(null, PluginConstructor);
           }

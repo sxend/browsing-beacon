@@ -23,5 +23,5 @@ export default function create(tracker: Tracker, trackingId: string, cookieDomai
   fieldsObject.trackingId = trackingId = isString(trackingId) ? trackingId : "";
   fieldsObject.cookieDomain = cookieDomain = isString(cookieDomain) ? cookieDomain : document.location.hostname;
   fieldsObject.name = name = isString(name) ? name : "";
-  bb.h[name] = new Tracker(bb, fieldsObject);
+  bb.t[name] = new Tracker(bb, fieldsObject);
 }
