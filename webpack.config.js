@@ -1,3 +1,12 @@
+var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
+  compress: {
+    warnings: false
+  },
+  mangle: {
+    except: []
+  }
+});
+
 var plugins = Boolean(process.env['TO_PRODUCTION']) === true ? [uglifyPlugin] : [];
 var path = require('path');
 var webpack = require('webpack');
@@ -25,12 +34,3 @@ module.exports = {
   },
   devtool: "#source-map"
 };
-
-var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
-  compress: {
-    warnings: false
-  },
-  mangle: {
-    except: []
-  }
-});
