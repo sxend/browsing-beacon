@@ -10,18 +10,7 @@ var __bb: any = window[name] || {};
 var l: number = Number(__bb.l || Date.now());
 var q: any[] = [].concat.call(__bb.q || []);
 var bb = <BrowsingBeacon> function(...args: any[]): void {
-  var command: any = args.shift();
-  if (!command) {
-    return;
-  }
-  if (isFunction(command)) {
-    return command.apply(bb, args);
-  }
-
-  if (isString(command)) {
-    var method = resolveMethod(bb, command);
-    return method.apply(null, args);
-  }
+  command.apply(bb, args);
 };
 
 bb.l = l;
@@ -33,24 +22,24 @@ q.forEach((queuedArguments) => {
   bb.apply(null, queuedArguments);
 });
 
-function resolveMethod(bb: BrowsingBeacon, command: string) {
+function resolveMethod(bb: BrowsingBeacon, commandString: string) {
   'use strict';
   var trackerName = "";
   var pluginName = "";
 
-  var dotIndex = command.indexOf('.');
+  var dotIndex = commandString.indexOf('.');
   if (dotIndex >= 0) {
-    trackerName = command.substring(0, dotIndex);
-    command = command.substring(dotIndex + 1, command.length);
+    trackerName = commandString.substring(0, dotIndex);
+    commandString = commandString.substring(dotIndex + 1, commandString.length);
   }
 
-  var colonIndex = command.indexOf(':');
+  var colonIndex = commandString.indexOf(':');
   if (colonIndex >= 0) {
-    pluginName = command.substring(0, colonIndex);
-    command = command.substring(colonIndex + 1, command.length);
+    pluginName = commandString.substring(0, colonIndex);
+    commandString = commandString.substring(colonIndex + 1, commandString.length);
   }
 
-  var methodName = command;
+  var methodName = commandString;
   var tracker: Tracker = bb.h[trackerName];
   var plugin = tracker && tracker.get(pluginName);
   var pluginMethod = plugin && plugin[methodName];
@@ -66,4 +55,21 @@ function resolveMethod(bb: BrowsingBeacon, command: string) {
       return builtinMethod.apply(bb, [tracker].concat(args)); // TODO pluginと合わせる
     }
   };
+}
+function command(...args: any[]): void {
+  'use strict';
+  var bb: BrowsingBeacon = this;
+  var head: any = args.shift();
+  if (!head) {
+    return;
+  }
+  if (isFunction(head)) {
+    return head.apply(bb, args);
+  }
+  if (isString(head)) {
+    var method = resolveMethod(bb, head);
+    if (isFunction(method)) {
+      return method.apply(bb, args);
+    }
+  }
 }
