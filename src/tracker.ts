@@ -7,6 +7,7 @@ import plugins from './plugins';
 import {registerPlugin} from './plugins';
 
 export default class Tracker {
+  public static DEFAULT_NAME = "t0";
   private bb: BrowsingBeacon;
   private tasks = Tasks.apply(this);
   model: Model;
