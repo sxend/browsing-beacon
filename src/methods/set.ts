@@ -1,7 +1,7 @@
 
 import Tracker from '../tracker';
 
-export default function set(tracker: Tracker, key: string, value: any) {
+export default function set(tracker: Tracker, keyOrField: any, value: any) {
   'use strict';
-  tracker.set(key, value);
+  tracker.set(keyOrField, value);
 }

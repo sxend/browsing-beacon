@@ -29,11 +29,17 @@ export default class Tracker {
   get(key: string): any {
     return Objects.firstDefinedValue(this.model.get(key), this.tasks[key]);
   }
-  set(key: string, value: any): void {
-    if (isFunction(this.tasks[key])) {
-      this.tasks[key] = value;
-    } else {
-      this.model.set(key, value);
+  set(keyOrField: any, value: any): void {
+    if (isObject(keyOrField)) {
+      Object.keys(keyOrField).forEach((key) => {
+        this.set(key, keyOrField[key]);
+      });
+    } else if (isString(keyOrField)) {
+      if (this.tasks.hasOwnProperty(keyOrField)) {
+        this.tasks[keyOrField] = value;
+      } else {
+        this.model.set(keyOrField, value);
+      }
     }
   }
   send(...fields: any[]): void {
