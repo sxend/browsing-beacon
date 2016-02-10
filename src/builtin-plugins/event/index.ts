@@ -1,7 +1,7 @@
-import Tracker from '../tracker';
-import {isUndefined} from '../utils/type-checker';
-import Events from '../events';
-import BBEvent from '../events/bb-event';
+import Tracker from '../../tracker';
+import {isUndefined} from '../../utils/type-checker';
+import Types from './types';
+import BBEvent from './types/bb-event';
 
 export default class Event {
   private tracker: Tracker;
@@ -13,12 +13,11 @@ export default class Event {
       return;
     }
     var type = option.type || "";
-    var Event = Events[type];
-    if (isUndefined(Event)) {
+    var Type = Types[type];
+    if (isUndefined(Type)) {
       return;
     }
-    var event = new Event(option.condition);
-    watchEvent(this.tracker, event, option.callback);
+    watchEvent(this.tracker, new Type(option.condition), option.callback);
   }
 }
 function watchEvent(tracker: Tracker, event: BBEvent, callback?: (Error, Element) => void): void {

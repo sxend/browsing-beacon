@@ -3,8 +3,6 @@ import {DefaultModel, Model} from './model';
 import {Tasks} from './tasks';
 import {BrowsingBeacon} from './browsing-beacon';
 import {Objects} from './utils/objects';
-import plugins from './plugins';
-import {registerPlugin} from './plugins';
 
 export default class Tracker {
   public static DEFAULT_NAME = "t0";
@@ -14,17 +12,6 @@ export default class Tracker {
   constructor(bb: BrowsingBeacon, fieldObject: any) {
     this.bb = bb;
     this.model = new DefaultModel(fieldObject);
-    this.initializeBuiltinPlugins();
-  }
-  private initializeBuiltinPlugins() {
-    Object.keys(plugins).forEach((key) => {
-      try {
-        this.bb('provide', key, plugins[key]);
-        registerPlugin(this.bb, this, key, {});
-      } catch (e) {
-        throw e;
-      }
-    });
   }
   get(key: string): any {
     return Objects.firstDefinedValue(this.model.get(key), this.tasks[key]);
