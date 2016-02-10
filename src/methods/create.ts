@@ -20,8 +20,8 @@ export default function create(tracker: Tracker, trackingId: string, cookieDomai
     field = nameOrField;
   }
 
-  field.trackingId = trackingId = isString(trackingId) ? trackingId : "";
-  field.cookieDomainOrField = cookieDomainOrField = isString(cookieDomainOrField) ? cookieDomainOrField : document.location.hostname;
-  field.nameOrField = nameOrField = isString(nameOrField) ? nameOrField : Tracker.DEFAULT_NAME;
+  field.trackingId = isString(trackingId) ? trackingId : "";
+  field.cookieDomain = isString(cookieDomainOrField) ? cookieDomainOrField : document.location.hostname;
+  field.name = isString(nameOrField) ? nameOrField : Tracker.DEFAULT_NAME;
   bb.t[name] = new Tracker(bb, field);
 }
