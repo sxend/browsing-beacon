@@ -31,12 +31,12 @@
     transport: "auto",
   });
   bb('send', 'pageview');
-  bb('provide', 'barPlugin', '//localhost:8000/demo/bar-plugin.js', function(err, BarPluginConstructor) {
-    bb('require', 'barPlugin');
-    bb('barPlugin:bar');
-    bb('provide', 'fooPlugin', '//localhost:8000/demo/foo-plugin.js', function(err, FooPluginConstructor) {
-      bb('require', 'fooPlugin');
-      bb('fooPlugin:foo');
+  bb('provide', 'fooPlugin', '//localhost:8000/demo/foo-plugin.js', function(err, FooPluginConstructor) {
+    bb('require', 'fooPlugin');
+    bb('fooPlugin:foo');
+    bb('provide', 'barPlugin', '//localhost:8000/demo/bar-plugin.js', function(err, BarPluginConstructor) {
+      bb('require', 'barPlugin');
+      bb('barPlugin:bar');
     });
   });
   bb('event:watch', {

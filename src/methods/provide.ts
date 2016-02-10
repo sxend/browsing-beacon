@@ -3,7 +3,7 @@ import {isString, isFunction} from '../utils/type-checker';
 import {BrowsingBeacon} from '../browsing-beacon';
 import {Strings} from '../utils/strings';
 
-export default function provide(tracker: Tracker, pluginName: string, constructorOrUrl: any, callback?: (Error, PluginConstructor) => void) {
+export default function provide(tracker: Tracker, pluginName: string, constructorOrUrl: any, callback) {
   'use strict';
   var bb: BrowsingBeacon = this;
   if (!isString(pluginName)) {
@@ -12,46 +12,35 @@ export default function provide(tracker: Tracker, pluginName: string, constructo
   bb.p = bb.p || {};
   if (isFunction(constructorOrUrl)) {
     bb.p[pluginName] = constructorOrUrl;
-  } else if (Strings.startsWith(constructorOrUrl, '//')) {
+  } else if (isString(constructorOrUrl) && Strings.startsWith(constructorOrUrl, '//')) {
     loadPluginFromUrl(bb, pluginName, constructorOrUrl, callback);
   }
 }
-var queue = [];
-function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl: string, callback) {
+var callbacks: any = {};
+function loadPluginFromUrl(bb: BrowsingBeacon, pluginName: string, pluginUrl, callback) {
   'use strict';
-  function next() {
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = pluginUrl;
-    var beforeTag = document.getElementsByTagName('script')[0];
-    beforeTag.parentNode.insertBefore(script, beforeTag);
-    window['__BBPluginCallback'] = function(generator) {
-      try {
-        generator(bb, function(err, PluginConstructor) {
-          if (err) {
-            if (callback) {
-              callback(err);
-            }
-            return;
-          }
-          bb.p[pluginName] = PluginConstructor;
-          if (callback) {
-            callback(null, PluginConstructor);
-          }
-        });
-      } catch (e) {
-        console.warn(e); // 他のプラグインロードを阻害しないようにする
-      }
-      if (queue.length > 0) {
-        queue.shift()();
-      } else { // queue 消化完了
-        window['__BBPluginCallback'] = void 0;
-      }
-    };
-  }
-  if (!isFunction(window['__BBPluginCallback'])) {
-    next();
-  } else {
-    queue.push(next);
-  }
+  window['__BBPluginCallback'] = window['__BBPluginCallback'] || (function() {
+    function BBPluginCallback(name, generator) {
+      generator(bb, function(err, PluginConstructor) {
+        if (isFunction(PluginConstructor)) {
+          bb.p[name] = PluginConstructor;
+        }
+        if (!isFunction(callback)) {
+          return;
+        }
+        callbacks[name](err, PluginConstructor);
+      });
+    }
+    return BBPluginCallback;
+  })();
+  callbacks[pluginName] = callback;
+  insertScript(pluginUrl);
+}
+function insertScript(pluginUrl: string) {
+  'use strict';
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = pluginUrl;
+  var beforeTag = document.getElementsByTagName('script')[0];
+  beforeTag.parentNode.insertBefore(script, beforeTag);
 }

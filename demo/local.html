@@ -25,7 +25,7 @@
   !function(e,n,t,s,a,c,o){e.BrowsingBeaconObject=a,e[a]=e[a]||function(){
   (e[a].q=e[a].q||[]).push(arguments);
   },e[a].l=1*new Date(),c=n.createElement(t),c.async=1,c.src=s,o=n.getElementsByTagName(t)[0],o.parentNode.insertBefore(c,o);
-}(window,document,"script","//localhost:8000/dist/bb.js","bb");
+  }(window,document,"script","//localhost:8000/dist/bb.js","bb");
   bb('create', 'TID-00000-0', {
     endpoint: 'https://stat.arimit.su/misc/tracking-beacon.gif',
     transport: "auto",
@@ -39,6 +39,7 @@
       bb('barPlugin:bar');
     });
   });
+
   bb('event:watch', {
     type: "Click",
     condition: {
