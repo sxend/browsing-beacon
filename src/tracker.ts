@@ -10,7 +10,7 @@ export default class Tracker {
   public static DEFAULT_NAME = "t0";
   private bb: BrowsingBeacon;
   private tasks = Tasks.apply(this);
-  model: Model;
+  private model: Model;
   constructor(bb: BrowsingBeacon, fieldObject: any) {
     this.bb = bb;
     this.model = new DefaultModel(fieldObject);
@@ -42,17 +42,18 @@ export default class Tracker {
       }
     }
   }
-  send(...fields: any[]): void {
-    var model = new DefaultModel({}, this.model);
+  send(hitType: string, ...fields: any[]): void {
+    var fieldsObject: any = {};
+    if (isObject(fields[fields.length - 1])) {
+      fieldsObject = fields[fields.length - 1];
+      fields = fields.slice(0, fields.length - 1);
+    }
+
+    fieldsObject.hitType = hitType;
     fields.forEach((field, index) => {
-      if (isString(field)) {
-        model.set(String(index), field, true);
-      } else if (isObject(field)) {
-        Object.keys(field).forEach((key) => {
-          model.set(key, field, true);
-        });
-      }
+      fieldsObject[String(index)] = field;
     });
+    var model = new DefaultModel(fieldsObject, this.model);
     this.executeTask("previewTask", model);
     this.executeTask("checkProtocolTask", model);
     this.executeTask("validationTask", model);
