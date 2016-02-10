@@ -59,17 +59,16 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
 function command(...args: any[]): void {
   'use strict';
   var bb: BrowsingBeacon = this;
-  var head: any = args.shift();
-  if (!head) {
+  var commandOrFunction: any = args.shift();
+  if (!commandOrFunction) {
     return;
   }
-  if (isFunction(head)) {
-    return head.apply(bb, args);
-  }
-  if (isString(head)) {
-    var method = resolveMethod(bb, head);
+  if (isString(commandOrFunction)) {
+    var method = resolveMethod(bb, commandOrFunction);
     if (isFunction(method)) {
       return method.apply(bb, args);
     }
+  } else if (isFunction(commandOrFunction)) {
+    return commandOrFunction.apply(bb, args);
   }
 }
