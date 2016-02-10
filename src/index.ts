@@ -1,4 +1,4 @@
-import Commands from './commands/index';
+import Methods from './methods/index';
 import {BrowsingBeacon} from './browsing-beacon';
 import {isString, isFunction} from './utils/type-checker';
 import {Objects} from './utils/objects';
@@ -57,7 +57,7 @@ function resolveMethod(bb: BrowsingBeacon, commandString: string) {
   var tracker: Tracker = bb.t[trackerName];
   var plugin = tracker && tracker.get(pluginName);
   var pluginMethod = plugin && plugin[methodName];
-  var builtinMethod = Commands[methodName];
+  var builtinMethod = Methods[methodName];
   return function(...args: any[]) {
     if (!isFunction(pluginMethod) && !isFunction(builtinMethod)) {
       return;
