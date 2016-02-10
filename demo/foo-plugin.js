@@ -1,4 +1,4 @@
-__BBPluginCallback(function(bb, callback) {
+__BBPluginCallback("fooPlugin", function(bb, callback) {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/plugins?hl=ja
   function FooPlugin(tracker, option) {
     this.tracker = tracker;
