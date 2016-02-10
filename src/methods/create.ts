@@ -24,10 +24,10 @@ export default function create(_: Tracker, trackingId: string, cookieDomainOrFie
   var tracker = new Tracker(bb, field);
   var trackerName = tracker.get("name");
   bb.t[trackerName] = tracker;
-  initializeBuiltinPlugins(bb, trackerName);
+  registerBuiltinPlugins(bb, trackerName);
 }
 
-function initializeBuiltinPlugins(bb, trackerName) {
+function registerBuiltinPlugins(bb, trackerName) {
   'use strict';
   Object.keys(builtinPlugins).forEach((name) => {
     bb('provide', name, builtinPlugins[name]);
